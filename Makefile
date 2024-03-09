@@ -1,10 +1,8 @@
 install:
 	pip install -r requirements.txt
-	
-build:
-	docker-compose build
 
 run:
+	docker-compose build
 	docker-compose up 
 
 local:
