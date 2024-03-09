@@ -1,3 +1,6 @@
+install:
+	pip install -r requirements.txt
+	
 build:
 	docker-compose build
 
