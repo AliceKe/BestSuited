@@ -7,3 +7,7 @@ run:
 
 local:
 	cd backend && python app.py
+
+venv:
+	python3 -m venv venv
+	source venv/bin/activate
