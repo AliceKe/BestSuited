@@ -309,7 +309,7 @@ def extract_from_page():
 
     def is_featured(review):
         try:
-            review.find_element_by_class_name('featuredFlag')
+            review.find_element(By.CLASS_NAME, 'featuredFlag')
             return True
         except selenium.common.exceptions.NoSuchElementException:
             return False
@@ -331,46 +331,80 @@ def extract_from_page():
 
     res = pd.DataFrame([], columns=SCHEMA)
     logger.info(f'Finding ReviewsFeed')
-    reviews = browser.find_elements(By.ID, 'ReviewsFeed')
-    logger.info(reviews)
+    reviewsFeed = browser.find_elements(By.ID, '')
+    reviews = browser.find_elements(By.CLASS_NAME, 'ModuleContainer_moduleContainer___aFQY ReviewDetailsContainer_bottomPadding__H05h6')
     logger.info(f'Found {len(reviews)} reviews on page {page[0]}')
-    
-    # refresh page if failed to load properly, else terminate the search
-    if len(reviews) < 1:
-        browser.refresh()
-        time.sleep(5)
-        reviews = browser.find_elements_by_class_name('empReview')
-        logger.info(f'Found {len(reviews)} reviews on page {page[0]}')
-        if len(reviews) < 1:
-            valid_page[0] = False # make sure page is populated
+    review_containers = browser.find_elements(By.XPATH, "//div[contains(@data-test, 'review-details-container')]")
+    ratings = []
+    titles = []
+    employee_details_list = []
+    employment_details_list = []
+    pros_list = []
+    cons_list = []
+    for review_container in review_containers:
+        # Extracting rating
+        rating = review_container.find_element(By.CLASS_NAME, "review-details_overallRating__Rxhdr").text
+        ratings.append(rating)
+        # Extracting title
+        title = review_container.find_element(By.XPATH, ".//h2[@data-test='review-details-title']/a").text
+        titles.append(title)
+        # Extracting employee details
+        employee_details = review_container.find_element(By.CLASS_NAME, "review-details_employeeContainer__zVtEK").text
+        employee_details_list.append(employee_details)
+        # Extracting employment details
+        employment_details = review_container.find_elements(By.CLASS_NAME, "review-details_employeeDetails__LuKJ7")
+        employment_details_list.append(employment_details)
+        # Extracting pros
+        pros = review_container.find_element(By.CSS_SELECTOR, "[data-test='review-text-pros']").text
+        pros_list.append(pros)
+        # Extracting cons
+        cons = review_container.find_element(By.CSS_SELECTOR, "[data-test='review-text-cons']").text
+        cons_list.append(cons)
+    res = pd.DataFrame({
+        'Rating': ratings,
+        'Title': titles,
+        'Employee Details': employee_details_list,
+        'Employment Details': employment_details_list,
+        'Pros': pros_list,
+        'Cons': cons_list
+    })
 
-    for review in reviews:
-        if not is_featured(review):
-            data = extract_review(review)
-            if data != None:
-                logger.info(f'Scraped data for "{data["review_title"]}"\
-    ({data["date"]})')
-                res.loc[idx[0]] = data
-            else:
-                logger.info('Discarding a blocked review')
-        else:
-            logger.info('Discarding a featured review')
-        idx[0] = idx[0] + 1
+    # # refresh page if failed to load properly, else terminate the search
+    # if len(reviews) < 1:
+    #     browser.refresh()
+    #     time.sleep(5)
+    #     reviews = browser.find_elements(By.ID, 'ReviewsFeed')
+    #     logger.info(f'Found {len(reviews)} reviews on page {page[0]}')
+    #     if len(reviews) < 1:
+    #         valid_page[0] = False # make sure page is populated
 
-    if args.max_date and \
-        (pd.to_datetime(res['date']).max() > args.max_date) or \
-            args.min_date and \
-            (pd.to_datetime(res['date']).min() < args.min_date):
-        logger.info('Date limit reached, ending process')
-        date_limit_reached[0] = True
+    # for review in reviews:
+    #     if not is_featured(review):
+    #         data = extract_review(review)
+    #         if data != None:
+    #             logger.info(f'Scraped data for "{data["review_title"]}"\
+    # ({data["date"]})')
+    #             res.loc[idx[0]] = data
+    #         else:
+    #             logger.info('Discarding a blocked review')
+    #     else:
+    #         logger.info('Discarding a featured review')
+    #     idx[0] = idx[0] + 1
+
+    # if args.max_date and \
+    #     (pd.to_datetime(res['date']).max() > args.max_date) or \
+    #         args.min_date and \
+    #         (pd.to_datetime(res['date']).min() < args.min_date):
+    #     logger.info('Date limit reached, ending process')
+    #     date_limit_reached[0] = True
 
     return res
 
 
 def more_pages():
     try:
-        current = browser.find_element_by_class_name('selected')
-        pages = browser.find_element_by_class_name('pageContainer').text.split()
+        current = browser.find_element(By.CLASS_NAME, 'selected')
+        pages = browser.find_element(By.CLASS_NAME, 'pageContainer').text.split()
         if int(pages[-1]) != int(current.text):
             return True
         else:
@@ -381,7 +415,7 @@ def more_pages():
 
 def go_to_next_page():
     logger.info(f'Going to page {page[0] + 1}')
-    next_ = browser.find_element_by_class_name('nextButton')
+    next_ = browser.find_element(By.CLASS_NAME, 'nextButton')
     ActionChains(browser).click(next_).perform()
     time.sleep(5) # wait for ads to load
     page[0] = page[0] + 1
@@ -450,7 +484,7 @@ def get_browser():
 
 def get_current_page():
     logger.info('Getting current page number')
-    current = browser.find_element_by_class_name('selected')
+    current = browser.find_element(By.CLASS_NAME, 'selected')
     return int(current.text)
 
 
@@ -476,11 +510,229 @@ valid_page = [True]
 
 def main():
 
+    company_names = ['Icahn Enterprises', 'PNC Financial Services Group',
+       'United Services Automobile Assn.', 'Hess', 'Cairn Energy',
+       'Adani Ports and Special Economic Zone', 'FedEx', 'Ryder System',
+       'Zee Entertainment Enterprises', 'CSX', "McDonald's",
+       'TPG Telecom', 'ThyssenKrupp AG', 'EnLink Midstream',
+       'NGL Energy Partners', 'Bayer AG', 'Deere',
+       'Mondelez International', '3M', 'KKR', 'EasyJet', 'Otis Worldwide',
+       'Oil Search', 'HCL Technologies', 'DTE Energy',
+       'Associated British Foods', 'Xcel Energy',
+       'Deutsche Post DHL Group', 'Bodycote',
+       'Old Republic International', 'United Airlines Holdings',
+       'Tenet Healthcare', 'Regions Financial', 'CBRE Group',
+       'Wyndham Hotels & Resorts, Inc.', 'Corning', 'Leidos Holdings',
+       "Divi's Laboratories", 'Tata Consumer Products', 'Fannie Mae',
+       'Spotify Technology S.A.', 'Bajaj Auto', 'Renishaw', 'News Corp.',
+       'Arconic', 'Revlon, Inc.', 'Dow', 'Seaboard',
+       'Philip Morris International', 'Enterprise Products Partners',
+       'Carrier Global', 'UnitedHealth Group', 'Avnet', 'UGI', 'Disney+',
+       'General Electric', 'Brighthouse Financial',
+       'Deutsche Pfandbriefbank AG', 'GlaxoSmithKline', 'Starbucks',
+       'Hindalco Industries', 'Lincoln National', 'Nestle India',
+       'Electrocomponents', 'Community Health Systems',
+       'Equitable Holdings', 'Bajaj Finserv', 'PulteGroup',
+       'Stockland Corporation', 'Group 1 Automotive', 'Altria Group',
+       'Reynolds American Inc.', 'Huntsman', 'Republic Services',
+       'Continental AG', 'Tesla', 'Continental Resources',
+       'Henkel AG & Co. KGaA', 'WESCO International', 'Unilever',
+       'NRG Energy', 'InterContinental Hotels Group',
+       'Ceconomy AG (Formerly Metro AG)', 'Constellation Brands',
+       'Interpublic Group', 'Auto-Owners Insurance', 'ODP',
+       'Titan Company', 'Farmers Insurance Exchange',
+       'Publix Super Markets', 'US Foods Holding', 'Croda International',
+       'Travelers', 'Textron', 'Ulta Beauty', 'American Electric Power',
+       'Tencent Holdings', 'Tullow Oil', 'Qualcomm', 'AutoNation',
+       'General Mills', 'Western Digital', 'CIMIC Group',
+       'Alibaba Health Information Technology', 'Exelon', 'SAP SE',
+       'IBM (International Business Machines Corporation)',
+       'Fidelity Investments, Inc.', 'Intercontinental Exchange',
+       'Power Grid Corporation of India', 'Consolidated Edison',
+       'Northrop Grumman', 'Corteva', 'Colgate-Palmolive', 'SF Express',
+       'Dover', 'Lendlease Group', 'Asbury Automotive Group',
+       'TD Ameritrade Holding Corporation', 'Britannia Industries',
+       'Muthoot Finance', 'Dana', 'Aflac', 'Quanta Services',
+       'Ashtead Group', 'Glenmark Pharmaceuticals', 'Eastman Chemical',
+       'Carnival Corporation & plc', 'Adani Green Energy',
+       'Fiat Chrysler Automobiles N.V.', 'Dr. Pepper Snapple Group, Inc.',
+       'BYD Company', 'Delta Air Lines', 'Kinder Morgan',
+       'Workspace Group', 'CDW', 'Halma', 'AES', 'LKQ', 'Salesforce',
+       'Siemens India', 'NextEra Energy', 'Computacenter',
+       'Meta Platforms', 'Hershey', 'TAG Immobilien AG', 'Block',
+       'Linde plc', 'Nucor', 'Gree Electric Appliances', 'DCP Midstream',
+       'Balfour Beatty', 'Ameriprise Financial',
+       'Australia and New Zealand Banking Group (ANZ)', 'MetLife',
+       'American Tower', 'Expedia Group', 'Archer Daniels Midland',
+       'Steel Dynamics', 'Playtech', 'Uber Technologies',
+       'Graphic Packaging Holding', 'Jubilant Foodworks', 'AGCO',
+       'Diageo', 'Eversource Energy', 'JetBlue Airways', 'Avantor',
+       'Johnson & Johnson', 'BHEL (Bharat Heavy Electricals Limited)',
+       'Etsy, Inc.', 'Marathon Oil', 'Geely Automobile Holdings',
+       'Williams', 'Sun Pharmaceutical Industries', 'Burberry Group',
+       'UltraTech Cement', 'Metro Bank', 'Ingredion',
+       'The Kraft Heinz Company', 'NVR',
+       'Hindustan Petroleum Corporation Limited (HPCL)',
+       'Great Wall Motors', 'Informa', 'ITC Limited',
+       'Westinghouse Air Brake Technologies', 'Deutsche Bahn AG',
+       "Dick's Sporting Goods", 'Reliance Steel & Aluminum',
+       'Spirit Airlines, Inc.', 'Reliance Industries Limited',
+       'Exxon Mobil', 'China Telecom', 'Alumina Limited',
+       'Go-Ahead Group', 'Whitbread plc', 'Erie Insurance Group',
+       'Waste Management', 'Glencore', 'Caesars Entertainment', 'Markel',
+       'Ford Motor Company', 'Indian Bank', 'Parker-Hannifin', 'Ovintiv',
+       'Rentokil Initial', 'Hindustan Zinc', 'Skechers U.S.A.',
+       'Huawei Technologies', 'China Shenhua Energy',
+       'Deutsche Lufthansa AG', 'TD Synnex', 'Standard Chartered',
+       'Aramark', 'Chipotle Mexican Grill', 'Dollar General',
+       'DXC Technology', 'China Mobile', 'Bajaj Electricals',
+       'Baker Hughes', 'United Parcel Service', 'Allstate',
+       'Morrison Supermarkets',
+       'New Oriental Education & Technology Group', 'Petrofac',
+       'Commerzbank AG', 'Beacon Roofing Supply',
+       'Stanley Black & Decker', 'Constellation Energy', 'Olin', 'Avast',
+       'Raymond James Financial', 'United Technologies Corporation',
+       'Shriram Transport Finance Company', 'Cintas', 'Hero MotoCorp',
+       'Truist Financial', 'Pacific Life', 'Pfizer Inc.', 'Genuine Parts',
+       'CRH (China Resources Holdings)', 'Opendoor Technologies',
+       'TravelCenters of America', 'Viatris', 'Lockheed Martin',
+       'Ambuja Cements', '3i Group', 'Baidu',
+       'Deutsche Annington Immobilien SE (Now Vonovia SE)',
+       'Laboratory Corp. of America', 'Marsh & McLennan',
+       'Brambles Limited', 'Sanmina', 'Volkswagen Group', 'E.ON SE',
+       'Avenue Supermarts (DMart)', 'Qurate Retail', 'Jones Lang LaSalle',
+       'APA', 'Freeport-McMoRan', 'Knight-Swift Transportation Holdings',
+       'Pioneer Natural Resources', 'Sherwin-Williams',
+       'Celgene Corporation', 'Nvidia', 'Devon Energy',
+       'Torrent Pharmaceuticals', 'IQVIA Holdings', 'Chewy',
+       'Cleveland-Cliffs', 'Vonovia SE',
+       'Fidelity National Information Services', 'Grafton Group',
+       'Coty Inc.', 'Western Union Company', 'Lloyds Banking Group',
+       'Netflix', 'Victrex', 'Haier Group', 'Weir Group', 'Lennar',
+       'JD Sports Fashion', 'Tencent Music Entertainment Group', 'DaVita',
+       'Bajaj Holdings & Investment Limited', 'Regeneron Pharmaceuticals',
+       'Royal Mail', 'WHSmith', 'Cigna Group',
+       'Fresenius Medical Care AG & Co. KGaA', 'BHP Group',
+       'Evolution Mining', 'Walgreens Boots Alliance', 'Union Pacific',
+       'Thrivent Financial for Lutherans', 'StoneX Group', 'Westlake',
+       'Targa Resources', 'Westpac Banking Corporation',
+       'Western & Southern Financial Group', 'Costco Wholesale',
+       'United States Steel', 'Owens & Minor', 'Legal & General Group',
+       'Adelaide Brighton', 'Cognizant Technology Solutions',
+       "Casey's General Stores", 'China Eastern Airlines',
+       'A-Mark Precious Metals', 'Altice USA', 'Charter Communications',
+       'AmerisourceBergen', 'Apollo Global Management', 'Tata Steel',
+       'Lumen Technologies', 'Jackson Financial', "O'Reilly Automotive",
+       'Elevance Health', 'Murphy USA', 'XPO', 'McKesson',
+       'Ping An Insurance', 'Quest Diagnostics', 'Paccar', 'JSW Steel',
+       'Campbell Soup', 'Square, Inc.', 'Paramount Global',
+       'Royal Dutch Shell', 'Downer Group', 'Aurobindo Pharma',
+       'Arrow Electronics', 'Sonic Healthcare', 'Cipla', 'Wells Fargo',
+       'CNOOC (China National Offshore Oil Corporation)', 'Mirvac Group',
+       'Mahindra & Mahindra Financial Services', 'NCR',
+       'Bed Bath & Beyond', 'WestRock', 'British American Tobacco',
+       'New York Life Insurance', 'Chevron',
+       'China COSCO Shipping Corporation', 'Foot Locker',
+       'American Express', 'Newell Brands', 'Fortune Brands Innovations',
+       'Siemens AG', 'Plains GP Holdings', 'International Paper',
+       'American Airlines Group', 'KLA', 'BMW Group', 'Graybar Electric',
+       'Williams-Sonoma', 'Autoliv', "Sainsbury's",
+       'Honeywell International', 'Science Applications International',
+       'Sinochem Group', 'PG&E', 'Infosys', 'Keurig Dr Pepper Inc.',
+       'BlackRock', 'CarMax', 'Albemarle', 'Walt Disney',
+       'Procter & Gamble', 'Bosch Group', 'Advanced Micro Devices',
+       'Zoetis', 'Agricultural Bank of China',
+       'Hartford Financial Services Group', 'Whitehaven Coal',
+       'Lam Research', 'Synchrony Financial', 'Intuit', 'Centrica',
+       'Huntington Bancshares', 'Taylor Wimpey', 'BlueScope Steel',
+       'Ramsay Health Care', 'Ecolab', 'Persimmon plc',
+       'Rockwell Automation', 'Macquarie Group',
+       'Berkeley Group Holdings', 'Liberty Media', 'Nordstrom',
+       'Hargreaves Lansdown', 'Henry Schein', 'Edison International',
+       'Abbott Laboratories', 'HeidelbergCement AG', 'DuPont',
+       'Qube Holdings', 'Live Nation Entertainment',
+       'Fidelity National Financial', 'National Australia Bank (NAB)',
+       'Sinopharm Group', 'W.W. Grainger', 'CRRC Corporation',
+       'AMP Limited', 'Applied Materials', 'Verizon Communications',
+       'Southwest Airlines', 'CSL Limited', 'CHS', 'Rightmove',
+       'Andersons', 'Volkswagen Financial Services AG', 'Goodman Group',
+       'Wirecard AG (Now defunct, due to bankruptcy)',
+       'Berkshire Hathaway', 'Tata Motors', 'Booz Allen Hamilton Holding',
+       'NMDC Limited', 'Merck', 'Performance Food Group', 'SpartanNash',
+       'United Breweries (UB)', 'State Street',
+       'SBI Life Insurance Company', 'The Walt Disney Company',
+       'Prudential plc', "Macy's", "Land O'Lakes",
+       'Thermo Fisher Scientific', 'Microsoft', 'The Clorox Company',
+       'Motorola Solutions', 'Capital One Financial', 'Oracle', 'EQT',
+       'Bajaj Finance', 'Anglo American plc', 'Suning.com',
+       'Admiral Group', 'NIO Inc.', 'Entergy', 'Watsco',
+       'Dominion Energy', 'Ford Motor', "Dr. Reddy's Laboratories",
+       'Larsen & Toubro (L&T)', 'Analog Devices', 'Ferguson plc',
+       'MRF Limited', 'Cummins', 'Bunzl', 'Coca-Cola',
+       'Bharat Electronics Limited', 'Everbright Securities',
+       'Albertsons', 'U.S. Bancorp', 'International Business Machines',
+       'Masco', 'Vertex Pharmaceuticals', 'Deutsche Telekom AG',
+       'Boise Cascade', 'Bharti Infratel', 'CommScope Holding',
+       'Kimberly-Clark', 'Franklin Resources', 'Sage Group', 'M&T Bank',
+       'Spirax-Sarco Engineering', 'Sky plc',
+       'The Goldman Sachs Group, Inc.', 'Tata Consultancy Services (TCS)',
+       'MTU Aero Engines AG', 'Bandhan Bank', 'Booking Holdings',
+       'State Bank of India (SBI)', 'CenterPoint Energy',
+       'China Southern Airlines', 'Hertz Global Holdings', 'Caterpillar',
+       'Halliburton', 'Genworth Financial', 'Alibaba Group', 'Eli Lilly',
+       'Amgen', 'W.R. Berkley', 'B&M', 'Nationwide',
+       'Godrej Consumer Products Limited', 'Wesfarmers Limited',
+       'Baxter International', 'GAIL (India) Limited', 'Equinix',
+       'CF Industries Holdings', 'Humana', 'HCA Healthcare',
+       'Ross Stores', 'Berger Paints India Limited', 'Boeing', 'NetEase',
+       'Kainos Group', 'Bristol-Myers Squibb', 'Comcast',
+       'JPMorgan Chase', 'Mutual of Omaha Insurance',
+       'Daimler AG (now known as Mercedes-Benz AG)',
+       'Northwestern Mutual', 'HF Sinclair', 'Fortescue Metals Group',
+       'PayPal Holdings', 'Ameren', 'NTPC Limited',
+       'MGM Resorts International', 'Evonik Industries AG',
+       'American International Group', 'Dixons Carphone', 'Target',
+       'CMS Energy', 'AutoZone', 'AstraZeneca', 'Royal Caribbean Group',
+       'Intel', 'FirstEnergy', 'Rio Tinto', 'Xiaomi Corporation',
+       'Anheuser-Busch InBev SA/NV', 'National Grid', 'Apple',
+       'Citigroup', "Kohl's", 'Amazon.com', 'Centene', 'Toll Brothers',
+       'Dollar Tree', 'Osram Licht AG (Now part of ams AG)',
+       'L&T Finance Holdings', 'Aristocrat Leisure', 'SSE plc', 'Mphasis',
+       'Citizens Financial Group', 'Ally Financial',
+       'Taylor Morrison Home', 'PPL', 'Wayfair', 'AT&T', 'VMware',
+       'Aviva', 'Micron Technology', 'Polaris', "St. James's Place plc",
+       'Charles Schwab', 'WPP plc', 'The Boeing Company',
+       'Santos Limited', 'Workday, Inc.', 'ProSiebenSat.1 Media SE',
+       'Woodside Petroleum', 'China Life Insurance', 'Vodafone',
+       'Qantas Airways', 'Shree Cement', 'Conagra Brands',
+       'Avis Budget Group', 'Facebook, Inc. (now Meta Platforms, Inc.)',
+       'Prudential Financial', 'Compass Group', 'Landstar System',
+       'Advance Auto Parts', 'China Pacific Insurance',
+       'The Vanguard Group, Inc.', 'Best Buy', 'VF', 'KeyCorp', 'Sysco',
+       'Stryker', 'China Construction Bank', 'ICICI Bank', 'BASF SE',
+       'International Flavors & Fragrances', 'Fifth Third Bancorp',
+       'Kingfisher plc', 'Mosaic', 'Walmart', 'Woolworths Group',
+       'Liberty Mutual Insurance Group', 'Pfizer', 'Gap',
+       'China Evergrande Group', 'Lupin Limited', 'DCC plc',
+       'China National Chemical Corporation (ChemChina)',
+       'ON Semiconductor', 'Symrise AG',
+       'Hindustan Unilever Limited (HUL)', 'Kraft Heinz', 'Adidas AG',
+       'Sonoco Products']
+    
+    # for company in company_names:
+
     logger.info(f'Scraping up to {args.limit} reviews.')
 
     res = pd.DataFrame([], columns=SCHEMA)
 
     sign_in()
+
+    # button = browser.find_element(By.XPATH, "//button[@data-test='search-button']")
+    # button.click()
+
+    # search_element = browser.find_element(By.XPATH, "//input[@data-test='keyword-search-input']")
+    # search_element.send_keys(company)
+
 
     if not args.start_from_url:
         reviews_exist = navigate_to_reviews()
@@ -499,7 +751,7 @@ def main():
         time.sleep(1)
 
     reviews_df = extract_from_page()
-    res = res.append(reviews_df)
+    res = reviews_df
 
     # import pdb;pdb.set_trace()
 
