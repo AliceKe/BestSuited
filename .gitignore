@@ -18,4 +18,6 @@ build/
 *.egg-info/
 helpers/*
 json_template/
+
+backend/data/job_descriptions.csv
 jobscraper/

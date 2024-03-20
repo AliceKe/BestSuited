@@ -11,3 +11,6 @@ local:
 venv:
 	python3 -m venv venv
 	source venv/bin/activate
+
+data:
+	cd backend && cd data && python script.py 
