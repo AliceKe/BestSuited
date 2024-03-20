@@ -25,11 +25,10 @@
 
     <script>
 
-        function answerBoxTemplate(title,titleDesc,rating){
+        function jobPostingDiv(posting){
             return `<div class=''>
-                <h3 class='episode-title'>${title}</h3>
-                <p class='episode-desc'>${titleDesc}</p>
-                <p class='episode-rating'>IMDB Rating: ${rating}</p>
+                <h3 class='episode-title'>${posting.role}</h3>
+                <p class='episode-desc'>${posting.city}</p>
             </div>`
         }
 
@@ -39,13 +38,22 @@
 
         function filterText(){
             document.getElementById("answer-box").innerHTML = ""
-            console.log(document.getElementById("filter-text-val").value)
+            // console.log(document.getElementById("filter-text-val").value)
             fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
             .then((response) => response.json())
-            .then((data) => data.forEach(row => {
-                
+            .then((data) => Object.entries(data).forEach(([k, v])=> {
                 let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = answerBoxTemplate(row.title,row.descr,row.imdb_rating)
+                tempDiv.innerHTML = ""
+                
+                console.log(v)
+                let tmpContent = `<h4> ${k}</h4>`
+                for (let p in v.postings){
+                    console.log(p)
+                    tmpContent += jobPostingDiv(v.postings[p])
+                }
+
+                tempDiv.innerHTML = tmpContent
+               
                 document.getElementById("answer-box").appendChild(tempDiv)
             }));
 
