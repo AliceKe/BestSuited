@@ -41,11 +41,11 @@ def createVocab(csvFilePath, outputTxtFilePath):
 
     vocab = remove_non_letters_from_set(vocab)
 
-    file_path = outputTxtFilePath
-
-    with open(file_path, 'w') as f:
+    with open(outputTxtFilePath, 'w') as f:
         for word in vocab:
             word = word.lower()
             f.write(word + '\n')
 
 
+convert_to_csv("../data/data.json", "../data/final_data.csv")
+createVocab("../data/final_data.csv", "../data/vocab.txt")
