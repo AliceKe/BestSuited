@@ -31,6 +31,8 @@ def convert_to_json(input_csv, key, check_fields, check_values, output_json):
 
             if flag:
                 row["id"] = _id
+                row["city"] = row["location"]
+                del row["location"]
                 data[key].append({key.lower(): value for key, value in row.items()})
                 _id += 1
             i += 1
@@ -49,7 +51,8 @@ needed_fields = [
     "Role",
     "Salary Range",
     "skills",
-    "location",
+    "Country",
+    "location"
 ]
 
 
