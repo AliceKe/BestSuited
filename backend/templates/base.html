@@ -3,9 +3,19 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
+    rel="stylesheet">
+
 <body>
     <div class="full-body-container">
+        <div class="filter-opt">
+            <label for="filter-opt-ratings">Sort by Ratings</label>
+            <select id="filter-opt-ratings">
+                <option value="">Select</option>
+                <option value="increasing-order">Increasing Order</option>
+                <option value="decreasing-order">Decreasing Order</option>
+            </select>
+        </div>
         <div class="top-text">
             <div class="google-colors">
                 <h1 id="google-4">4</h1>
@@ -15,7 +25,8 @@
             </div>
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
-                <input placeholder="Search for a Keeping up with the Kardashians episode" id="filter-text-val" onkeyup="filterText()">
+                <input placeholder="Search for a Keeping up with the Kardashians episode" id="filter-text-val"
+                    onkeyup="filterText()">
             </div>
         </div>
         <div id="answer-box">
@@ -25,39 +36,58 @@
 
     <script>
 
-        function jobPostingDiv(posting){
+        function jobPostingDiv(posting) {
+            console.log(posting)
             return `<div class=''>
                 <h3 class='episode-title'>${posting.role}</h3>
                 <p class='episode-desc'>${posting.city}</p>
             </div>`
         }
 
-        function sendFocus(){
+        function sendFocus() {
             document.getElementById('filter-text-val').focus()
         }
 
-        function filterText(){
+        function filterText() {
             document.getElementById("answer-box").innerHTML = ""
+            const sortingParam = document.getElementById("filter-opt-ratings").value;
+            // console.log(document.getElementById("filter-opt-ratings").value)
             // console.log(document.getElementById("filter-text-val").value)
-            fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
-            .then((response) => response.json())
-            .then((data) => Object.entries(data).forEach(([k, v])=> {
-                let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = ""
-                
-                console.log(v)
-                let tmpContent = `<h4> ${k}</h4>`
-                for (let p in v.postings){
-                    console.log(p)
-                    tmpContent += jobPostingDiv(v.postings[p])
-                }
+            let urlSearchParams = { title: document.getElementById("filter-text-val").value }
+            if (sortingParam !== "") {
+                urlSearchParams.filter_opt_ratings = sortingParam;
+            }
+            fetch("/episodes?" + new URLSearchParams(urlSearchParams).toString())
+                .then((response) => response.json())
+                .then((data) => {
+                    const companies = data.map(([companyName, companyData]) => {
+                        return {
+                            name: companyName,
+                            data: companyData
+                        };
+                    });
 
-                tempDiv.innerHTML = tmpContent
-               
-                document.getElementById("answer-box").appendChild(tempDiv)
-            }));
+                    companies.forEach((company) => {
+                        let tempDiv = document.createElement("div")
+                        let tmpContent = `<h2> ${company.name}</h2>`
+                        console.log(company.data.postings)
+                        company.data.postings.forEach((p) => {
+                            console.log(p)
 
+                            tempDiv.innerHTML = ""
+
+                            tmpContent += jobPostingDiv(p)
+                        })
+                        tempDiv.innerHTML = tmpContent
+                        document.getElementById("answer-box").appendChild(tempDiv)
+                    })
+
+                })
         }
-            
+        document.getElementById("filter-opt-ratings").addEventListener("change", function () {
+            filterText()
+        });
+
+
     </script>
 </body>

@@ -6,6 +6,7 @@ from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 from enum import Enum
 from sortedcontainers import SortedDict
+from flask import session
 
 
 os.environ["ROOT_PATH"] = os.path.abspath(os.path.join("..", os.curdir))
@@ -28,7 +29,17 @@ class SortParam(Enum):
     rating: str
 
 # Sample search using json with pandas
-def json_search(query): ...
+def json_search(query, sorting_by):
+    if sorting_by in ["decreasing-order", "increasing-order"]:
+        sorting_bool = sorting_by == "decreasing-order"
+        sorted_data = sort_by(outputs, "rating", sorting_bool)
+    else:
+        sorted_data = outputs
+    if query is None:
+        return sorted_data
+    matches = [(key, value) for key, value in sorted_data.items() if query.lower() in key.lower()]
+    matches_filtered = [(key, value) for key, value in matches]
+    return matches_filtered
 
 
 def group_postings_by_company(postings):
@@ -66,51 +77,76 @@ def group_postings_by_company(postings):
 def sort_by(data: dict, param: SortParam = "alphabetical", isDecreasingOrder=True):
     res = {}
     
-    if param == "alphabetical":
-        res = {k:v for k, v in sorted(data.items())}
-    elif param == "rating":
+    # if param == "alphabetical":
+    #     res = {k:v for k, v in sorted(data.items())}
+    if param == "rating":
         res = {k:v for k, v in sorted(data.items(), key = lambda x: x[1]["rating"], reverse = isDecreasingOrder)}
-
+    else:
+        res = {k:v for k, v in sorted(data.items())}
     return res
     
 
 outputs = {
     "Microsoft" : {
-            "description" : "SADDDD",
+            "description" : "We believe in what people make possible\n\nMicrosoft enables digital transformation for the era of an intelligent cloud and an intelligent edge. Our mission is to empower every person and every organization on the planet to achieve more.",
             "rating" : "4.0",
             "postings" : [{ 
-            "company": "Charles Schwab",
-            "happiness": "{'Work Happiness Score': '61', 'Learning': '73', 'Appreciation': '70', 'Compensation': '69', 'Achievement': '69', 'Support': '68', 'Inclusion': '67', 'Purpose': '66', 'Flexibility': '64', 'Trust': '64', 'Management': '62', 'Energy': '61', 'Belonging': '60'}",
-            "rating": "4.0",
-            "description": "Financial services can be complicated. At Charles Schwab, we\u2019re trying to fix that. We have a history of challenging the status quo and innovating in ways that help individuals create a better tomorrow.\n\nWhat We Do: Charles Schwab exists to help people achieve better financial outcomes. We offer investors a contemporary, full-service approach to build and manage their investments, providing investment-related products, services, and sophisticated financial planning that combine the best of what people and technology have to offer.\n\nMission: Our purpose is to champion every client\u2019s goals with passion and integrity, empowering them to take ownership of their financial future at every income level and life stage.\n\nValues: Our values are a way of doing business\u2014not just a plaque on the wall. We place the highest value on:\n-Constantly improving the client experience through innovation that benefits clients.\n-Respecting fellow employees and reinforcing the power of teamwork.\n-Being good stewards of our brand and stockholder value.\n-Earning our clients' trust by treating them in an ethical, empathetic, and proactive way.\n\nDisclosure\nPlease note, Content posted in the forums or reviews section on this site remains the responsibility of the party posting the content and is not adopted or endorsed by Schwab or represent Schwab viewpoints.\n\nSchwab is committed to building a diverse and inclusive workplace where everyone feels valued. As an equal employment opportunity employer, our policy is to provide equal employment opportunities to all employees and applicants without regard to any status that is protected by law (https://www.aboutschwab.com/EEO). Schwab is also an affirmative action employer, focused on advancing women, minorities, veterans, and individuals with disabilities in the workplace. We believe diversity and inclusion are part of our success as a company and our purpose of serving every client with passion and integrity.\n\u00a9 2020 Charles Schwab & Co., Inc., All rights reserved. Member SIPC - https://www.sipc.org/. (0120_9T2X) \u2013 less",
-            "role": "Email Campaign Manager",
-            "salary range": "$64K-$116K",
-            "skills": "Email marketing strategies Email marketing platforms (e.g., MailChimp, HubSpot) Audience segmentation A/B testing Campaign analytics Copywriting HTML/CSS for email Marketing automation Communication skills Data analysis Attention to detail",
-            "country": "Madagascar",
-            "id": 14132,
-            "city": "Antananarivo"
+            "company": "Microsoft",
+            "happiness": "{'Work Happiness Score': '83', 'Learning': '85', 'Appreciation': '84', 'Purpose': '84', 'Flexibility': '84', 'Achievement': '83', 'Inclusion': '82', 'Support': '82', 'Energy': '81', 'Trust': '79', 'Compensation': '79', 'Belonging': '78', 'Management': '77'}",
+            "rating": "4.2",
+            "description": "We believe in what people make possible\n\nMicrosoft enables digital transformation for the era of an intelligent cloud and an intelligent edge. Our mission is to empower every person and every organization on the planet to achieve more.",
+            "role": "Network Security Engineer",
+            "salary range": "$60K-$108K",
+            "skills": "Network security protocols and technologies Firewalls and intrusion detection systems Vulnerability assessment and penetration testing Security policy development and enforcement Incident response and recovery",
+            "country": "Oman",
+            "id": 98145,
+            "city": "Muscat"
+        },
+        {
+            "company": "Microsoft",
+            "happiness": "{'Work Happiness Score': '83', 'Learning': '85', 'Appreciation': '84', 'Purpose': '84', 'Flexibility': '84', 'Achievement': '83', 'Inclusion': '82', 'Support': '82', 'Energy': '81', 'Trust': '79', 'Compensation': '79', 'Belonging': '78', 'Management': '77'}",
+            "rating": "4.2",
+            "description": "We believe in what people make possible\n\nMicrosoft enables digital transformation for the era of an intelligent cloud and an intelligent edge. Our mission is to empower every person and every organization on the planet to achieve more.",
+            "role": "Crisis Communication Manager",
+            "salary range": "$63K-$90K",
+            "skills": "Crisis communication planning Crisis response Media relations Reputation management Stakeholder communication",
+            "country": "St. Martin (French part)",
+            "id": 96663,
+            "city": "Marigot"
         }]
             },
 
     "JP Morgan" : {
-                "description" : "SOS",
-                "rating" : "2.7",
+                "description" : "For over 200 years, JPMorgan Chase & Co has provided innovative financial solutions for consumers, small businesses, corporations, governments and institutions around the world.Today, we're a leading global financial services firm with operations servicing clients in more than 100 countries. Whether we are serving customers, helping small businesses, or putting our skills to work with partners, we strive to identify issues and propose solutions that will propel the future and strengthen both our clients and our communities.\n\n\u00a9 2019 JPMorgan Chase & Co. JPMorgan Chase is an equal opportunity and affirmative action employer Disability/Veteran. \u2013 less",
+                "rating" : "3.9",
                 "postings" : [{
-                "company": "Chewy",
-                "happiness": "{'Work Happiness Score': '50', 'Achievement': '59', 'Purpose': '54', 'Support': '54', 'Appreciation': '53', 'Learning': '53', 'Compensation': '53', 'Flexibility': '53', 'Energy': '51', 'Inclusion': '48', 'Management': '47', 'Trust': '45', 'Belonging': '44'}",
-                "rating": "2.7",
-                "description": "Chewy is revolutionizing the pet industry as one of the fastest growing e-commerce retailers of all time. Founded in 2011, Chewy set out to offer pet parents the expertise and service of a local pet store with the convenience of online shopping. Chewy delivers on that promise with its dedication to 24/7 customer service, the creation of cutting-edge software and technology that enhances the user experience and commitment to sourcing high-quality products.\n\nDually headquartered in Dania Beach, FL and Boston MA, Chewy employs more than 15,000 pet lovers in their headquarter offices, three customer service centers in FL, TX and KY and nine fulfillment centers in PA, AZ, TX, KY, NV, IN, OH, NC, and FL.\n\nChewy's environment is dynamic and faster than anything you've ever experienced, built for leaders who thrive on delivering results. We believe in leadership, accountability, relentlessness, and creativity. We work hard with a dogged determination, but we have fun, too! \u2013 less",
-                "role": "Corporate Litigator",
-                "salary range": "$61K-$101K",
-                "skills": "Corporate law Commercial litigation Dispute resolution Contract law Legal strategy Negotiation",
-                "country": "China",
-                "id": 30299,
-                "city": "Beijing"
+                "company": "JPMorgan Chase",
+                "happiness": "{'Work Happiness Score': '66', 'Learning': '73', 'Achievement': '73', 'Purpose': '71', 'Appreciation': '71', 'Flexibility': '70', 'Support': '69', 'Compensation': '68', 'Inclusion': '68', 'Energy': '67', 'Trust': '64', 'Belonging': '64', 'Management': '63'}",
+                "rating": "3.9",
+                "description": "For over 200 years, JPMorgan Chase & Co has provided innovative financial solutions for consumers, small businesses, corporations, governments and institutions around the world.Today, we're a leading global financial services firm with operations servicing clients in more than 100 countries. Whether we are serving customers, helping small businesses, or putting our skills to work with partners, we strive to identify issues and propose solutions that will propel the future and strengthen both our clients and our communities.\n\n\u00a9 2019 JPMorgan Chase & Co. JPMorgan Chase is an equal opportunity and affirmative action employer Disability/Veteran. \u2013 less",
+                "role": "UI/UX Developer",
+                "salary range": "$65K-$104K",
+                "skills": "User interface (UI) design User experience (UX) design Web design principles Prototyping and wireframing Front-end development languages (e.g., HTML, CSS, JavaScript) Interaction design User testing Responsive design Usability testing Collaboration Attention to detail",
+                "country": "Cyprus",
+                "id": 289597,
+                "city": "Nicosia"
+            }, 
+            {
+                "company": "JPMorgan Chase",
+                "happiness": "{'Work Happiness Score': '66', 'Learning': '73', 'Achievement': '73', 'Purpose': '71', 'Appreciation': '71', 'Flexibility': '70', 'Support': '69', 'Compensation': '68', 'Inclusion': '68', 'Energy': '67', 'Trust': '64', 'Belonging': '64', 'Management': '63'}",
+                "rating": "3.9",
+                "description": "For over 200 years, JPMorgan Chase & Co has provided innovative financial solutions for consumers, small businesses, corporations, governments and institutions around the world.Today, we're a leading global financial services firm with operations servicing clients in more than 100 countries. Whether we are serving customers, helping small businesses, or putting our skills to work with partners, we strive to identify issues and propose solutions that will propel the future and strengthen both our clients and our communities.\n\n\u00a9 2019 JPMorgan Chase & Co. JPMorgan Chase is an equal opportunity and affirmative action employer Disability/Veteran. \u2013 less",
+                "role": "Usability Analyst",
+                "salary range": "$64K-$117K",
+                "skills": "Usability evaluation User interface assessment Usability testing tools and techniques",
+                "country": "Mexico",
+                "id": 288296,
+                "city": "Mexico City"
             }]
-                }
+        }
 }
 
-print(sort_by(outputs, "rating", False))
+# print(sort_by(outputs, "rating", False))
 
 @app.route("/")
 def home():
@@ -120,7 +156,11 @@ def home():
 @app.route("/episodes")
 def episodes_search():
     text = request.args.get("title")
-    return sort_by(outputs, "rating", False)
+    sort_param = request.args.get("filter_opt_ratings")
+    # print("SORTED DATA")
+    # print(sorted_data, sort_param)
+    return json_search(text, sort_param)
+
 
 
 if "DB_NAME" not in os.environ:
