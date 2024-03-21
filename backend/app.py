@@ -5,7 +5,6 @@ from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import pandas as pd
 from enum import Enum
-from sortedcontainers import SortedDict
 
 
 os.environ["ROOT_PATH"] = os.path.abspath(os.path.join("..", os.curdir))
