@@ -9,12 +9,25 @@
 <body>
     <div class="full-body-container">
         <div class="filter-opt">
-            <label for="filter-opt-ratings">Sort by Ratings</label>
-            <select id="filter-opt-ratings">
+            <label for="filter-opts">Sort by</label>
+            <select id="filter-opts">
                 <option value="">Select</option>
-                <option value="increasing-order">Increasing Order</option>
-                <option value="decreasing-order">Decreasing Order</option>
+                <option value="rating">Company Rating</option>
+                <option value="workhappiness">Work Happiness Score</option>
+                <option value="learning">Learning Happiness Score</option>
+                <option value="appreciation">Appreciation Score</option>
+                <option value="purpose">Purpose Score</option>
+                <option value="flexibility">Flexibility Score</option>
+                <option value="achievement">Achievement Score</option>
+                <option value="inclusion">Inclusion Score</option>
+                <option value="support">Support Score</option>
+                <option value="energy">Energy Score</option>
+                <option value="trust">Trust Score</option>
+                <option value="compensation">Compensation Score</option>
+                <option value="belonging">Belonging Score</option>
+                <option value="management">Management Score</option>
             </select>
+            <button id="sort-direction-btn">&#9650;</button>
         </div>
         <div class="top-text">
             <div class="google-colors">
@@ -50,12 +63,12 @@
 
         function filterText() {
             document.getElementById("answer-box").innerHTML = ""
-            const sortingParam = document.getElementById("filter-opt-ratings").value;
+            const sortingParam = document.getElementById("filter-opts").value;
             // console.log(document.getElementById("filter-opt-ratings").value)
             // console.log(document.getElementById("filter-text-val").value)
-            let urlSearchParams = { title: document.getElementById("filter-text-val").value }
+            let urlSearchParams = { title: document.getElementById("filter-text-val").value, sortingDir: sortingDirection }
             if (sortingParam !== "") {
-                urlSearchParams.filter_opt_ratings = sortingParam;
+                urlSearchParams.filter_opts = sortingParam;
             }
             fetch("/episodes?" + new URLSearchParams(urlSearchParams).toString())
                 .then((response) => response.json())
@@ -84,7 +97,14 @@
 
                 })
         }
-        document.getElementById("filter-opt-ratings").addEventListener("change", function () {
+
+        let sortingDirection = "asc";
+        document.getElementById("sort-direction-btn").addEventListener("click", function () {
+            sortingDirection = sortingDirection === "asc" ? "desc" : "asc";
+            document.getElementById("sort-direction-btn").innerHTML = sortingDirection === "asc" ? "&#9650;" : "&#9660;";
+            filterText();
+        });
+        document.getElementById("filter-opts").addEventListener("change", function () {
             filterText()
         });
 
