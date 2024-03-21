@@ -36,7 +36,7 @@ def json_search(query, sorting_by):
     else:
         sorted_data = outputs
     if query is None:
-        return sorted_data
+        sorted_data = outputs
     matches = [(key, value) for key, value in sorted_data.items() if query.lower() in key.lower()]
     matches_filtered = [(key, value) for key, value in matches]
     return matches_filtered
