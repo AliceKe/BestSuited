@@ -5,20 +5,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
     rel="stylesheet">
-<link rel="shortcut icon" href="../static/images/logo.png" type="image/x-icon">
-<link rel="icon" href="../static/images/logo.png"  type="image/x-icon">
+
 
 <body>
     <div class="full-body-container">
         <div class="top-text">
             <!-- <div class="google-colors">
-                <h1 id="google-4">4</h1>
-                <h1 id="google-3">3</h1>
-                <h1 id="google-0-1">0</h1>
-                <h1 id="google-0-2">0</h1>
-            </div> -->
+               <h1 id="google-4">4</h1>
+               <h1 id="google-3">3</h1>
+               <h1 id="google-0-1">0</h1>
+               <h1 id="google-0-2">0</h1>
+           </div> -->
             <div class="header">
-                <img src="../static/images/header.png" alt="header">
+                <img src="../static/images/logo.png" alt="header">
             </div>
             <div class="input-box" onclick="sendFocus()">
                 <img src="{{ url_for('static', filename='images/mag.png') }}" />
@@ -47,24 +46,49 @@
             </select>
             <button id="sort-direction-btn">&#9650;</button>
         </div>
+        <div class="salary-input-container">
+            <div class="salary-input">
+                <div class="salary-field">
+                    <span>Minimum Salary</span>
+                    <input type="number" class="min-salary" value="15000">
+                </div>
+                <div class="salary-field">
+                    <span>Maximum Salary</span>
+                    <input type="number" class="max-salary" value="250000">
+                </div>
+            </div>
+            <div class="slider-container">
+                <div class="salary-slider">
+                </div>
+            </div>
+            <div class="range-input">
+                <input type="range" class="min-range" min="15000" max="250000" value="50000" step="5000">
+                <input type="range" class="max-range" min="15000" max="250000" value="132500" step="5000">
+            </div>
+        </div>
         <div id="answer-box">
+
 
         </div>
     </div>
 
+
     <script>
+
 
         function jobPostingDiv(posting) {
             console.log(posting)
             return `<div class=''>
-                <h3 class='episode-title'>${posting.role}</h3>
-                <p class='episode-desc'>Location: ${posting.city}</p>
-            </div>`
+               <h3 class='episode-title'>${posting.role}</h3>
+               <p class='episode-desc'>Location: ${posting.city}</p>
+           </div>`
         }
+
 
         function sendFocus() {
             document.getElementById('filter-text-val').focus()
         }
+
 
         function filterText() {
             document.getElementById("answer-box").innerHTML = ""
@@ -85,6 +109,7 @@
                         };
                     });
 
+
                     companies.forEach((company) => {
                         let tempDiv = document.createElement("div")
                         let tmpContent = `<h2> ${company.name}</h2>`
@@ -92,7 +117,9 @@
                         company.data.postings.forEach((p) => {
                             console.log(p)
 
+
                             tempDiv.innerHTML = ""
+
 
                             tmpContent += jobPostingDiv(p)
                         })
@@ -100,8 +127,10 @@
                         document.getElementById("answer-box").appendChild(tempDiv)
                     })
 
+
                 })
         }
+
 
         let sortingDirection = "asc";
         document.getElementById("sort-direction-btn").addEventListener("click", function () {
@@ -112,6 +141,105 @@
         document.getElementById("filter-opts").addEventListener("change", function () {
             filterText()
         });
+
+
+
+
+        const rangevalue = document.querySelector(".slider-container .salary-slider");
+        const rangeInputvalue = document.querySelectorAll(".range-input input");
+
+
+        let salaryGap = 500;
+
+
+        const salaryInputvalue = document.querySelectorAll(".salary-input input");
+        for (let i = 0; i < salaryInputvalue.length; i++) {
+            salaryInputvalue[i].addEventListener("input", e => {
+
+
+                let minsal = parseInt(salaryInputvalue[0].value);
+                let maxsal = parseInt(salaryInputvalue[1].value);
+                let diff = maxsal - minsal
+
+
+                if (minsal < 15000) {
+                    alert("minimum salary cannot be less than 15000");
+                    salaryInputvalue[0].value = 150000;
+                    minsal = 15000;
+                }
+
+
+                if (maxsal > 250000) {
+                    alert("maximum salary cannot be greater than 250000");
+                    salaryInputvalue[1].value = 250000;
+                    maxsal = 250000;
+                }
+
+
+                if (minsal > maxsal - salaryGap) {
+                    salaryInputvalue[0].value = maxsal - salaryGap;
+                    minsal = maxsal - salaryGap;
+
+
+                    if (minsal < 15000) {
+                        salaryInputvalue[0].value = 15000;
+                        minsal = 15000;
+                    }
+                }
+
+
+                if (diff >= salaryGap && maxsal <= rangeInputvalue[1].max) {
+                    if (e.target.className === "min-salary") {
+                        rangeInputvalue[0].value = minsalary;
+                        let value1 = rangeInputvalue[0].max;
+                        rangevalue.style.left = `${(minsalary / value1) * 100}%`;
+                    }
+                    else {
+                        rangeInputvalue[1].value = maxsalary;
+                        let value2 = rangeInputvalue[1].max;
+                        rangevalue.style.right =
+                            `${5000 - (maxsalary / value2) * 100}%`;
+                    }
+                }
+            });
+
+
+            for (let i = 0; i < rangeInputvalue.length; i++) {
+                rangeInputvalue[i].addEventListener("input", e => {
+                    let minVal =
+                        parseInt(rangeInputvalue[0].value);
+                    let maxVal =
+                        parseInt(rangeInputvalue[1].value);
+
+
+                    let diff = maxVal - minVal
+
+
+                    if (diff < salaryGap) {
+
+
+                        if (e.target.className === "min-range") {
+                            rangeInputvalue[0].value = maxVal - salaryGap;
+                        }
+                        else {
+                            rangeInputvalue[1].value = minVal + salaryGap;
+                        }
+                    }
+                    else {
+
+
+                        salaryInputvalue[0].value = minVal;
+                        salaryInputvalue[1].value = maxVal;
+                        rangevalue.style.left =
+                            `${(minVal / rangeInputvalue[0].max) * 100}%`;
+                        rangevalue.style.right =
+                            `${5000 - (maxVal / rangeInputvalue[1].max) * 100}%`;
+                    }
+                });
+            }
+        }
+
+
 
 
     </script>
