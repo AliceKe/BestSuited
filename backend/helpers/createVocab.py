@@ -29,7 +29,7 @@ def remove_non_letters_from_set(input_set):
         res.add(item)
     return res
 
-def createVocab(csvFilePath, outputTxtFilePath):
+def create_vocab(csvFilePath, outputTxtFilePath):
     dataset = pd.read_csv(csvFilePath)
 
     skills = dataset['skills'].str.split(" ").explode()
@@ -48,4 +48,4 @@ def createVocab(csvFilePath, outputTxtFilePath):
 
 
 convert_to_csv("../data/data.json", "../data/final_data.csv")
-createVocab("../data/final_data.csv", "../data/vocab.txt")
+create_vocab("../data/final_data.csv", "../data/vocab.txt")
