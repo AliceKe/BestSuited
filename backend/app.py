@@ -77,7 +77,7 @@ def group_postings_by_company(postings):
         else:
             groups[company] = {
                 "description": p["description"],
-                "rating": p["happine"],
+                "rating": p["rating"],
                 "happiness": p["happiness"],
                 "postings": [p],
             }
