@@ -1,10 +1,8 @@
-import json
 import os
 from flask import Flask
 from flask_cors import CORS
 from api import bp
 
-from settings import settings
 
 app = Flask(__name__)
 CORS(app)
