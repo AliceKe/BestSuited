@@ -5,10 +5,10 @@ const SearchBar = ({ setPostings }) => {
 
     const fetchData = async (e) => {
         try {
-            const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/jobs?q=${e.target.value}`);
-            const data = await response.json();
+            const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${e.target.value}`);
+            const data = await response;
+            console.log("I am data: " + data)
             setPostings(data.postings);
-            console.log(data)
         } catch (error) {
             console.error('Error fetching data:', error);
         }

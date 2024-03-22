@@ -82,8 +82,11 @@ def construct_docs_norms(inverted_index, n_docs):
     return np.sqrt(norms)
 
 
-def construct_idf_map(vectorizer_idf, tfidf_matrix):
-    return {}
+def construct_term_idf_map(vectorizer):
+    return {
+        term: idf
+        for term, idf in zip(vectorizer.get_feature_names_out(), vectorizer.idf_)
+    }
 
 
 def construct_query_tfidf(query, idf_map):
@@ -136,7 +139,7 @@ documents = data.get("job_postings")
 vectorizer = TfidfVectorizer(tokenizer=tokenize_docs)
 
 tfidf_matrix = vectorizer.fit_transform(map(extract_tokens_from_docs, documents))
-idf_map = construct_idf_map(vectorizer.idf_, tfidf_matrix)
+idf_map = construct_term_idf_map(vectorizer)
 
 # Inverted index
 terms_index, inverted_index = construct_invertex_index(vectorizer, tfidf_matrix)
