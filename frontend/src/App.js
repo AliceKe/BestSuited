@@ -8,7 +8,7 @@ import ExpandedSearchForm from "./components/ExpandedSearchForm";
 
 
 function App() {
-  const [postings, setPostings] = useState([])
+
   // console.log(postings)
 
 
@@ -16,16 +16,16 @@ function App() {
     <div className="App container">
 
 
-      {/* <SearchBar setPostings={setPostings} /> */}
+      <SearchBar />
 
-
+      {/* 
       <div class="hide">
         <ExpandedSearchForm setPostings={setPostings} />
       </div>
 
 
       {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
-
+ */}
 
 
 

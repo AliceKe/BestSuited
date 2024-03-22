@@ -1,7 +1,9 @@
 import React from 'react';
+import { useState } from 'react';
 
 
-const SearchBar = ({ setPostings }) => {
+const SearchBar = () => {
+    const [postings, setPostings] = useState([])
 
     const fetchData = async (e) => {
         try {
@@ -17,14 +19,21 @@ const SearchBar = ({ setPostings }) => {
 
 
     return (
+        <>
+
+            <input
+                type="text"
+                placeholder="Search for a job title, company or skills"
+                id="filter-text-val"
+                onChange={fetchData}
+            />
+
+            {postings}
 
 
-        <input
-            type="text"
-            placeholder="Search for a job title, company or skills"
-            id="filter-text-val"
-            onChange={fetchData}
-        />
+        </>
+
+
     )
 
 
