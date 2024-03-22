@@ -1,11 +1,12 @@
 import JobPostingCard from "./JobPostingCard"
 
-const CompanyPostings = () => {
+const CompanyPostings = ({ company, data }) => {
+    console.log("Postings " + data.postings)
+
+
     return (
         <>
-
-            <JobPostingCard />
-
+            {data.postings.map((posting) => (<JobPostingCard posting={posting} />))}
         </>
     )
 }

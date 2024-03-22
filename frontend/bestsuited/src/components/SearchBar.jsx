@@ -1,13 +1,16 @@
 
 
-const SearchBar = () => {
+const SearchBar = ({ setPostings }) => {
 
 
-    const fetchData = (query) => {
-        fetch(`http://4300showcase.infosci.cornell.edu:5184/text=${query}`)
-            .then((e) => console.log(e))
-            .catch((e) => console.log(e))
-
+    const fetchData = async (e) => {
+        try {
+            const response = await fetch(`http://127.0.0.1:5001/jobs?q=${e.target.value}`);
+            const data = await response.json();
+            setPostings(data.postings)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 
 
