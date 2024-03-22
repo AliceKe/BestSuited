@@ -15,7 +15,7 @@ services:
                         aliases:
                                 - flask-network
         command: npm start
-    backend_flask_app:
+    backend_app:
         container_name: ${TEAM_NAME}_backend_app
         ports:
                 - 0.0.0.0:${BACKEND_EXTERNAL_PORT}:${BACKEND_INTERNAL_PORT}
@@ -35,7 +35,7 @@ services:
                 flask_network:
                         aliases:
                                 - flask-network
-        command: gunicorn --bind 0.0.0.0:5000 --workers 4 "app:app"
+        command: flask run --host=0.0.0.0 --port=5000
     db:
         container_name: ${TEAM_NAME}_db
         image: mysql:latest
