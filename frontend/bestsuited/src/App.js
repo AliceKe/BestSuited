@@ -6,6 +6,7 @@ import SearchBar from './components/SearchBar';
 import SortByDropDown from './components/SortBy';
 import AdvancedFormExpand from "./components/AdvancedFormExpand";
 import CompanyCard from "./components/CompanyCard";
+import JobModal from "./components/JobModal";
 
 function App() {
   const [postings, setPostings] = useState([])
@@ -17,6 +18,7 @@ function App() {
       <SearchBar setPostings={setPostings} />
       <AdvancedFormExpand/>
       <CompanyCard/>
+      <JobModal company_jobs = "[]"/>
       <div>
         {Object.entries(postings)
           .map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
