@@ -83,7 +83,7 @@ def construct_docs_norms(inverted_index, n_docs):
     return np.sqrt(norms)
 
 
-def construct_idf_map(): ...
+def construct_idf_map(vectorizer_idf, tfidf_matrix): ...
 
 
 def construct_query_tfidf(query, idf_map):
