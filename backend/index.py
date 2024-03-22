@@ -83,7 +83,8 @@ def construct_docs_norms(inverted_index, n_docs):
     return np.sqrt(norms)
 
 
-def construct_idf_map(vectorizer_idf, tfidf_matrix): ...
+def construct_idf_map(vectorizer_idf, tfidf_matrix):
+    return {}
 
 
 def construct_query_tfidf(query, idf_map):
@@ -117,9 +118,9 @@ def compute_cosine_scores(query, inverted_index, doc_norms, idf_map):
 
         return res
 
+    query_tfidf = construct_query_tfidf(query, idf_map)
     doc_scores = get_dot_scores()
 
-    query_tfidf = construct_query_tfidf(query, idf_map)
     query_norm = np.sqrt(np.sum([v**2 for v in query_tfidf.values()]))
     norm_scores = normalize_scores()
 

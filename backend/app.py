@@ -34,7 +34,7 @@ idf_map = construct_idf_map(vectorizer.idf_, tfidf_matrix)
 
 # Inverted index
 terms_index, inverted_index = construct_invertex_index(vectorizer, tfidf_matrix)
-docs_norms = construct_docs_norms(inverted_index, tfidf_matrix, len(documents))
+docs_norms = construct_docs_norms(inverted_index, len(documents))
 
 cosine_scores = compute_cosine_scores("query", inverted_index, docs_norms, idf_map)
 
