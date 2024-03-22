@@ -3,6 +3,7 @@ import { useState } from "react"
 import './App.css';
 import CompanyPostings from './components/CompanyPostings';
 import SearchBar from './components/SearchBar';
+import SortByDropDown from './components/SortBy';
 
 function App() {
   const [postings, setPostings] = useState([])
