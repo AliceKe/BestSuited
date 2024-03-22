@@ -1,10 +1,19 @@
+from typing import List
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-def query_to_vector():
-   return None
+def build_vectorizer(max_features, stop_words, max_df=0.8, min_df=10, norm='l2'):
+    """
+    From A4
+    """
+    # term frequency
+    return TfidfVectorizer(max_features=max_features, stop_words=stop_words, max_df = max_df, min_df=min_df, norm = norm)
 
-def build_inverted_index():
-    return None
+def build_inverted_index(vocab: List) -> dict:
+   inverted_index = {}
+
+   # for i in range(len(vocab)):
+
+   return inverted_index
 
 def compute_idf():
    return None 
