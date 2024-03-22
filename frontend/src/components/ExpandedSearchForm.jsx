@@ -1,40 +1,84 @@
 import React, { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import Stack from '@mui/material/Stack';
+import CompanyPostings from './CompanyPostings';
 import MultiSelect from './MultiSelect';
+import SortSlider from './FilterSlider';
+
 
 const ExpandedSearchForm = ({ setPostings }) => {
-  const [skills, setSkills] = useState([]);
-  const [selectedSkill, setSelectedSkill] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSkill, setSelectedSkill] = useState([]);
 
-  const [jobs, setJobs] = useState([]);
-  const [selectedJobs, setSelectedJobs] = useState("");
 
-  const [location, setLocation] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedJobs, setSelectedJobs] = useState([]);
+
+
+  const [selectedLocation, setSelectedLocation] = useState([]);
+
+
+  const [filteredPostings, setFilteredPostings] = useState([]);
+
 
   const [isExpanded, setIsExpanded] = useState(false);
+
+
+  const defaultSalaryRange = localStorage.getItem('salaryRange') || [0, 300000];
+  const [salaryRange, setSalaryRange] = useState(defaultSalaryRange);
+
 
   const toggleFormVisibility = () => {
     setIsExpanded(!isExpanded);
   };
 
-  useEffect(() => {
-    fetchData("");
-  }, []);
+
+  // useEffect(() => {
+  //   console.log(salaryRange)
+  //   fetchData();
+  //   //
+  // }, [searchQuery, selectedJobs, selectedLocation, selectedSkill, salaryRange]);
 
 
-  const fetchData = async (e) => {
+
+
+  const fetchData = async (searchQuery) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5001/jobs?q=${e.target.value}`);
+      const minSalary = salaryRange[0];
+      const maxSalary = salaryRange[1]
+      const queryParams = new URLSearchParams({
+        // searchQuery: searchQuery,
+        jobTitle: selectedJobs.join(','),
+        location: selectedLocation.join(','),
+        skill: selectedSkill.join(',')
+      });
+      // console.log(searchQuery)
+      const response = await fetch(`http://127.0.0.1:5001/jobs?${queryParams}`);
       const data = await response.json();
-      setPostings(data.postings)
-      console.log(data)
+      let filteredPostings = [];
+      Object.entries(data.postings).forEach(company => {
+        company[1].postings.forEach(posting => {
+          const jobTitleMatch = selectedJobs.length === 0 || selectedJobs.includes(posting.role.toLowerCase());
+          const locationMatch = selectedLocation.length === 0 || selectedLocation.includes(`${posting.city}, ${posting.country}`);
+          const skillMatch = selectedSkill.length === 0 || selectedSkill.some(skill => posting.skills.includes(skill));
+
+
+          const salaryRangeString = posting['salary range'];
+          const salaryRangeArray = salaryRangeString.split('-');
+          const minPostingSalary = parseFloat(salaryRangeArray[0].replace('$', '').replace('K', '000'));
+          const maxPostingSalary = parseFloat(salaryRangeArray[1].replace('$', '').replace('K', '000'));
+          const salaryMatch = salaryRange.length === 0 || (minSalary <= minPostingSalary && maxSalary >= maxPostingSalary);
+
+
+          if (jobTitleMatch && locationMatch && skillMatch && salaryMatch) {
+            filteredPostings.push(posting);
+          }
+        });
+      });
+      console.log(filteredPostings)
+      setFilteredPostings(filteredPostings)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+
 
   const suggestedJobs = [
     { title: "software engineer" },
@@ -43,11 +87,13 @@ const ExpandedSearchForm = ({ setPostings }) => {
     { title: "usability analyst" }
   ];
 
+
   const suggestedLocation = [
     { title: "Nicosia, Cyprus" },
     { title: "Mexico City, Mexico" },
     { title: "Nuuk, Greenland" }
   ];
+
 
   const suggestedSkills = [
     { title: "Python" },
@@ -56,114 +102,99 @@ const ExpandedSearchForm = ({ setPostings }) => {
     { title: "Node.js" }
   ];
 
-  const handleInputFocus = () => {
-    setIsExpanded(true);
+
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    fetchData(query);
   };
 
-  const handleJobChange = (e) => {
-    setSelectedJobs(e.target.value);
-    handleInputFocus();
 
-    const input = e.target.value.toLowerCase();
-
-    const suggestedJobs = [
-      { title: "software engineer" },
-      { title: "data scientist" },
-      { title: "network security engineer" },
-      { title: "usability analyst" }
-    ];
-
-    const suggestedLocation = [
-      { title: "Nicosia, Cyprus" },
-      { title: "Mexico City, Mexico" },
-      { title: "Nuuk, Greenland" }
-    ];
-
-    const suggestedSkills = [
-      { title: "Python" },
-      { title: "JavaScript" },
-      { title: "React" },
-      { title: "Node.js" }
-    ];
-
-    const filteredJobs = suggestedJobs.filter((job) =>
-      job.toLowerCase().includes(input)
-    );
-    setJobs(filteredJobs);
+  const handleJobInputChange = (e) => {
+    setSelectedJobs = e.target.value
+    console.log(selectedJobs)
+    // fetchData();
   };
 
-  // const handleJobSelect = (e) => {
-  //   setSelectedJobs(e.target.value);
-  // };
 
-  // location
-  // const handleLocationChange = (e) => {
-  //   setSelectedLocation(e.target.value);
-  //   // const suggestedSkills = skillsList;
-  //   const suggestedLocation = ["Nicosia, Cyprus", "Mexico City, Mexico", "Nuuk, Greenland"]; // Replace with actual logic to fetch suggestions
-  //   const filteredLocation = suggestedLocation.filter((job) =>
-  //     job.toLowerCase().startsWith(e.target.value.toLowerCase())
-  //   );
-  //   setLocation(filteredLocation);
-  // };
+  const handleLocationInputChange = (e) => {
+    setSelectedLocation(e.target.value);
+    console.log(selectedLocation)
+    // fetchData();
+  };
 
-  // const handleLocationSelect = (e) => {
-  //   setSelectedLocation(e.target.value);
-  // };
 
-  // skills
-  // const handleSkillChange = (e) => {
-  //   setSelectedSkill(e.target.value);
-  //   // const suggestedSkills = skillsList;
-  //   const suggestedSkills = ["JavaScript", "Python", "Java", "React", "Node.js"]; // Replace with actual logic to fetch suggestions
-  //   const filteredSkills = suggestedSkills.filter((skill) =>
-  //     skill.toLowerCase().startsWith(e.target.value.toLowerCase())
-  //   );
-  //   setSkills(filteredSkills);
-  // };
+  const handleSkillInputChange = (e) => {
+    setSelectedSkill(e.target.value);
+    console.log(selectedSkill)
+    // fetchData();
+  };
 
-  // const handleSkillSelect = (e) => {
-  //   setSelectedSkill(e.target.value);
-  // };
 
-  const handleSubmit = (e) => {
+  const handleSalaryRangeChange = (newValue) => {
+    setSalaryRange(newValue);
+  };
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submitting the form or applying the filter
-
+    fetchData();
   };
 
-  // right now, it automatically searches without needing to click the "Apply Filters" button.  Implement functionality for it.
+
   return (
     <>
+      <div className="form-group">
+        <input
+          type="text"
+          placeholder="Search for a job title, company or skills"
+          id="filter-text-val"
+          value={searchQuery}
+          onChange={handleInputChange}
+        />
+      </div>
+
+
       <div className="form-filters">
         <button onClick={toggleFormVisibility}>
           {isExpanded ? "Hide Form" : "Show Form"}
         </button>
 
+
         {isExpanded && (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <MultiSelect dropdown_items={suggestedJobs} dropdown_type={"Job Titles"}>
-              </MultiSelect>
+              <MultiSelect dropdown_items={suggestedJobs} dropdown_type={"Job Titles"} setSelectedItem={setSelectedJobs} onChange={handleJobInputChange} />
             </div>
             <div className="form-group">
-              <MultiSelect dropdown_items={suggestedLocation} dropdown_type={"Locations"}>
-              </MultiSelect>
+              <MultiSelect dropdown_items={suggestedLocation} dropdown_type={"Locations"} setSelectedItem={setSelectedLocation} onChange={handleLocationInputChange} />
             </div>
             <div className="form-group">
-              <MultiSelect dropdown_items={suggestedSkills} dropdown_type={"Skills"}>
-              </MultiSelect>
+              <MultiSelect dropdown_items={suggestedSkills} dropdown_type={"Skills"} setSelectedItem={setSelectedSkill} onChange={handleSkillInputChange} />
+            </div>
+            <h4>Select Salary Range:</h4>
+            <div className="form-group">
+              <SortSlider value={salaryRange} onChange={handleSalaryRangeChange} />
+            </div>
 
-            </div>
+
             <button type="submit" className="btn btn-primary"
               onClick={handleSubmit}
             >Submit</button>
+
+
           </form>
         )}
-      </div>
-
+      </div >
+      {filteredPostings.length > 0 && (
+        <div className="filtered-postings">
+          <h2>Filtered Postings</h2>
+          <CompanyPostings data={{ postings: filteredPostings }} />
+        </div>
+      )}
     </>
   )
-}
+};
+
 
 export default ExpandedSearchForm;
