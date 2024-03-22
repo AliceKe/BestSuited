@@ -22,3 +22,7 @@ json_template/
 backend/data/job_descriptions.csv
 backend/data/data_old.csv
 jobscraper/
+
+node_modules
+
+Makefile

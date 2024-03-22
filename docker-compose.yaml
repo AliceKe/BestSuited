@@ -1,5 +1,18 @@
 version: '3.10'
 services:
+
+    frontend:
+        container_name: ${TEAM_NAME}_frontend_app
+        build:
+                context: ./frontend/bestsuited
+                dockerfile: Dockerfile
+        ports:
+                - "3000:3000"
+        environment:
+                - CHOKIDAR_USEPOLLING=true
+        command:
+                - npm start
+
     backend_flask_app:
         container_name: ${TEAM_NAME}_backend_app
         restart: always
@@ -31,6 +44,8 @@ services:
                 - ./init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
                 - flask_network
+
+        
 volumes:
         flask_volume:
 networks:
