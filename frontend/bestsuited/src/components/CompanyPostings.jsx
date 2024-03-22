@@ -1,20 +1,27 @@
 import JobPostingCard from "./JobPostingCard"
 
+
 const CompanyPostings = ({ company, data }) => {
-    console.log("Postings " + data.postings)
-
-
+    // console.log("Postings " + data.postings)
+    if (!data || !data.postings) {
+        return null; // Or any other fallback component or message
+    }
     return (
+        <div className="row">
+            {/* {data.postings.map((posting, index) => (
+               // console.log(posting);
+               // console.log(index);
+               < JobPostingCard key={index} posting={posting} />
 
 
-        <div className="flex-col mt-3">
-            <h3>{company}</h3>
-            <div className="row">
-                {data.postings.map((posting) => (<JobPostingCard key={posting} posting={posting} />))}
-            </div>
+           ))} */}
+            {console.log(data.postings)}
+            {data.postings.map((posting) => (<JobPostingCard key={posting.id} posting={posting} />))}
         </div>
-
     )
 }
+
+
+
 
 export default CompanyPostings
