@@ -5,9 +5,15 @@ const CompanyPostings = ({ company, data }) => {
 
 
     return (
-        <div className="row">
-            {data.postings.map((posting) => (<JobPostingCard posting={posting} />))}
+
+
+        <div className="flex-col mt-3">
+            <h3>{company}</h3>
+            <div className="row">
+                {data.postings.map((posting) => (<JobPostingCard key={posting} posting={posting} />))}
+            </div>
         </div>
+
     )
 }
 

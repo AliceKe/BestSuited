@@ -5,6 +5,8 @@ import CompanyPostings from './components/CompanyPostings';
 import SearchBar from './components/SearchBar';
 import ExpandedSearchForm from "./components/ExpandedSearchForm";
 import SortByDropDown from './components/SortBy';
+import AdvancedFormExpand from "./components/AdvancedFormExpand";
+import CompanyCard from "./components/CompanyCard";
 
 function App() {
   const [postings, setPostings] = useState([])
@@ -13,14 +15,6 @@ function App() {
     <div className="App container">
 
       <SearchBar setPostings={setPostings} />
-
-      <div class="hide">
-        <ExpandedSearchForm setPostings={setPostings} />
-      </div>
-
-      {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
-
-
     </div>
   );
 }
