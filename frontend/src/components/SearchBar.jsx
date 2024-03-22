@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import CompanyPostings from './CompanyPostings';
 
 
 const SearchBar = () => {
@@ -8,8 +9,8 @@ const SearchBar = () => {
     const fetchData = async (e) => {
         try {
             const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${e.target.value}`);
-            const data = await response;
-            console.log("I am data: " + data)
+            const data = await response.json();
+            console.log(data.postings)
             setPostings(data.postings);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -28,7 +29,9 @@ const SearchBar = () => {
                 onChange={fetchData}
             />
 
-            {postings}
+
+            {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
+
 
 
         </>

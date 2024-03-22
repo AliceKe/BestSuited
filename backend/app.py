@@ -16,7 +16,7 @@ def home():
 def regular_text_search():
     text = request.args.get("q")
     res = get_postings_regular_input(text)
-    return {"postings": res if input else ["Hello"]}
+    return {"postings": res}
 
 
 # @app.get("/regular")
