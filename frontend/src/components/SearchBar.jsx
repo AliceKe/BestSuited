@@ -7,7 +7,7 @@ const SearchBar = ({ setPostings }) => {
         try {
             const response = await fetch(`http://127.0.0.1:5001/jobs?q=${e.target.value}`);
             const data = await response.json();
-            setPostings(data.postings)
+            setPostings(data.postings);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
