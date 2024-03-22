@@ -1,7 +1,8 @@
+import React, { useState, useEffect } from 'react';
 
 
 const SearchBar = ({ setPostings }) => {
-
+    const [searchQuery, setSearchQuery] = useState('');
 
     const fetchData = async (e) => {
         try {
@@ -15,14 +16,22 @@ const SearchBar = ({ setPostings }) => {
     }
 
 
+
     return (
 
-        <input placeholder="Search for a job title, company or skills" id="filter-text-val"
-            onKeyUp={fetchData}>
 
-        </input>
+        <input
+            type="text"
+            placeholder="Search for a job title, company or skills"
+            id="filter-text-val"
+            value={searchQuery}
+            onChange={fetchData}
+        />
     )
+
 
 }
 
+
 export default SearchBar;
+
