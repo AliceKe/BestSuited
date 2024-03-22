@@ -9,11 +9,7 @@ def extract_tokens_from_regular_input(query):
     return decode(query)
 
 
-def extract_tokens_from_form_input(query):
-    def decode(query) -> str:
-        return query.strip()
-
-    return decode(query)
+def extract_tokens_from_form_input(query): ...
 
 
 def extract_tokens_from_docs(doc):
