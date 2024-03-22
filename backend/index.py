@@ -1,5 +1,8 @@
 import numpy as np
 from collections import defaultdict, Counter
+from settings import settings
+import json
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def extract_tokens_from_regular_input(query):
@@ -92,7 +95,7 @@ def construct_query_tfidf(query, idf_map):
     return res
 
 
-def compute_cosine_scores(query, inverted_index, doc_norms, idf_map):
+def compute_cosine_scores(query):
     def get_dot_scores():
         res = defaultdict(int)
 
@@ -107,7 +110,7 @@ def compute_cosine_scores(query, inverted_index, doc_norms, idf_map):
 
         for doc_id, score in doc_scores.items():
             if score > 0:
-                norm_score = score / (doc_norms[doc_id] * query_norm)
+                norm_score = score / (docs_norms[doc_id] * query_norm)
                 res.append((doc_id, norm_score))
             else:
                 res.append((doc_id, 0))
@@ -115,9 +118,25 @@ def compute_cosine_scores(query, inverted_index, doc_norms, idf_map):
         return res
 
     query_tfidf = construct_query_tfidf(query, idf_map)
-    doc_scores = get_dot_scores()
-
     query_norm = np.sqrt(np.sum([v**2 for v in query_tfidf.values()]))
-    norm_scores = normalize_scores()
 
-    return sorted(norm_scores, key=lambda x: x[1], reverse=True)
+    doc_scores = get_dot_scores()
+    docs_norms = construct_docs_norms(inverted_index, len(documents))
+
+    return sorted(normalize_scores(), key=lambda x: x[1], reverse=True)
+
+
+# Data loading
+with open(settings.data_file_path, "r") as file:
+    data = json.load(file)
+
+documents = data.get("job_postings")
+
+# TF-IDF matrix
+vectorizer = TfidfVectorizer(tokenizer=tokenize_docs)
+
+tfidf_matrix = vectorizer.fit_transform(map(extract_tokens_from_docs, documents))
+idf_map = construct_idf_map(vectorizer.idf_, tfidf_matrix)
+
+# Inverted index
+terms_index, inverted_index = construct_invertex_index(vectorizer, tfidf_matrix)
