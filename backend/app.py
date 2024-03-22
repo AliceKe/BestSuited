@@ -39,4 +39,4 @@ docs_norms = construct_docs_norms(inverted_index, len(documents))
 cosine_scores = compute_cosine_scores("query", inverted_index, docs_norms, idf_map)
 
 if "DB_NAME" not in os.environ:
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5001)
