@@ -11,6 +11,7 @@ from index import (
     extract_tokens_from_docs,
     construct_invertex_index,
     construct_docs_norms,
+    construct_idf_map,
 )
 
 app = Flask(__name__)
@@ -35,7 +36,7 @@ idf_map = construct_idf_map(vectorizer.idf_, tfidf_matrix)
 terms_index, inverted_index = construct_invertex_index(vectorizer, tfidf_matrix)
 docs_norms = construct_docs_norms(inverted_index, tfidf_matrix, len(documents))
 
-cosine_scores = compute_cosine_scores(query, inverted_index, doc_norms, idf_map)
+cosine_scores = compute_cosine_scores("query", inverted_index, docs_norms, idf_map)
 
 if "DB_NAME" not in os.environ:
     app.run(debug=True, host="0.0.0.0", port=5001)
