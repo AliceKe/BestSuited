@@ -1,7 +1,7 @@
 const JobPostingCard = ({ posting }) => {
 
     return (
-        <div class="card col-md4" >
+        <div class="card col-md-4" >
             <div class="card-body">
                 <h5 class="card-title">{posting.role}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{posting.city}, {posting.country}</h6>
