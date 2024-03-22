@@ -1,4 +1,4 @@
-const JobPostingCard = (posting) => {
+const JobPostingCard = ({ posting }) => {
 
     return (
         <div className="card">

@@ -1,15 +1,22 @@
+import { useState } from "react"
+
 import './App.css';
 import CompanyPostings from './components/CompanyPostings';
 import SearchBar from './components/SearchBar';
 import SortSlider from './components/SortSlider';
 
 function App() {
+  const [postings, setPostings] = useState([])
+
+
   return (
     <div className="App">
 
-      <SearchBar />
-      <SortSlider/>
-      <CompanyPostings />
+      <SearchBar setPostings={setPostings} />
+
+      {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
+
+
     </div>
   );
 }
