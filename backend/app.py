@@ -19,5 +19,16 @@ def regular_text_search():
     return {"postings": res if input else ["Hello"]}
 
 
+# @app.get("/regular")
+# def regular_text_search():
+#     text = request.args.get("q")
+#     res = get_postings_regular_input(text)
+
+#     filter_by = request.args.get("filter")
+#     sort_by = request.args.get("sort")
+
+#     return {"postings": res if input else ["Hello"]}
+
+
 if "DB_NAME" not in os.environ:
     app.run(debug=True, host="0.0.0.0", port=5000)
