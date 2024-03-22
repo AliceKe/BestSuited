@@ -9,12 +9,14 @@ function App() {
 
 
   return (
-    <div className="App">
+    <div className="App container">
 
       <SearchBar setPostings={setPostings} />
 
-      {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
-
+      <div>
+        {Object.entries(postings)
+          .map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
+      </div>
 
     </div>
   );
