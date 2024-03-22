@@ -16,6 +16,7 @@ function App() {
 
       <SearchBar setPostings={setPostings} />
       <AdvancedFormExpand/>
+      <CompanyCard/>
       <div>
         {Object.entries(postings)
           .map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
