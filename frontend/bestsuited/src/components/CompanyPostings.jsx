@@ -5,9 +5,9 @@ const CompanyPostings = ({ company, data }) => {
 
 
     return (
-        <>
+        <div className="row">
             {data.postings.map((posting) => (<JobPostingCard posting={posting} />))}
-        </>
+        </div>
     )
 }
 
