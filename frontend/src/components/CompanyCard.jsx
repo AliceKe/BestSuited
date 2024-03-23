@@ -23,7 +23,7 @@ const CompanyCard = ({ companyName, data }) => {
 
 
     return (
-        <div className="card col-md-4">
+        <div className="card col-md-4 bg-light">
             <img className="card-img-top" src={image || `https://logo.clearbit.com/${companyName.replace(/\s+/g, '').toLowerCase()}.com?size=200`}
                 alt="Company Logo not found"
                 onError={handleImageNotFound}
@@ -34,7 +34,7 @@ const CompanyCard = ({ companyName, data }) => {
                 <p className="card-text">{data.rating}</p>
             </div>
 
-            <Button onClick={() => setShow(true)}>Large modal</Button>
+            <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>View all {data.postings.length} postings</Button>
 
             <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
         </div>
