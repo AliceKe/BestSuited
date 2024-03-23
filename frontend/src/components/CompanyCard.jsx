@@ -2,6 +2,7 @@ import { useState } from "react";
 import defaultImage from '../images/favicon.png';
 import PostingsModal from "./PostingsModal";
 import { Button, Card } from 'react-bootstrap/';
+import CompanyRating from "./Rating";
 
 
 const CompanyCard = ({ companyName, data }) => {
@@ -36,6 +37,9 @@ const CompanyCard = ({ companyName, data }) => {
                     <Card.Text>
                         {/* {data.description} */}
                     </Card.Text>
+
+                    <CompanyRating value = {data.rating}/>
+
                     <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>See {data.postings.length} postings</Button>
 
                     <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
