@@ -24,7 +24,7 @@ const CompanyCard = ({ companyName, data }) => {
 
     return (
 
-        <div className="col-md-2 px-3 my-3 ">
+        <div className="col-md-3 col-sm-6 px-3 my-3 ">
 
             <Card className="bg-light w-90 px-0 py-0">
 
