@@ -31,7 +31,7 @@ const CompanyCard = ({ companyName, data }) => {
                 <Card.Body>
                     <Card.Title className="flex" >
                         <img src={image || `https://logo.clearbit.com/${companyName.replace(/\s+/g, '').toLowerCase()}.com?size=20`} onError={handleImageNotFound}
-                        /> {companyName}
+                            alt="" /> {companyName}
                     </Card.Title>
                     <Card.Text>
                         {/* {data.description} */}
