@@ -19,9 +19,8 @@ function App() {
           <h1 class="heading">BESTSUITED</h1>
           <h2 class="heading ">JOBS TAILORED FOR YOU</h2>
 
-          <div className="center-content">
-            <SearchBar setPostings={setPostings} />
-          </div>
+          <SearchBar setPostings={setPostings} />
+
 
           {/* <div class="hide">
               <ExpandedSearchForm setPostings={setPostings} />

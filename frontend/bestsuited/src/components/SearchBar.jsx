@@ -23,15 +23,19 @@ const SearchBar = ({ setPostings }) => {
 
     return (
         <>
-            <div className="searchbar-container">
-                <div class="input-box">
-                    <img src="/mag.png" alt="Search Icon"></img>
+            <div className="searchbar-container rounded-md">
+
+                <div class="flex input-box center-content">
+                    <img src="/mag.png" alt="Search Icon" className='col-2' ></img>
+
+
                     <input
                         type="text"
                         placeholder="Search for a job title, company or skills"
                         id="filter-text-val"
                         value={searchQuery}
                         onChange={handleInputChange}
+                        className='col-10 text-center'
                     />
                 </div >
             </div>
