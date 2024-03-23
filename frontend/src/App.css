@@ -32,7 +32,8 @@
     width: 600px;
 }
 
-.center-content img {
+.center-content img,
+.flex img {
     height: 20px;
     width: 20px;
 }
