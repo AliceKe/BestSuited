@@ -1,0 +1,19 @@
+{
+    "MSFT": {
+        "image": "",
+        "description": "By bringing people together over coffee, Starbucks has become one of the world\u2019s best-known and best-loved companies. We purchase, roast and serve award-winning coffee. We also offer Italian-style espresso beverages, cold blended beverages, delicious food, premium teas and selected compact discs through our retail stores. Working at Starbucks is a lot like working with your friends.\n\nWhen you work here, you\u2019re not an \u201cemployee\u201d \u2013 we call ourselves \u201cpartners\u201d because we believe in shared common goals and mutual success. We\u2019re dedicated to serving ethically sourced coffee, caring for the environment and giving back to the communities where we do business. \u2013 less",
+        "happiness": "{'Work Happiness Score': '70', 'Appreciation': '78', 'Flexibility': '78', 'Support': '76', 'Achievement': '75', 'Inclusion': '74', 'Learning': '73', 'Purpose': '72', 'Energy': '72', 'Trust': '69', 'Belonging': '69', 'Management': '67', 'Compensation': '64'}",
+        "rating": "4.0",
+        "postings": [
+            {
+                "company": "Starbucks",
+                "rating": "4.0",
+                "role": "UX/UI Designer",
+                "salary range": "$56K-$102K",
+                "skills": "User experience (UX) design User interface (UI) design Wireframing and prototyping Usability testing Design tools like Sketch or Figma",
+                "location": "Mogadishu",
+                "id": 108679
+            }
+        ]
+    }
+}

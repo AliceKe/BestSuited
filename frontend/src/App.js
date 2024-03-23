@@ -8,7 +8,7 @@ import ExpandedSearchForm from "./components/ExpandedSearchForm";
 
 
 function App() {
-  const [postings, setPostings] = useState([])
+
   // console.log(postings)
 
 

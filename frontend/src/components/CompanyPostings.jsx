@@ -2,7 +2,8 @@ import JobPostingCard from "./JobPostingCard"
 
 
 const CompanyPostings = ({ company, data }) => {
-    // console.log("Postings " + data.postings)
+    console.log("Postings " + data.postings)
+    console.log("name: " + company)
     if (!data || !data.postings) {
         return null; // Or any other fallback component or message
     }
@@ -15,6 +16,7 @@ const CompanyPostings = ({ company, data }) => {
 
 
            ))} */}
+
             {console.log(data.postings)}
             {data.postings.map((posting) => (<JobPostingCard key={posting.id} posting={posting} />))}
         </div>
