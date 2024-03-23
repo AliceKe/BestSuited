@@ -26,7 +26,7 @@ const CompanyCard = ({ companyName, data }) => {
 
         <div className="col-md-2 px-3 my-3 ">
 
-            <Card className="bg-light w-90">
+            <Card className="bg-light w-90 px-0 py-0">
 
                 <Card.Body>
                     <Card.Title className="flex" >
@@ -35,7 +35,7 @@ const CompanyCard = ({ companyName, data }) => {
                     <Card.Text>
                         {/* {data.description} */}
                     </Card.Text>
-                    <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>View all {data.postings.length} postings</Button>
+                    <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>See {data.postings.length} postings</Button>
 
                     <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
 
