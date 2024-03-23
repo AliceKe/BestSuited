@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from services import get_postings_regular_input
 
@@ -16,7 +16,7 @@ def home():
 def regular_text_search():
     text = request.args.get("q")
     res = get_postings_regular_input(text)
-    return {"postings": res}
+    return jsonify({"postings": res})
 
 
 # @app.get("/regular")

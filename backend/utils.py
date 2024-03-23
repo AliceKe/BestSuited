@@ -21,19 +21,16 @@ class SortParam(Enum):
 
 
 # Sample search using json with pandas
-def json_search(query, sorting_by="alphabetical", sorting_dir="desc"):
+
+
+def select_similar_docs(query, sorting_by="alphabetical", sorting_dir="desc"):
     sorting_bool = sorting_dir == "desc"
     print(sorting_bool)
     print(sorting_by)
     sorted_data = sort_by(outputs, sorting_by, sorting_bool)
     if query is None:
         sorted_data = outputs
-    # matches = [
-    #     (key, value)
-    #     for key, value in sorted_data.items()
-    #     if query.lower() in key.lower()
-    # ]
-    # matches_filtered = [(key, value) for key, value in matches]
+
     return sorted_data
 
 

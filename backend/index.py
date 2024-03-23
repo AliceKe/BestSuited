@@ -7,9 +7,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 def extract_tokens_from_regular_input(query):
     def decode(query) -> str:
-        return query.strip()
+        return query.strip().split()
 
-    return decode(query)
+    res = decode(query.lower())
+    return res
 
 
 def extract_tokens_from_form_input(query): ...
@@ -19,7 +20,7 @@ def extract_tokens_from_docs(doc):
     def encode(strs) -> str:
         ans = []
         for s in strs:
-            s = s.strip()
+            s = s.strip().lower()
             ans.append("{:4}".format(len(s)) + s)
         return "".join(ans)
 
@@ -27,9 +28,13 @@ def extract_tokens_from_docs(doc):
         encode([doc["company"], doc["role"], doc["country"], doc["city"]])
         + " "
         + doc["skills"]
+        + " "
         + doc["company"]
+        + " "
         + doc["role"]
+        + " "
         + doc["country"]
+        + " "
         + doc["city"]
     )
 
@@ -56,18 +61,17 @@ def tokenize_docs(doc):
 
 
 def construct_invertex_index(vectorizer, tfidf_matrix):
-    terms_indices = {
-        term: idx for idx, term in enumerate(vectorizer.get_feature_names_out())
-    }
+    # Get the feature names and their corresponding indices
+    feature_names = vectorizer.get_feature_names_out()
+    terms_indices = {term: idx for idx, term in enumerate(feature_names)}
 
     inverted_index = defaultdict(list)
 
     rows, cols = tfidf_matrix.nonzero()
     for row, col in zip(rows, cols):
         val = tfidf_matrix[row, col]
-        term = terms_indices.get(col)
-        if term is not None:
-            inverted_index[row].append((term, val))
+        term = feature_names[row]
+        inverted_index[term].append((col, val))
 
     return terms_indices, inverted_index
 
@@ -90,9 +94,10 @@ def construct_term_idf_map(vectorizer):
 
 
 def construct_query_tfidf(query, idf_map):
-    res = Counter(query.split())
+    query = query.strip().lower()
+    res = Counter(extract_tokens_from_regular_input(query))
 
-    for term in res:
+    for term in query.split():
         res[term] *= idf_map.get(term, 0)
 
     return res
@@ -103,9 +108,10 @@ def compute_cosine_scores(query):
         res = defaultdict(int)
 
         for term, qtfidf in query_tfidf.items():
-            if qtfidf != 0:
-                for doc, dtfidf in inverted_index:
-                    doc_scores[doc] += dtfidf * query_tfidf[term]
+            if qtfidf != 0 and term in inverted_index:
+                for doc, dtfidf in inverted_index[term]:
+                    res[doc] += dtfidf * query_tfidf[term]
+
         return res
 
     def normalize_scores():
@@ -126,7 +132,8 @@ def compute_cosine_scores(query):
     doc_scores = get_dot_scores()
     docs_norms = construct_docs_norms(inverted_index, len(documents))
 
-    return sorted(normalize_scores(), key=lambda x: x[1], reverse=True)
+    scores = normalize_scores()
+    return sorted(scores, key=lambda x: x[1], reverse=True)
 
 
 # Data loading
@@ -135,11 +142,16 @@ with open(settings.data_file_path, "r") as file:
 
 documents = data.get("job_postings")
 
+
 # TF-IDF matrix
 vectorizer = TfidfVectorizer(tokenizer=tokenize_docs)
 
-tfidf_matrix = vectorizer.fit_transform(map(extract_tokens_from_docs, documents))
+tfidf_matrix = vectorizer.fit_transform(map(extract_tokens_from_docs, documents)).T
+
 idf_map = construct_term_idf_map(vectorizer)
+
+feature_names = vectorizer.get_feature_names_out()
+
 
 # Inverted index
 terms_index, inverted_index = construct_invertex_index(vectorizer, tfidf_matrix)
