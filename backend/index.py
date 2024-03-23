@@ -143,15 +143,12 @@ with open(settings.data_file_path, "r") as file:
 documents = data.get("job_postings")
 
 
-# TF-IDF matrix
+# TF-IDF
 vectorizer = TfidfVectorizer(tokenizer=tokenize_docs)
-
 tfidf_matrix = vectorizer.fit_transform(map(extract_tokens_from_docs, documents)).T
 
 idf_map = construct_term_idf_map(vectorizer)
-
 feature_names = vectorizer.get_feature_names_out()
-
 
 # Inverted index
 terms_index, inverted_index = construct_invertex_index(vectorizer, tfidf_matrix)
