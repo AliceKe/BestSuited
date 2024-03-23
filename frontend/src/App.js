@@ -22,7 +22,7 @@ function App() {
           <SearchBar setPostings={setPostings} />
 
 
-          <div class="row">
+          <div class="row w-100">
             {Object.entries(postings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
           </div>
 

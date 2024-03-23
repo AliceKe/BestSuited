@@ -1,7 +1,7 @@
 import { useState } from "react";
 import defaultImage from '../images/favicon.png';
 import PostingsModal from "./PostingsModal";
-import Button from 'react-bootstrap/Button';
+import { Button, Card } from 'react-bootstrap/';
 
 
 const CompanyCard = ({ companyName, data }) => {
@@ -23,21 +23,27 @@ const CompanyCard = ({ companyName, data }) => {
 
 
     return (
-        <div className="card col-md-4 bg-light">
-            <img className="card-img-top" src={image || `https://logo.clearbit.com/${companyName.replace(/\s+/g, '').toLowerCase()}.com?size=200`}
-                alt="Company Logo not found"
-                onError={handleImageNotFound}
-            ></img>
 
-            <div className="card-body">
-                <h5 className="card-title">{companyName}</h5>
-                <p className="card-text">{data.rating}</p>
-            </div>
+        <div className="col-md-2 mx-3 my-3 ">
 
-            <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>View all {data.postings.length} postings</Button>
+            <Card style={{ width: '18rem' }} className="bg-light">
+                <Card.Img variant="top" src={image || `https://logo.clearbit.com/${companyName.replace(/\s+/g, '').toLowerCase()}.com?size=200`} />
+                <Card.Body>
+                    <Card.Title>{companyName}</Card.Title>
+                    <Card.Text>
+                        {/* {data.description} */}
+                    </Card.Text>
+                    <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>View all {data.postings.length} postings</Button>
+                    <p className="card-text">{data.rating}</p>
 
-            <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
+                    <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
+
+
+                </Card.Body>
+            </Card>
         </div>
+
+
 
     )
 }

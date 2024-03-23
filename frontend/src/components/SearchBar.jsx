@@ -14,9 +14,9 @@ const SearchBar = ({ setPostings }) => {
 
     return (
         <>
-            <div className="searchbar-container">
+            <div className="searchbar-container w-75">
 
-                <div className="flex flex-row input-box center-content">
+                <div className="flex w-100 flex-row input-box center-content">
                     <img src="/mag.png" alt="Search Icon" className='col-2' ></img>
 
 
