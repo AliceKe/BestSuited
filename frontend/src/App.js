@@ -15,15 +15,15 @@ function App() {
 
   return (
     <>
-      <div class="container">
-        <div class="top-text">
-          <h1 class="heading">BESTSUITED</h1>
-          <h2 class="heading ">JOBS TAILORED FOR YOU</h2>
+      <div className="container">
+        <div className="top-text">
+          <h1 className="heading">BESTSUITED</h1>
+          <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
 
           <SearchBar setPostings={setPostings} />
 
 
-          <div class="row">
+          <div className="row">
             {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
           </div>
 
