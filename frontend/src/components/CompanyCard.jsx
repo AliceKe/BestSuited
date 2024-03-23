@@ -15,9 +15,6 @@ const CompanyCard = ({ companyName, data }) => {
         }
     }
 
-    const [showPostings, setShowPostings] = useState(false);
-    // console.log(data)
-
 
     const [show, setShow] = useState(false);
 
@@ -36,14 +33,8 @@ const CompanyCard = ({ companyName, data }) => {
                 <h5 className="card-title">{companyName}</h5>
                 <p className="card-text">{data.rating}</p>
             </div>
-            <div className="card-body">
-                <a href="#" className="card-link">Company Site</a>
-                <button onClick={setShowPostings}>View {data.postings.size} Jobs</button>
-            </div>
 
-            <Button variant="primary" onClick={handleShow}>
-                View all {data.postings.length} postings
-            </Button>
+            <Button onClick={() => setShow(true)}>Large modal</Button>
 
             <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
         </div>
