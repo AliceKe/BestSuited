@@ -16,14 +16,14 @@ function App() {
   return (
     <>
 
-      <div class="container-fluid">
-        <div class="top-text">
-          <h1 class="heading">BESTSUITED</h1>
-          <h2 class="heading ">JOBS TAILORED FOR YOU</h2>
+      <div className="container-fluid">
+        <div className="top-text">
+          <h1 className="heading">BESTSUITED</h1>
+          <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
 
           <SearchBar setPostings={setPostings} />
 
-          <div class="row justify-content-around">
+          <div className="row justify-content-around">
             {Object.entries(postings).map(([company, data]) => (<CompanyCard companyName={company} data={data} />))}
           </div>
 

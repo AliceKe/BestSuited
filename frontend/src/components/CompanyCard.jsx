@@ -15,6 +15,7 @@ const CompanyCard = ({ companyName, data }) => {
     }
 
     const [showPostings, setShowPostings] = useState(false);
+    // console.log(data.postings)
 
     return (
         <div className="card col-md-4">
@@ -32,10 +33,9 @@ const CompanyCard = ({ companyName, data }) => {
                 <button onClick={setShowPostings}>View {data.postings.size} Jobs</button>
             </div>
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 View all {data.postings.length} postings
             </button>
-
             <PostingsModal postings={data.postings} />
         </div>
     )
