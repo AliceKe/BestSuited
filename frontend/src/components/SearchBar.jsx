@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
 
 const SearchBar = ({ setPostings }) => {
 
     const fetchData = async (e) => {
         try {
-            const response = await fetch(`http://4300showcase.infosci.cornell.edu:5184/jobs?q=${e.target.value}`);
+            const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${e.target.value}`);
             const data = await response.json();
             setPostings(data.postings);
         } catch (error) {
@@ -29,6 +28,7 @@ const SearchBar = ({ setPostings }) => {
                         className='col-10 text-center'
                     />
                 </div >
+
             </div>
         </>
     )

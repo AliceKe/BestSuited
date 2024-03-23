@@ -193,4 +193,5 @@ def select_similar_k_docs(doc_scores_map, k):
 
 def get_postings_regular_input(text, k=50):
     cosine_scores = compute_cosine_scores(text)
-    return select_similar_k_docs(cosine_scores, k)
+    company_postings = select_similar_k_docs(cosine_scores, k)
+    return group_postings_by_company(company_postings)
