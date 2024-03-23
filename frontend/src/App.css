@@ -58,3 +58,7 @@
     width: 700px;
     margin-top: 50px;
 }
+
+.hover-zoom:hover {
+    transform: scale(1.1);
+}
