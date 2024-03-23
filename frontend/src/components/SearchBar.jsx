@@ -19,13 +19,11 @@ const SearchBar = ({ setPostings }) => {
         fetchData(query);
     }
 
-
-
     return (
         <>
             <div className="searchbar-container rounded-md">
 
-                <div class="flex input-box center-content">
+                <div className="flex input-box center-content">
                     <img src="/mag.png" alt="Search Icon" className='col-2' ></img>
 
 
