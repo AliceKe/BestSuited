@@ -1,28 +1,36 @@
 version: '3.10'
 services:
-
-    frontend:
+    frontend_app:
         container_name: ${TEAM_NAME}_frontend_app
-        build:
-                context: ./frontend/bestsuited
-                dockerfile: Dockerfile
         ports:
-                - 0.0.0.0:${APP_PORT}:3000
-        command:
-                - npm start
-
-    backend_flask_app:
+                - 0.0.0.0:${FRONTEND_EXTERNAL_PORT}:${FRONTEND_INTERNAL_PORT}
+        expose:
+                - ${FRONTEND_INTERNAL_PORT} 
+        restart: always
+        build:
+                context: ./frontend/
+                dockerfile: Dockerfile
+        networks:
+                flask_network:
+                        aliases:
+                                - flask-network
+        command: npm start
+    backend_app:
         container_name: ${TEAM_NAME}_backend_app
+        ports:
+                - 0.0.0.0:${BACKEND_EXTERNAL_PORT}:${BACKEND_INTERNAL_PORT}
         restart: always
         build:
                 context: ./backend
                 dockerfile: Dockerfile
-        ports: 
-                - 0.0.0.0:${APP_PORT}:5000
+                args:
+                        DB_NAME: ${TEAM_NAME}
         depends_on:
                 - db
         environment:
-                - DB_NAME=${TEAM_NAME}_db
+                - FLASK_APP=app.py
+                - FLASK_RUN_HOST=0.0.0.0
+                - FLASK_DEBUG=0
         networks:
                 flask_network:
                         aliases:
@@ -33,17 +41,14 @@ services:
         image: mysql:latest
         restart: always
         environment:
-                - MYSQL_USER=admin
-                - MYSQL_PASSWORD=admin
-                - MYSQL_DATABASE=kardashiandb
-                - MYSQL_ROOT_PASSWORD=admin
+                MYSQL_USER: admin
+                MYSQL_PASSWORD: admin
+                MYSQL_DATABASE: kardashiandb
+                MYSQL_ROOT_PASSWORD: admin
         volumes:
-                - flask_volume:/var/lib/mysql
                 - ./init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
                 - flask_network
-
-        
 volumes:
         flask_volume:
 networks:
