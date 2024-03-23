@@ -1,8 +1,8 @@
 const PostingsModal = ({ postings }) => {
-    console.log({postings})
+    console.log(postings)
     return (
 
-        <div className="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade modal-xl" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -24,13 +24,14 @@ const PostingsModal = ({ postings }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {postings.map((posting) => <tr>
-                                    <th scope="row">1</th>
-                                    <td>{posting.role}</td>
-                                    <td>{posting.city}, {posting.country}</td>
-                                    <td>{posting['salary range']}</td>
-                                    <td>{posting.skills}</td>
-                                </tr>)}
+                                {postings.map((posting, index) => 
+                                    <tr key={posting.id}>
+                                        <th scope="row">{index + 1}</th>
+                                        <td>{posting.role}</td>
+                                        <td>{posting.city}, {posting.country}</td>
+                                        <td>{posting['salary range']}</td>
+                                        <td>{posting.skills}</td>
+                                    </tr>)}
                             </tbody>
                         </table>
 

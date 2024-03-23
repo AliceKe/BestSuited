@@ -4,11 +4,9 @@ import { useState } from "react"
 import './App.css';
 import CompanyCard from './components/CompanyCard';
 import SearchBar from './components/SearchBar';
-import ExpandedSearchForm from "./components/ExpandedSearchForm";
 
 function App() {
   const [postings, setPostings] = useState([])
-  const [companies, setCompanies] = useState([])
 
   // console.log(postings)
 
@@ -24,11 +22,8 @@ function App() {
           <SearchBar setPostings={setPostings} />
 
           <div className="row justify-content-around">
-            {Object.entries(postings).map(([company, data]) => (<CompanyCard companyName={company} data={data} />))}
+            {Object.entries(postings).map(([company, data]) => (<CompanyCard key = {company} companyName={company} data={data} />))}
           </div>
-
-
-
 
         </div>
 
