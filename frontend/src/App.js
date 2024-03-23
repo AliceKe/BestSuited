@@ -24,8 +24,8 @@ function App() {
           <SearchBar setPostings={setPostings} />
 
 
-          <div class="row justify-content-around">
-            {Object.entries(postings).map(([company, data]) => (<CompanyCard companyName={company} data={data} />))}
+          <div class="row">
+            {Object.entries(postings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
           </div>
 
 

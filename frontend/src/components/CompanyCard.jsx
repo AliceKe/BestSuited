@@ -1,9 +1,17 @@
 import { useState } from "react";
 import PostingsModal from "./PostingsModal";
+import Button from 'react-bootstrap/Button';
 
 
 const CompanyCard = ({ companyName, data }) => {
     const [showPostings, setShowPostings] = useState(false);
+
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
 
     return (
         <div className="card col-md-4 ml-3">
@@ -17,11 +25,11 @@ const CompanyCard = ({ companyName, data }) => {
                 <button onClick={setShowPostings}>View {data.postings.size} Jobs</button>
             </div>
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <Button variant="primary" onClick={handleShow}>
                 View all {data.postings.length} postings
-            </button>
+            </Button>
 
-            <PostingsModal postings={data.postings} />
+            <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
         </div>
     )
 }
