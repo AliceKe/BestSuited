@@ -13,23 +13,30 @@ function App() {
 
 
   return (
-    <div className="App container">
+    <>
+      <div class="container">
+        <div class="top-text">
+          <h1 class="heading">BESTSUITED</h1>
+          <h2 class="heading ">JOBS TAILORED FOR YOU</h2>
+
+          <SearchBar setPostings={setPostings} />
 
 
-      <SearchBar />
+          {/* <div class="hide">
+              <ExpandedSearchForm setPostings={setPostings} />
+            </div> */}
 
-      {/* 
-      <div class="hide">
-        <ExpandedSearchForm setPostings={setPostings} />
+          <div class="row">
+            {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
+          </div>
+
+
+
+
+        </div>
+
       </div>
-
-
-      {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
- */}
-
-
-
-    </div>
+    </>
   );
 }
 
