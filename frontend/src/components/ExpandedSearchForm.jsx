@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import CompanyPostings from './CompanyPostings';
 import MultiSelect from './MultiSelect';
 import SortSlider from './FilterSlider';
 
@@ -189,7 +188,6 @@ const ExpandedSearchForm = ({ setPostings }) => {
       {filteredPostings.length > 0 && (
         <div className="filtered-postings">
           <h2>Filtered Postings</h2>
-          <CompanyPostings data={{ postings: filteredPostings }} />
         </div>
       )}
     </>

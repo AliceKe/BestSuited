@@ -2,7 +2,7 @@ import { useState } from "react"
 
 
 import './App.css';
-import CompanyPostings from './components/CompanyPostings';
+import CompanyCard from './components/CompanyCard';
 import SearchBar from './components/SearchBar';
 import ExpandedSearchForm from "./components/ExpandedSearchForm";
 
@@ -15,7 +15,8 @@ function App() {
 
   return (
     <>
-      <div class="container">
+
+      <div class="container-fluid">
         <div class="top-text">
           <h1 class="heading">BESTSUITED</h1>
           <h2 class="heading ">JOBS TAILORED FOR YOU</h2>
@@ -23,8 +24,8 @@ function App() {
           <SearchBar setPostings={setPostings} />
 
 
-          <div class="row">
-            {Object.entries(postings).map(([company, data]) => (<CompanyPostings company={company} data={data} />))}
+          <div class="row justify-content-around">
+            {Object.entries(postings).map(([company, data]) => (<CompanyCard companyName={company} data={data} />))}
           </div>
 
 
