@@ -24,17 +24,18 @@ const CompanyCard = ({ companyName, data }) => {
 
     return (
 
-        <div className="col-md-2 mx-3 my-3 ">
+        <div className="col-md-2 px-3 my-3 ">
 
-            <Card style={{ width: '18rem' }} className="bg-light">
-                <Card.Img variant="top" src={image || `https://logo.clearbit.com/${companyName.replace(/\s+/g, '').toLowerCase()}.com?size=200`} />
+            <Card className="bg-light w-90">
+
                 <Card.Body>
-                    <Card.Title>{companyName}</Card.Title>
+                    <Card.Title className="flex" >
+                        <img src={image || `https://logo.clearbit.com/${companyName.replace(/\s+/g, '').toLowerCase()}.com?size=20`} /> {companyName}
+                    </Card.Title>
                     <Card.Text>
                         {/* {data.description} */}
                     </Card.Text>
                     <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>View all {data.postings.length} postings</Button>
-                    <p className="card-text">{data.rating}</p>
 
                     <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
 
