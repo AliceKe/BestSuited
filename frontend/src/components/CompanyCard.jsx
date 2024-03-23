@@ -36,10 +36,12 @@ const CompanyCard = ({ companyName, data }) => {
                     </Card.Title>
                     <Card.Text>
                         {/* {data.description} */}
-                        <CompanyRating value = {data.rating}/>
                     </Card.Text>
 
-                    <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>See {data.postings.length} postings</Button> 
+                    <div className="d-flex align-items-center justify-content-between"> 
+                        <CompanyRating value={data.rating}/> 
+                        <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>See {data.postings.length} postings</Button>
+                    </div>
 
                     <PostingsModal show={show} handleClose={handleClose} company={companyName} postings={data.postings} />
 
