@@ -19,7 +19,7 @@ const CompanyCard = ({ companyName, data }) => {
 
     return (
         <div className="card col-md-4">
-            <img className="card-img-top" src={image || `https://logo.clearbit.com/${companyName.toLowerCase()}.com?size=200`}
+            <img className="card-img-top" src={image || `https://logo.clearbit.com/${companyName.replace(/\s+/g, '').toLowerCase()}.com?size=200`}
                 alt = "Company Logo not found"
                 onError= {handleImageNotFound}
             ></img>
