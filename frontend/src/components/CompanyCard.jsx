@@ -8,7 +8,7 @@ import CompanyRating from "./Rating";
 const CompanyCard = ({ companyName, data }) => {
     const [image, setImage] = useState("")
     const [imageNotFound, setImageNotFound] = useState(false);
-
+    console.log(data);
     const handleImageNotFound = () => {
         if (!imageNotFound) {
             setImageNotFound(true);
@@ -38,8 +38,8 @@ const CompanyCard = ({ companyName, data }) => {
                         {/* {data.description} */}
                     </Card.Text>
 
-                    <div className="d-flex align-items-center justify-content-between"> 
-                        <CompanyRating value={data.rating}/> 
+                    <div className="d-flex align-items-center justify-content-between">
+                        <CompanyRating value={data.rating} />
                         <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>See {data.postings.length} postings</Button>
                     </div>
 

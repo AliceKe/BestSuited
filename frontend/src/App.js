@@ -19,6 +19,11 @@ function App() {
 
   const [groupBy, setGroupBy] = useState("Companies")
   const [sortBy, setSortBy] = useState("")
+  const [filteredPostings, setFilteredPostings] = useState([]);
+  const updateFilteredPostings = (filteredPostings) => {
+    setFilteredPostings(filteredPostings);
+  }
+  console.log(filteredPostings);
 
   return (
     <>
@@ -30,7 +35,7 @@ function App() {
 
           <SearchBar setPostings={setPostings} />
           <div className="sort-filter">
-            <ExpandedSearchForm setPostings={setPostings} />
+            <ExpandedSearchForm updateFilteredPostings={updateFilteredPostings} />
           </div>
 
 
@@ -60,6 +65,13 @@ function App() {
               {Object.entries(postings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
             </div>
           }
+          {groupBy === "Companies" && (
+            <div className="row w-100">
+              {filteredPostings.map(([company, data]) => (
+                <CompanyCard key={company} companyName={company} data={data} />
+              ))}
+            </div>
+          )}
 
         </div>
 
