@@ -9,6 +9,7 @@ import DisplayOption from "./components/DisplayOption";
 import { setNestedPropertyValue } from "./static/script";
 import { Button } from "react-bootstrap";
 import ExpandedSearchForm from "./components/ExpandedSearchForm";
+import ResumeUpload from "./components/ResumeUpload";
 
 const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }
 
@@ -33,12 +34,14 @@ function App() {
           <h1 className="heading">BESTSUITED</h1>
           <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
 
+          <ResumeUpload></ResumeUpload>
+          <h2>OR</h2>
           <SearchBar setPostings={setPostings} />
+          <h2>THEN</h2>
+
           <div className="sort-filter">
             <ExpandedSearchForm updateFilteredPostings={updateFilteredPostings} />
           </div>
-
-
 
           <div className="d-flex mt-3 justify-content-around">
             <DisplayOption setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />

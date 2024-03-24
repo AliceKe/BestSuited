@@ -3,13 +3,18 @@ from collections import defaultdict, Counter
 from settings import settings
 import json
 from sklearn.feature_extraction.text import TfidfVectorizer
+import re 
 
+def remove_punctuation(text):
+    punctuation_pattern = r'[^\w\s]'
+    cleaned_text = re.sub(punctuation_pattern, '', text)    
+    return cleaned_text
 
 def extract_tokens_from_regular_input(query):
     def decode(query) -> str:
         return query.strip().split()
 
-    res = decode(query.lower())
+    res = decode(remove_punctuation(query.lower()))
     return res
 
 
