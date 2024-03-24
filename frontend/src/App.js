@@ -5,21 +5,19 @@ import './App.css';
 import CompanyCard from './components/CompanyCard';
 import SearchBar from './components/SearchBar';
 import SortByDropDown from "./components/SortBy";
+import DisplayOption from "./components/DisplayOption";
+import { setNestedPropertyValue } from "./static/script";
+import { Button } from "react-bootstrap";
 
-const sortParams = { "companyListing": ["Company Name"] }
-const mergePostings = (companyPostings) => {
-  let res = []
+const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }
 
-}
 
 
 function App() {
   const [postings, setPostings] = useState([])
-  const [listingType, setListingType] = useState("companyListing")
 
-  // console.log(postings)
-
-
+  const [groupBy, setGroupBy] = useState("Companies")
+  const [sortBy, setSortBy] = useState("")
 
   return (
     <>
@@ -30,16 +28,33 @@ function App() {
           <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
 
           <SearchBar setPostings={setPostings} />
-          <SortByDropDown params={sortParams[listingType]} />
 
 
-          <div class="row w-100">
-            {Object.entries(postings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
+          <div className="d-flex mt-3 justify-content-around">
+            <DisplayOption setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
+
+            <Button className="bg-light">Filter</Button>
+
+            {groupBy === "Companies" && <DisplayOption setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3" />}
+            {groupBy === "Job Postings" && <DisplayOption setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3" />}
+
+
           </div>
 
-          <div class="row w-100">
-            {Object.entries(postings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
-          </div>
+
+          {
+            groupBy === "Job Postings" &&
+            <div class="row w-100">
+              {Object.entries(postings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
+            </div>
+          }
+
+          {
+            groupBy === "Companies" &&
+            <div class="row w-100">
+              {Object.entries(postings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
+            </div>
+          }
 
         </div>
 
