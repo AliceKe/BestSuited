@@ -1,3 +1,3 @@
-const groupPostingsByCompany = () => {
+const groupPostingsByCompany = (postings) => {
 
 }
