@@ -5,7 +5,7 @@ import { Button, Card } from 'react-bootstrap/';
 import CompanyRating from "./Rating";
 
 
-const PostingsCard = ({ posting }) => {
+const PostingCard = ({ posting }) => {
     const [image, setImage] = useState("")
     const [imageNotFound, setImageNotFound] = useState(false);
 
@@ -52,4 +52,4 @@ const PostingsCard = ({ posting }) => {
     )
 }
 
-export default PostingsCard;
+export default PostingCard;
