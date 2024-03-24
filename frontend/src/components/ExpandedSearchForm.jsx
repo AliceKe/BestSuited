@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Dropdown, Button } from 'react-bootstrap/';
+
 import MultiSelect from './MultiSelect';
 import SortSlider from './FilterSlider';
 
@@ -174,9 +176,8 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
           </div>
 
 
-          <button type="submit" className="btn-submit"
-            onClick={handleSubmit}
-          >Apply Filters</button>
+          <Button className='mx-auto' onClick={handleSubmit} variant='outline-info'>Apply Filters</Button>
+
 
 
         </form>
