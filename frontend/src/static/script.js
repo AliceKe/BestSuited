@@ -1,19 +1,21 @@
-export const groupPostingsByCompany = (postings) => {
+const groupPostingsByCompany = (postings) => {
+    let groups = {};
 
-}
+    postings.forEach(p => {
+        let company = p["company"];
 
-
-export const setNestedPropertyValue = (obj, path, value) => {
-    const properties = path.split('.');
-    const lastProperty = properties.pop();
-
-    const nestedObject = properties.reduce((nested, property) => {
-        if (!nested[property]) {
-            nested[property] = {};
+        if (company in groups) {
+            groups[company]["postings"].push(p);
+        } else {
+            groups[company] = {
+                "name": company,
+                "description": p["description"],
+                "rating": p["rating"],
+                "happiness": p["happiness"],
+                "postings": [p]
+            };
         }
-        return nested[property];
-    }, obj);
+    });
 
-    nestedObject[lastProperty] = value;
-    return obj;
-};
+    return groups;
+}

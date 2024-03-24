@@ -8,6 +8,7 @@ import SortByDropDown from "./components/SortBy";
 import DisplayOption from "./components/DisplayOption";
 import { setNestedPropertyValue } from "./static/script";
 import { Button } from "react-bootstrap";
+import ExpandedSearchForm from "./components/ExpandedSearchForm";
 
 const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }
 
@@ -28,6 +29,10 @@ function App() {
           <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
 
           <SearchBar setPostings={setPostings} />
+          <div className="sort-filter">
+            <ExpandedSearchForm setPostings={setPostings} />
+          </div>
+
 
 
           <div className="d-flex mt-3 justify-content-around">

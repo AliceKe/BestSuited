@@ -38,7 +38,7 @@ const ExpandedSearchForm = ({ setPostings }) => {
 
 
 
-  const fetchData = async (searchQuery) => {
+  const fetchData = async () => {
     try {
       const minSalary = salaryRange[0];
       const maxSalary = salaryRange[1]
@@ -49,7 +49,7 @@ const ExpandedSearchForm = ({ setPostings }) => {
         skill: selectedSkill.join(',')
       });
       // console.log(searchQuery)
-      const response = await fetch(`http://127.0.0.1:5001/jobs?${queryParams}`);
+      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${queryParams}`);
       const data = await response.json();
       let filteredPostings = [];
       Object.entries(data.postings).forEach(company => {
@@ -143,7 +143,7 @@ const ExpandedSearchForm = ({ setPostings }) => {
 
   return (
     <>
-      <div className="form-group">
+      {/* <div className="form-group">
         <input
           type="text"
           placeholder="Search for a job title, company or skills"
@@ -151,12 +151,12 @@ const ExpandedSearchForm = ({ setPostings }) => {
           value={searchQuery}
           onChange={handleInputChange}
         />
-      </div>
+      </div> */}
 
 
       <div className="form-filters">
-        <button onClick={toggleFormVisibility}>
-          {isExpanded ? "Hide Form" : "Show Form"}
+        <button class="btn dropdown-toggle" onClick={toggleFormVisibility}>
+          {isExpanded ? "Filter By" : "Filter By"}
         </button>
 
 
@@ -171,15 +171,15 @@ const ExpandedSearchForm = ({ setPostings }) => {
             <div className="form-group">
               <MultiSelect dropdown_items={suggestedSkills} dropdown_type={"Skills"} setSelectedItem={setSelectedSkill} onChange={handleSkillInputChange} />
             </div>
-            <h4>Select Salary Range:</h4>
             <div className="form-group">
+              <p id="salaryrange-p">Select Salary Range:</p>
               <SortSlider value={salaryRange} onChange={handleSalaryRangeChange} />
             </div>
 
 
-            <button type="submit" className="btn btn-primary"
+            <button type="submit" className="btn-submit"
               onClick={handleSubmit}
-            >Submit</button>
+            >Apply Filters</button>
 
 
           </form>
