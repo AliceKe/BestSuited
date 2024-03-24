@@ -25,11 +25,10 @@
     border-radius: 50px;
     border: 1px solid black;
     display: flex;
-    flex-direction: column;
     align-items: center;
     margin-top: 10px;
-    padding: 12px;
-    width: 600px;
+    padding: 5px;
+    padding: 10px;
 }
 
 .center-content img,
@@ -39,7 +38,7 @@
 }
 
 .center-content input {
-    width: calc(100% - 30px);
+    width: calc(100% - 60px);
     margin-left: 10px;
     font-size: 16px;
     border: none;
@@ -59,9 +58,13 @@
     margin-top: 50px;
 }
 
-.hover-zoom:hover {
-    transform: scale(1.1);
-}
+.zoom {
+      transition: transform 0.5s;
+    }
+
+    .zoom:hover {
+      transform: scale(1.1); /* Increase scale on hover */
+    }
 
 .form-filters {
     display: flex;

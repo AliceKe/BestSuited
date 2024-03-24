@@ -36,12 +36,12 @@ function App() {
 
 
           <div className="d-flex mt-3 justify-content-around">
-            <DisplayOption setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
+            <DisplayOption value={groupBy} setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
 
             <Button className="bg-light">Filter</Button>
 
-            {groupBy === "Companies" && <DisplayOption setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3" />}
-            {groupBy === "Job Postings" && <DisplayOption setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3" />}
+            {groupBy === "Companies" && <DisplayOption value={sortBy} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3" />}
+            {groupBy === "Job Postings" && <DisplayOption value={sortBy} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3" />}
 
 
           </div>
