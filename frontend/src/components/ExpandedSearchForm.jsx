@@ -3,7 +3,7 @@ import MultiSelect from './MultiSelect';
 import SortSlider from './FilterSlider';
 
 
-const ExpandedSearchForm = ({ setPostings }) => {
+const ExpandedSearchForm = ({ updateFilteredPostings }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSkill, setSelectedSkill] = useState([]);
 
@@ -54,10 +54,9 @@ const ExpandedSearchForm = ({ setPostings }) => {
       let filteredPostings = [];
       Object.entries(data.postings).forEach(company => {
         company[1].postings.forEach(posting => {
-          const jobTitleMatch = selectedJobs.length === 0 || selectedJobs.includes(posting.role.toLowerCase());
-          const locationMatch = selectedLocation.length === 0 || selectedLocation.includes(`${posting.city}, ${posting.country}`);
+          const jobTitleMatch = selectedJobs.length === 0 || posting.role.toLowerCase().includes(selectedJobs);
+          const locationMatch = selectedLocation.length === 0 || `${posting.city}, ${posting.country}`.includes(selectedLocation);
           const skillMatch = selectedSkill.length === 0 || selectedSkill.some(skill => posting.skills.includes(skill));
-
 
           const salaryRangeString = posting['salary range'];
           const salaryRangeArray = salaryRangeString.split('-');
@@ -65,14 +64,18 @@ const ExpandedSearchForm = ({ setPostings }) => {
           const maxPostingSalary = parseFloat(salaryRangeArray[1].replace('$', '').replace('K', '000'));
           const salaryMatch = salaryRange.length === 0 || (minSalary <= minPostingSalary && maxSalary >= maxPostingSalary);
 
-
           if (jobTitleMatch && locationMatch && skillMatch && salaryMatch) {
-            filteredPostings.push(posting);
+            const postingDict = company;
+            console.log(company)
+            postingDict[1].postings = [posting];
+            console.log(postingDict[1].postings)
+            filteredPostings.push(postingDict);
           }
         });
       });
       console.log(filteredPostings)
       setFilteredPostings(filteredPostings)
+      updateFilteredPostings(filteredPostings);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -178,11 +181,6 @@ const ExpandedSearchForm = ({ setPostings }) => {
 
         </form>
       </div >
-      {filteredPostings.length > 0 && (
-        <div className="filtered-postings">
-          <h2>Filtered Postings</h2>
-        </div>
-      )}
     </>
   )
 };

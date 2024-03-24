@@ -8,7 +8,7 @@ import CompanyRating from "./Rating";
 const CompanyCard = ({ companyName, data }) => {
     const [image, setImage] = useState("")
     const [imageNotFound, setImageNotFound] = useState(false);
-
+    console.log(data);
     const handleImageNotFound = () => {
         if (!imageNotFound) {
             setImageNotFound(true);

@@ -11,6 +11,7 @@ import { Button } from "react-bootstrap";
 import ExpandedSearchForm from "./components/ExpandedSearchForm";
 import PostingCard from "./components/PostingCard";
 import FilterAccordion from "./components/FilterAccordion";
+import ResumeUpload from "./components/ResumeUpload";
 
 const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }
 
@@ -23,6 +24,11 @@ function App() {
   const [sortBy, setSortBy] = useState(sortParams.Companies[0])
 
   const companyPostings = groupPostingsByCompany(postings)
+  const [filteredPostings, setFilteredPostings] = useState([]);
+  const updateFilteredPostings = (filteredPostings) => {
+    setFilteredPostings(filteredPostings);
+  }
+  console.log(filteredPostings);
 
   return (
     <>
@@ -32,6 +38,8 @@ function App() {
           <h1 className="heading">BESTSUITED</h1>
           <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
 
+          <ResumeUpload></ResumeUpload>
+          <h2>OR</h2>
           <SearchBar setPostings={setPostings} />
 
           <div className="d-flex mt-3 justify-content-around">
@@ -59,10 +67,19 @@ function App() {
               {Object.entries(companyPostings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
             </div>
           }
+          {
+            groupBy === "Companies" && (
+              <div className="row w-100">
+                {filteredPostings.map(([company, data]) => (
+                  <CompanyCard key={company} companyName={company} data={data} />
+                ))}
+              </div>
+            )
+          }
 
-        </div>
+        </div >
 
-      </div>
+      </div >
     </>
   );
 }
