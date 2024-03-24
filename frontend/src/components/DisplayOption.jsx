@@ -4,9 +4,9 @@ const DisplayOption = ({ variant, type, options, cls, value, setHandler }) => {
 
     return (
         <>
-            <Dropdown >
+            <Dropdown className='col-md-3' >
                 <Dropdown.Toggle variant={variant} id="dropdown-basic" className={cls}>
-                    <span className="me-3">{type}:</span>
+                    <span className="">{type}:</span>
                     {value}
                 </Dropdown.Toggle>
 

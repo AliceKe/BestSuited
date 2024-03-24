@@ -36,19 +36,18 @@ function App() {
       <div className="container-fluid ">
         <div className="top-text">
           <h1 className="heading">BESTSUITED</h1>
-          <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
+          {/* <h2 className="heading ">JOBS TAILORED FOR YOU</h2> */}
 
           <ResumeUpload></ResumeUpload>
-          <h2>OR</h2>
           <SearchBar setPostings={setPostings} />
 
-          <div className="d-flex mt-3 justify-content-around">
+          <div className="row mt-3 justify-content-around">
             <DisplayOption value={groupBy} setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
 
             <FilterAccordion />
 
-            {groupBy === "Companies" && <DisplayOption value={sortParams.Companies[0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3" />}
-            {groupBy === "Job Postings" && <DisplayOption value={sortParams["Job Postings"][0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3" />}
+            {groupBy === "Companies" && <DisplayOption value={sortParams.Companies[0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
+            {groupBy === "Job Postings" && <DisplayOption value={sortParams["Job Postings"][0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
 
 
           </div>

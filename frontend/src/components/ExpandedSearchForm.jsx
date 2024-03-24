@@ -157,7 +157,7 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
       </div> */}
 
 
-      <div className="form-filters">
+      <div className="form-filters justify-content-center px-3">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <MultiSelect dropdown_items={suggestedJobs} dropdown_type={"Job Titles"} setSelectedItem={setSelectedJobs} onChange={handleJobInputChange} />

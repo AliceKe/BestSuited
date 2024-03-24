@@ -9,21 +9,17 @@ function CustomToggle({ eventKey }) {
     );
 
     return (
-        <Button variant="outline-info" onClick={decoratedOnClick}>Filter</Button>
+        <Button className='w-100' variant="outline-info" onClick={decoratedOnClick}>Filter</Button>
     );
 }
 
 const FilterAccordion = () => {
     return (
-        <Accordion defaultActiveKey="0">
-            <Card>
-                <Card.Header>
-                    <CustomToggle eventKey="0"></CustomToggle>
-                </Card.Header>
-                <Accordion.Collapse eventKey="0">
-                    <Card.Body><ExpandedSearchForm /></Card.Body>
-                </Accordion.Collapse>
-            </Card>
+        <Accordion defaultActiveKey="0" className='col-md-6 mx-auto'>
+            <CustomToggle eventKey="0"></CustomToggle>
+            <Accordion.Collapse eventKey="0">
+                <Card.Body><ExpandedSearchForm /></Card.Body>
+            </Accordion.Collapse>
         </Accordion>
     );
 }
