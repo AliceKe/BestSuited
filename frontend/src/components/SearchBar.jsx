@@ -22,7 +22,7 @@ const SearchBar = ({ setPostings }) => {
 
     const fetchData = async (query) => {
         try {
-            const response = await fetch(`http://127.0.0.1:5000/regular?q=${query}`);
+            const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${query}`);
             const data = await response.json();
             setPostings(data.postings);
         } catch (error) {
