@@ -155,35 +155,28 @@ const ExpandedSearchForm = ({ setPostings }) => {
 
 
       <div className="form-filters">
-        <button class="btn dropdown-toggle" onClick={toggleFormVisibility}>
-          {isExpanded ? "Filter By" : "Filter By"}
-        </button>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <MultiSelect dropdown_items={suggestedJobs} dropdown_type={"Job Titles"} setSelectedItem={setSelectedJobs} onChange={handleJobInputChange} />
+          </div>
+          <div className="form-group">
+            <MultiSelect dropdown_items={suggestedLocation} dropdown_type={"Locations"} setSelectedItem={setSelectedLocation} onChange={handleLocationInputChange} />
+          </div>
+          <div className="form-group">
+            <MultiSelect dropdown_items={suggestedSkills} dropdown_type={"Skills"} setSelectedItem={setSelectedSkill} onChange={handleSkillInputChange} />
+          </div>
+          <div className="form-group">
+            <p id="salaryrange-p">Select Salary Range:</p>
+            <SortSlider value={salaryRange} onChange={handleSalaryRangeChange} />
+          </div>
 
 
-        {isExpanded && (
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <MultiSelect dropdown_items={suggestedJobs} dropdown_type={"Job Titles"} setSelectedItem={setSelectedJobs} onChange={handleJobInputChange} />
-            </div>
-            <div className="form-group">
-              <MultiSelect dropdown_items={suggestedLocation} dropdown_type={"Locations"} setSelectedItem={setSelectedLocation} onChange={handleLocationInputChange} />
-            </div>
-            <div className="form-group">
-              <MultiSelect dropdown_items={suggestedSkills} dropdown_type={"Skills"} setSelectedItem={setSelectedSkill} onChange={handleSkillInputChange} />
-            </div>
-            <div className="form-group">
-              <p id="salaryrange-p">Select Salary Range:</p>
-              <SortSlider value={salaryRange} onChange={handleSalaryRangeChange} />
-            </div>
+          <button type="submit" className="btn-submit"
+            onClick={handleSubmit}
+          >Apply Filters</button>
 
 
-            <button type="submit" className="btn-submit"
-              onClick={handleSubmit}
-            >Apply Filters</button>
-
-
-          </form>
-        )}
+        </form>
       </div >
       {filteredPostings.length > 0 && (
         <div className="filtered-postings">

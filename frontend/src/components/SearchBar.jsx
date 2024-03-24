@@ -20,9 +20,9 @@ const SearchBar = ({ setPostings }) => {
     }, [query]);
 
 
-    const fetchData = async (e) => {
+    const fetchData = async (query) => {
         try {
-            const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${query}`);
+            const response = await fetch(`http://127.0.0.1:5000/regular?q=${query}`);
             const data = await response.json();
             setPostings(data.postings);
         } catch (error) {
@@ -31,8 +31,8 @@ const SearchBar = ({ setPostings }) => {
     }
 
     const handleInputChange = (e) => {
-        setQuery(e.target.value);
-        setIsLoading(true); // Show the spinner when user starts typing
+        fetchData(e.target.value);
+        setIsLoading(true);
     };
 
 

@@ -1,4 +1,4 @@
-const groupPostingsByCompany = (postings) => {
+export const groupPostingsByCompany = (postings) => {
     let groups = {};
 
     postings.forEach(p => {

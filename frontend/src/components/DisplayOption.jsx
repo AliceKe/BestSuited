@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Dropdown } from 'react-bootstrap/';
 
 const DisplayOption = ({ variant, type, options, cls, value, setHandler }) => {
@@ -11,7 +10,7 @@ const DisplayOption = ({ variant, type, options, cls, value, setHandler }) => {
                     {value}
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu onClick={(e) => { setHandler(value) }}>
+                <Dropdown.Menu onClick={(e) => { setHandler(e.target.text) }}>
                     {options.map((opt) => <Dropdown.Item>{opt}</Dropdown.Item>)}
                 </Dropdown.Menu>
             </Dropdown>
