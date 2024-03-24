@@ -5,6 +5,7 @@ import './App.css';
 import CompanyCard from './components/CompanyCard';
 import SearchBar from './components/SearchBar';
 import SortByDropDown from "./components/SortBy";
+import ExpandedSearchForm from "./components/ExpandedSearchForm";
 
 const sortParams = { "companyListing": ["Company Name"] }
 function App() {
@@ -23,7 +24,11 @@ function App() {
           <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
 
           <SearchBar setPostings={setPostings} />
-          <SortByDropDown params={sortParams[listingType]} />
+          <div className="sort-filter">
+            <SortByDropDown params={sortParams[listingType]} />
+            <ExpandedSearchForm setPostings={setPostings} />
+          </div>
+
 
 
           <div class="row w-100">

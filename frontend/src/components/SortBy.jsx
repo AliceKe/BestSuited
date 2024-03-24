@@ -3,7 +3,7 @@ const SortByDropDown = ({ params }) => {
         <div class="dropdown">
 
             <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
+                Sort By
             </button>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
