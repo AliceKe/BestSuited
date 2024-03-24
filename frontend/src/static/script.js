@@ -1,8 +1,7 @@
 const groupPostingsByCompany = (postings) => {
     let groups = {};
 
-    for (let i = 0; i < postings.length; i++) {
-        let p = postings[i];
+    postings.forEach(p => {
         let company = p["company"];
 
         if (company in groups) {
@@ -16,8 +15,7 @@ const groupPostingsByCompany = (postings) => {
                 "postings": [p]
             };
         }
-    }
+    });
 
     return groups;
-
 }
