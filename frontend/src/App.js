@@ -4,9 +4,12 @@ import { useState } from "react"
 import './App.css';
 import CompanyCard from './components/CompanyCard';
 import SearchBar from './components/SearchBar';
+import SortByDropDown from "./components/SortBy";
 
+const sortParams = { "companyListing": ["Company Name"] }
 function App() {
   const [postings, setPostings] = useState([])
+  const [listingType, setListingType] = useState("companyListing")
 
   // console.log(postings)
 
@@ -20,6 +23,7 @@ function App() {
           <h2 className="heading ">JOBS TAILORED FOR YOU</h2>
 
           <SearchBar setPostings={setPostings} />
+          <SortByDropDown params={sortParams[listingType]} />
 
 
           <div class="row w-100">
