@@ -176,7 +176,7 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
           </div>
 
 
-          <Button className='mx-auto' onClick={handleSubmit} variant='outline-info'>Apply Filters</Button>
+          {/* <Button className='mx-auto' onClick={handleSubmit} variant='outline-info'>Apply Filters</Button> */}
 
 
 
