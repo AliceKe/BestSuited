@@ -18,7 +18,31 @@ def extract_tokens_from_regular_input(query):
     return res
 
 
-def extract_tokens_from_form_input(query): ...
+#query is passed in as a file
+def extract_tokens_from_form_input(query): 
+    def parse_pdf_resume(file):
+        # Initialize a PDF reader
+        pdf_read = PyPDF2.PdfReader(file)
+        
+        # Initialize empty string to store resume text
+        resume_text = ""
+        
+        # Iterate over the resume pages
+        for page_num in range(len(pdf_reader.pages)):
+            # Extract text from the current page
+            page = pdf_read.pages[page_num]
+            page_text = page.extract_text()
+            
+            # Append the extracted text to resume_text
+            resume_text += page_text
+        
+        return resume_text
+    #Parse the resume
+    resume_text = parse_pdf_resume(query)
+    #Grab the tokens from the query
+    resume_tokens = extract_tokens_from_regular_input(resume_text)
+    return resume_tokens
+
 
 
 def extract_tokens_from_docs(doc):
