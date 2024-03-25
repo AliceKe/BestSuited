@@ -1,6 +1,6 @@
 export const backendUrl = {
     local: "http://127.0.0.1:5000",
-    remote: "http://4300showcase.infosci.cornell.edu:5184"
+    remote: "http://4300showcase.infosci.cornell.edu:5185"
 }
 
 export const groupPostingsByCompany = (postings) => {
