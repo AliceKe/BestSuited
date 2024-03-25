@@ -44,11 +44,9 @@ function App() {
             <DisplayOption value={groupBy} setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
 
             {/* <FilterAccordion /> */}
-            <ResumeUpload></ResumeUpload>
+            <ResumeUpload setPostings={setPostings}></ResumeUpload>
             {groupBy === "Companies" && <DisplayOption value={sortParams.Companies[0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
             {groupBy === "Job Postings" && <DisplayOption value={sortParams["Job Postings"][0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
-
-
           </div>
 
 

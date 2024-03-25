@@ -15,7 +15,7 @@ const ResumeUpload = ({ setPostings }) => {
     formData.append('resume', file);
     setUploadStatus('Uploading...');
     try {
-      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/upload`, {
+      const response = await fetch(`http://localhost:5000/resume`, {
         method: 'POST',
         body: formData,
       });
@@ -64,7 +64,7 @@ const ResumeUpload = ({ setPostings }) => {
           </Button>
         </InputGroup>
       </Form>
-      {/* Display upload status or error messages */}
+
       {uploadStatus && <Alert variant="info">{uploadStatus}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
     </div>
