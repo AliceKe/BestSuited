@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 
 const MultiSelect = ({ dropdown_items, dropdown_type, setSelectedItem }) => {
   const handleSelection = (e, value) => {
-    console.log(value)
+    // console.log(value)
     setSelectedItem(value);
   };
 

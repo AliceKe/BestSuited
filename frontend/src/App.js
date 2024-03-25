@@ -28,7 +28,7 @@ function App() {
   const updateFilteredPostings = (filteredPostings) => {
     setFilteredPostings(filteredPostings);
   }
-  console.log(filteredPostings);
+  // console.log(filteredPostings);
 
   return (
     <>

@@ -5,7 +5,7 @@ if (exampleModal) {
         // Button that triggered the modal
         const button = event.relatedTarget
 
-        console.log("hi ")
+        // console.log("hi ")
 
         // Extract info from data-bs-* attributes
         const data = button.getAttribute('data-bs-whatever')

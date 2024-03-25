@@ -15,7 +15,7 @@ const SortSlider = ({ value: propValue, onChange }) => {
 
 
   const handleChange = (event, newValue, activeThumb) => {
-    console.log(newValue)
+    // console.log(newValue)
     if (!Array.isArray(newValue)) {
       return;
     }

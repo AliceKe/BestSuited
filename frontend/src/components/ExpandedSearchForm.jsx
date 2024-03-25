@@ -68,14 +68,14 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
 
           if (jobTitleMatch && locationMatch && skillMatch && salaryMatch) {
             const postingDict = company;
-            console.log(company)
+            // console.log(company)
             postingDict[1].postings = [posting];
-            console.log(postingDict[1].postings)
+            // console.log(postingDict[1].postings)
             filteredPostings.push(postingDict);
           }
         });
       });
-      console.log(filteredPostings)
+      // console.log(filteredPostings)
       setFilteredPostings(filteredPostings)
       updateFilteredPostings(filteredPostings);
     } catch (error) {
@@ -116,21 +116,21 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
 
   const handleJobInputChange = (e) => {
     setSelectedJobs = e.target.value
-    console.log(selectedJobs)
+    // console.log(selectedJobs)
     // fetchData();
   };
 
 
   const handleLocationInputChange = (e) => {
     setSelectedLocation(e.target.value);
-    console.log(selectedLocation)
+    // console.log(selectedLocation)
     // fetchData();
   };
 
 
   const handleSkillInputChange = (e) => {
     setSelectedSkill(e.target.value);
-    console.log(selectedSkill)
+    // console.log(selectedSkill)
     // fetchData();
   };
 
