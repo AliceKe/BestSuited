@@ -10,7 +10,7 @@ const SearchBar = ({ setPostings }) => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://4300showcase.infosci.cornell.edu:5184/regular?q=${query}`);
+                const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${query}`);
                 const data = await response.json();
                 setPostings(data.postings);
             } catch (error) {

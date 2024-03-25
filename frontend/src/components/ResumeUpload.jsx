@@ -15,7 +15,7 @@ const ResumeUpload = ({ setPostings }) => {
     formData.append('resume', file);
     setUploadStatus('Uploading...');
     try {
-      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5184/resume`, {
+      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/resume`, {
         method: 'POST',
         body: formData,
       });
