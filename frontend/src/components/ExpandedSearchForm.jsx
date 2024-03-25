@@ -51,7 +51,7 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
         skill: selectedSkill.join(',')
       });
       // console.log(searchQuery)
-      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${queryParams}`);
+      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5184/regular?q=${queryParams}`);
       const data = await response.json();
       let filteredPostings = [];
       Object.entries(data.postings).forEach(company => {
