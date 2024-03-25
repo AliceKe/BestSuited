@@ -12,13 +12,6 @@ def home():
     return "Hi"
 
 
-# @app.post("/resume")
-# def resume_search():
-#     uploaded_file = request.files["resume"]
-#     res = get_postings_file_input(uploaded_file)
-#     return jsonify({"postings": res})
-
-
 @app.get("/regular")
 def regular_text_search():
     text = request.args.get("q")
@@ -26,15 +19,11 @@ def regular_text_search():
     return jsonify({"postings": res})
 
 
-# @app.get("/regular")
-# def regular_text_search():
-#     text = request.args.get("q")
-#     res = get_postings_regular_input(text)
-
-#     filter_by = request.args.get("filter")
-#     sort_by = request.args.get("sort")
-
-#     return {"postings": res if input else ["Hello"]}
+@app.post("/resume")
+def resume_search():
+    uploaded_file = request.files["resume"]
+    res = get_postings_file_input(uploaded_file)
+    return jsonify({"postings": res})
 
 
 if "DB_NAME" not in os.environ:
