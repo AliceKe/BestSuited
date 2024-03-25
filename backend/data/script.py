@@ -57,7 +57,7 @@ needed_fields = [
 
 
 merge_csv_files(
-    "company_reviews_old.csv",
+    "reviews_old.csv",
     "job_descriptions.csv",
     "Company",
     needed_fields,

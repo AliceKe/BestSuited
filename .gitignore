@@ -19,10 +19,11 @@ build/
 helpers/*
 json_template/
 
+backend/data/data.json
 backend/data/job_descriptions.csv
 backend/data/data_old.csv
-backend/data/company_reviews_old.csv
-backend/data/data,json
+backend/data/reviews_old.csv
+
 
 jobscraper/
 
