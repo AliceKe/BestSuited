@@ -28,11 +28,11 @@ const SearchBar = ({ setPostings }) => {
     const handleInputChange = (e) => {
         const inputValue = e.target.value;
         setQuery(inputValue);
-        setShowCards(false); 
+        setShowCards(false);
         if (inputValue.trim() !== "") {
-            setIsLoading(true); 
+            setIsLoading(true);
         } else {
-            setIsLoading(false); 
+            setIsLoading(false);
         }
     };
 
