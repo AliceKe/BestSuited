@@ -21,6 +21,9 @@ json_template/
 
 backend/data/job_descriptions.csv
 backend/data/data_old.csv
+backend/data/company_reviews_old.csv
+backend/data/data,json
+
 jobscraper/
 
 node_modules
