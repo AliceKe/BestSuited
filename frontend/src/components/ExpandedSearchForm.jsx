@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Dropdown, Button } from 'react-bootstrap/';
 
+
 import MultiSelect from './MultiSelect';
 import SortSlider from './FilterSlider';
+
+
 
 
 const ExpandedSearchForm = ({ updateFilteredPostings }) => {
@@ -10,20 +13,32 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
   const [selectedSkill, setSelectedSkill] = useState([]);
 
 
+
+
   const [selectedJobs, setSelectedJobs] = useState([]);
+
+
 
 
   const [selectedLocation, setSelectedLocation] = useState([]);
 
 
+
+
   const [filteredPostings, setFilteredPostings] = useState([]);
+
+
 
 
   const [isExpanded, setIsExpanded] = useState(false);
 
 
+
+
   const defaultSalaryRange = localStorage.getItem('salaryRange') || [0, 300000];
   const [salaryRange, setSalaryRange] = useState(defaultSalaryRange);
+
+
 
 
   const toggleFormVisibility = () => {
@@ -31,11 +46,17 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
   };
 
 
+
+
   // useEffect(() => {
   //   console.log(salaryRange)
   //   fetchData();
   //   //
   // }, [searchQuery, selectedJobs, selectedLocation, selectedSkill, salaryRange]);
+
+
+
+
 
 
 
@@ -53,27 +74,36 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
       // console.log(searchQuery)
       const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${queryParams}`);
       const data = await response.json();
-      let filteredPostings = [];
+      console.log(data)
+      let formattedPostings = {};
       Object.entries(data.postings).forEach(company => {
-        company[1].postings.forEach(posting => {
-          const jobTitleMatch = selectedJobs.length === 0 || posting.role.toLowerCase().includes(selectedJobs);
-          const locationMatch = selectedLocation.length === 0 || `${posting.city}, ${posting.country}`.includes(selectedLocation);
-          const skillMatch = selectedSkill.length === 0 || selectedSkill.some(skill => posting.skills.includes(skill));
+        // company[1].postings.forEach(posting => {
+        const jobTitleMatch = selectedJobs.length === 0 || company[1].role.toLowerCase().includes(selectedJobs);
+        const locationMatch = selectedLocation.length === 0 || `${company[1].city}, ${company[1].country}`.includes(selectedLocation);
+        const skillMatch = selectedSkill.length === 0 || selectedSkill.some(skill => company[1].skills.includes(skill));
 
-          const salaryRangeString = posting['salary range'];
-          const salaryRangeArray = salaryRangeString.split('-');
-          const minPostingSalary = parseFloat(salaryRangeArray[0].replace('$', '').replace('K', '000'));
-          const maxPostingSalary = parseFloat(salaryRangeArray[1].replace('$', '').replace('K', '000'));
-          const salaryMatch = salaryRange.length === 0 || (minSalary <= minPostingSalary && maxSalary >= maxPostingSalary);
 
-          if (jobTitleMatch && locationMatch && skillMatch && salaryMatch) {
-            const postingDict = company;
-            console.log(company)
-            postingDict[1].postings = [posting];
-            console.log(postingDict[1].postings)
-            filteredPostings.push(postingDict);
+        const salaryRangeString = company[1]['salary range'];
+        const salaryRangeArray = salaryRangeString.split('-');
+        const minPostingSalary = parseFloat(salaryRangeArray[0].replace('$', '').replace('K', '000'));
+        const maxPostingSalary = parseFloat(salaryRangeArray[1].replace('$', '').replace('K', '000'));
+        const salaryMatch = salaryRange.length === 0 || (minSalary <= minPostingSalary && maxSalary >= maxPostingSalary);
+
+
+        if (jobTitleMatch && locationMatch && skillMatch && salaryMatch) {
+          if (!(company[1].company in formattedPostings)) {
+            formattedPostings[company[1].company] = {
+              "description": company[1].description,
+              "happiness": company[1].happiness,
+              "rating": company[1].rating,
+              "postings": [company[1]]
+            }
+          } else {
+            formattedPostings[company[1].company].postings.append(company[1])
           }
-        });
+          filteredPostings.push(formattedPostings);
+        }
+        // });
       });
       console.log(filteredPostings)
       setFilteredPostings(filteredPostings)
@@ -84,6 +114,8 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
   };
 
 
+
+
   const suggestedJobs = [
     { title: "software engineer" },
     { title: "data scientist" },
@@ -92,11 +124,15 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
   ];
 
 
+
+
   const suggestedLocation = [
     { title: "Nicosia, Cyprus" },
     { title: "Mexico City, Mexico" },
     { title: "Nuuk, Greenland" }
   ];
+
+
 
 
   const suggestedSkills = [
@@ -107,11 +143,15 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
   ];
 
 
-  const handleInputChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    fetchData(query);
-  };
+
+
+  // const handleInputChange = (e) => {
+  //   const query = e.target.value;
+  //   setSearchQuery(query);
+  //   fetchData(query);
+  // };
+
+
 
 
   const handleJobInputChange = (e) => {
@@ -121,11 +161,15 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
   };
 
 
+
+
   const handleLocationInputChange = (e) => {
     setSelectedLocation(e.target.value);
     console.log(selectedLocation)
     // fetchData();
   };
+
+
 
 
   const handleSkillInputChange = (e) => {
@@ -135,31 +179,45 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
   };
 
 
+
+
   const handleSalaryRangeChange = (newValue) => {
     setSalaryRange(newValue);
   };
 
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     fetchData();
+    toggleFormVisibility();
+    // setIsExpanded(false);
   };
+
+
 
 
   return (
     <>
       {/* <div className="form-group">
-        <input
-          type="text"
-          placeholder="Search for a job title, company or skills"
-          id="filter-text-val"
-          value={searchQuery}
-          onChange={handleInputChange}
-        />
-      </div> */}
+       <input
+         type="text"
+         placeholder="Search for a job title, company or skills"
+         id="filter-text-val"
+         value={searchQuery}
+         onChange={handleInputChange}
+       />
+     </div> */}
+
+
 
 
       <div className="form-filters justify-content-center px-3">
+        {/* <button class="btn dropdown-toggle" onClick={toggleFormVisibility}>
+         {isExpanded ? "Filter By" : "Filter By"}
+       </button> */}
+        {/* {isExpanded && */}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <MultiSelect dropdown_items={suggestedJobs} dropdown_type={"Job Titles"} setSelectedItem={setSelectedJobs} onChange={handleJobInputChange} />
@@ -176,15 +234,25 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
           </div>
 
 
-          {/* <Button className='mx-auto' onClick={handleSubmit} variant='outline-info'>Apply Filters</Button> */}
+
+
+          <Button className='mx-auto' onClick={handleSubmit} variant='outline-info'>Apply Filters</Button>
+
+
+
 
 
 
         </form>
+        {/* } */}
       </div >
     </>
   )
 };
 
 
+
+
 export default ExpandedSearchForm;
+
+
