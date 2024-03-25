@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Spinner from 'react-bootstrap/Spinner';
+import { backendUrl } from "../static/script";
+
 
 const SearchBar = ({ setPostings }) => {
     const [query, setQuery] = useState("");
@@ -10,7 +12,7 @@ const SearchBar = ({ setPostings }) => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://4300showcase.infosci.cornell.edu:5184/regular?q=${query}`);
+                const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
                 const data = await response.json();
                 setPostings(data.postings);
             } catch (error) {

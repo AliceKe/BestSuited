@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import { backendUrl } from '../static/script';
 
 const ResumeUpload = ({ setPostings }) => {
   const [uploadStatus, setUploadStatus] = useState('');
@@ -15,7 +16,7 @@ const ResumeUpload = ({ setPostings }) => {
     formData.append('resume', file);
     setUploadStatus('Uploading...');
     try {
-      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5184/resume`, {
+      const response = await fetch(`${backendUrl.remote}/resume`, {
         method: 'POST',
         body: formData,
       });
