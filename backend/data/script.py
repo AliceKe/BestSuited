@@ -37,7 +37,7 @@ def convert_to_json(input_csv, key, check_fields, check_values, output_json):
                 _id += 1
             i += 1
 
-    data[key] = random.sample(data[key], 3000)
+    data[key] = random.sample(data[key], 2000)
 
     with open(output_json, "w", encoding="utf-8") as jsonf:
         jsonf.write(json.dumps(data, indent=4))
