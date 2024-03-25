@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 
 const ResumeUpload = ({ setPostings }) => {
+  const [uploadStatus, setUploadStatus] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const fetchData = async (file) => {
     const formData = new FormData();
     formData.append('resume', file);
-
+    setUploadStatus('Uploading...');
     try {
       const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/upload`, {
         method: 'POST',
         body: formData,
       });
-      const data = await response.json();
-      setPostings(data.postings);
+      if (response.ok) {
+        const data = await response.json();
+        setPostings(data.postings);
+        setUploadStatus('Upload successful!');
+        setErrorMessage('');
+      } else {
+        throw new Error('Failed to upload file');
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
+      setErrorMessage('Error uploading file. Please try again.');
+      setUploadStatus('');
     }
   };
 
@@ -28,23 +39,29 @@ const ResumeUpload = ({ setPostings }) => {
       fetchData(file);
     } else {
       console.error('No file selected');
+      setErrorMessage('No file selected. Please choose a file to upload.');
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <InputGroup className="mb-3">
-        <Form.Control
-          id="formFile"
-          type="file"
-          aria-describedby="inputGroupFileAddon"
-        />
-        <Button variant="primary" type="submit" id="inputGroupFileAddon">
-          Upload
-        </Button>
-      </InputGroup>
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <InputGroup className="mb-3">
+          <Form.Control
+            id="formFile"
+            type="file"
+            aria-describedby="inputGroupFileAddon"
+          />
+          <Button variant="primary" type="submit" id="inputGroupFileAddon">
+            Upload
+          </Button>
+        </InputGroup>
+      </Form>
+      {/* Display upload status or error messages */}
+      {uploadStatus && <Alert variant="info">{uploadStatus}</Alert>}
+      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+    </>
   );
-}
+};
 
 export default ResumeUpload;
