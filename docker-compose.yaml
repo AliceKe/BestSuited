@@ -1,20 +1,20 @@
 version: '3.10'
 services:
-    frontend_app:
-        container_name: ${TEAM_NAME}_frontend_app
-        ports:
-                - 0.0.0.0:${FRONTEND_EXTERNAL_PORT}:${FRONTEND_INTERNAL_PORT}
-        expose:
-                - ${FRONTEND_INTERNAL_PORT} 
-        restart: always
-        build:
-                context: ./frontend/
-                dockerfile: Dockerfile
-        networks:
-                flask_network:
-                        aliases:
-                                - flask-network
-        command: npm start
+#     frontend_app:
+#         container_name: ${TEAM_NAME}_frontend_app
+#         ports:
+#                 - 0.0.0.0:${FRONTEND_EXTERNAL_PORT}:${FRONTEND_INTERNAL_PORT}
+#         expose:
+#                 - ${FRONTEND_INTERNAL_PORT} 
+#         restart: always
+#         build:
+#                 context: ./frontend/
+#                 dockerfile: Dockerfile
+#         networks:
+#                 flask_network:
+#                         aliases:
+#                                 - flask-network
+#         command: npm start
     backend_app:
         container_name: ${TEAM_NAME}_backend_app
         ports:
