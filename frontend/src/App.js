@@ -28,12 +28,10 @@ function App() {
   const updateFilteredPostings = (filteredPostings) => {
     setFilteredPostings(filteredPostings);
   }
-  console.log(filteredPostings);
 
   return (
     <>
-
-      <div className="container-fluid ">
+      <div className="container-fluid">
         <div className="top-text">
           <h1 className="heading">BESTSUITED</h1>
           {/* <h2 className="heading ">JOBS TAILORED FOR YOU</h2> */}
@@ -45,24 +43,22 @@ function App() {
             <DisplayOption value={groupBy} setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
 
             {/* <FilterAccordion /> */}
-            <ResumeUpload></ResumeUpload>
+            <ResumeUpload setPostings={setPostings}></ResumeUpload>
             {groupBy === "Companies" && <DisplayOption value={sortParams.Companies[0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
             {groupBy === "Job Postings" && <DisplayOption value={sortParams["Job Postings"][0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
-
-
           </div>
 
 
           {
             groupBy === "Job Postings" &&
-            <div class="row w-100">
+            <div className="row mt-1 w-100">
               {postings.map((posting) => (<PostingCard posting={posting} />))}
             </div>
           }
 
           {
             groupBy === "Companies" &&
-            <div class="row w-100">
+            <div className="row mt-1 w-100">
               {Object.entries(companyPostings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
             </div>
           }

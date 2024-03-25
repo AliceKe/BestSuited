@@ -13,8 +13,7 @@ function CustomToggle({ eventKey }) {
 }
 
 function CollapseContent({ eventKey }) {
-    const decoratedOnClick = useAccordionButton(eventKey, () =>
-        console.log('Closing Accordion!'),
+    const decoratedOnClick = useAccordionButton(eventKey, () => { },
     );
 
     return (

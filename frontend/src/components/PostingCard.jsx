@@ -17,11 +17,6 @@ const PostingCard = ({ posting }) => {
     }
 
 
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
 
     return (
 
@@ -39,8 +34,14 @@ const PostingCard = ({ posting }) => {
                     </Card.Text>
 
                     <div className="d-flex align-items-center justify-content-between">
+                        <p>
+                            {posting["salary range"]}
+                        </p>
+                        <p>
+                            {posting.city}, {posting.country}
+                        </p>
 
-                        <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>Apply here!</Button>
+                        {/* <Button className="btn-light btn-outline-primary" onClick={() => setShow(true)}>Apply here!</Button> */}
                     </div>
 
                 </Card.Body>

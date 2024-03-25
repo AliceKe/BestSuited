@@ -51,7 +51,7 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
         skill: selectedSkill.join(',')
       });
       // console.log(searchQuery)
-      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${queryParams}`);
+      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5184/regular?q=${queryParams}`);
       const data = await response.json();
       let filteredPostings = [];
       Object.entries(data.postings).forEach(company => {
@@ -68,14 +68,11 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
 
           if (jobTitleMatch && locationMatch && skillMatch && salaryMatch) {
             const postingDict = company;
-            console.log(company)
             postingDict[1].postings = [posting];
-            console.log(postingDict[1].postings)
             filteredPostings.push(postingDict);
           }
         });
       });
-      console.log(filteredPostings)
       setFilteredPostings(filteredPostings)
       updateFilteredPostings(filteredPostings);
     } catch (error) {
@@ -116,21 +113,18 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
 
   const handleJobInputChange = (e) => {
     setSelectedJobs = e.target.value
-    console.log(selectedJobs)
     // fetchData();
   };
 
 
   const handleLocationInputChange = (e) => {
     setSelectedLocation(e.target.value);
-    console.log(selectedLocation)
     // fetchData();
   };
 
 
   const handleSkillInputChange = (e) => {
     setSelectedSkill(e.target.value);
-    console.log(selectedSkill)
     // fetchData();
   };
 
