@@ -11,7 +11,7 @@ const DisplayOption = ({ variant, type, options, cls, value, setHandler }) => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu onClick={(e) => { setHandler(e.target.text) }}>
-                    {options.map((opt) => <Dropdown.Item>{opt}</Dropdown.Item>)}
+                    {options.map((opt, key) => <Dropdown.Item key={key}>{opt}</Dropdown.Item>)}
                 </Dropdown.Menu>
             </Dropdown>
 

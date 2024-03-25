@@ -8,7 +8,7 @@ const PostingsModal = ({ show, handleClose, company, postings }) => {
                 <Modal.Title>Job Postings by {company}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <table class="table">
+                <table className="table">
                     <thead>
                         <tr>
                             <th className='text-primary bold' scope="col">Rank</th>

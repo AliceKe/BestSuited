@@ -51,14 +51,14 @@ function App() {
 
           {
             groupBy === "Job Postings" &&
-            <div class="row mt-1 w-100">
+            <div className="row mt-1 w-100">
               {postings.map((posting) => (<PostingCard posting={posting} />))}
             </div>
           }
 
           {
             groupBy === "Companies" &&
-            <div class="row mt-1 w-100">
+            <div className="row mt-1 w-100">
               {Object.entries(companyPostings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
             </div>
           }
