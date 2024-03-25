@@ -38,14 +38,14 @@ function App() {
           <h1 className="heading">BESTSUITED</h1>
           {/* <h2 className="heading ">JOBS TAILORED FOR YOU</h2> */}
 
-          <ResumeUpload></ResumeUpload>
+
           <SearchBar setPostings={setPostings} />
 
           <div className="row mt-3 justify-content-around">
             <DisplayOption value={groupBy} setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
 
-            <FilterAccordion />
-
+            {/* <FilterAccordion /> */}
+            <ResumeUpload></ResumeUpload>
             {groupBy === "Companies" && <DisplayOption value={sortParams.Companies[0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
             {groupBy === "Job Postings" && <DisplayOption value={sortParams["Job Postings"][0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
 

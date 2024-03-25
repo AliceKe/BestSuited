@@ -7,6 +7,8 @@ import Alert from 'react-bootstrap/Alert';
 const ResumeUpload = ({ setPostings }) => {
   const [uploadStatus, setUploadStatus] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+
 
   const fetchData = async (file) => {
     const formData = new FormData();
@@ -43,16 +45,21 @@ const ResumeUpload = ({ setPostings }) => {
     }
   };
 
+  const handleChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
   return (
-    <>
+    <div className='col-md-6'>
       <Form onSubmit={handleSubmit}>
         <InputGroup className="mb-3">
           <Form.Control
             id="formFile"
             type="file"
             aria-describedby="inputGroupFileAddon"
+            onChange={handleChange}
           />
-          <Button variant="primary" type="submit" id="inputGroupFileAddon">
+          <Button variant="outline-warning" type="submit" id="inputGroupFileAddon" className='text-black'>
             Upload
           </Button>
         </InputGroup>
@@ -60,7 +67,7 @@ const ResumeUpload = ({ setPostings }) => {
       {/* Display upload status or error messages */}
       {uploadStatus && <Alert variant="info">{uploadStatus}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-    </>
+    </div>
   );
 };
 

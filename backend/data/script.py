@@ -52,7 +52,7 @@ needed_fields = [
     "Salary Range",
     "skills",
     "Country",
-    "location"
+    "location",
 ]
 
 

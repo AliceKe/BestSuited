@@ -4,8 +4,7 @@ import Card from 'react-bootstrap/Card';
 import ExpandedSearchForm from './ExpandedSearchForm';
 
 function CustomToggle({ eventKey }) {
-    const decoratedOnClick = useAccordionButton(eventKey, () =>
-        console.log('totally custom!'),
+    const decoratedOnClick = useAccordionButton(eventKey, () => { }
     );
 
     return (
