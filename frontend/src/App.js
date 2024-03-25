@@ -32,8 +32,7 @@ function App() {
 
   return (
     <>
-
-      <div className="container-fluid ">
+      <div className="container-fluid">
         <div className="top-text">
           <h1 className="heading">BESTSUITED</h1>
           {/* <h2 className="heading ">JOBS TAILORED FOR YOU</h2> */}
@@ -55,14 +54,14 @@ function App() {
 
           {
             groupBy === "Job Postings" &&
-            <div class="row w-100">
+            <div class="row mt-1 w-100">
               {postings.map((posting) => (<PostingCard posting={posting} />))}
             </div>
           }
 
           {
             groupBy === "Companies" &&
-            <div class="row w-100">
+            <div class="row mt-1 w-100">
               {Object.entries(companyPostings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
             </div>
           }

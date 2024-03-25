@@ -8,10 +8,10 @@ const SearchBar = ({ setPostings }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const delay = 500; // Set the delay (in milliseconds) to detect typing stop
+        const delay = 200;
 
         const timeoutId = setTimeout(() => {
-            setIsLoading(false); // Hide the spinner when typing stops
+            setIsLoading(false);
         }, delay);
 
         return () => {
@@ -31,7 +31,8 @@ const SearchBar = ({ setPostings }) => {
     }
 
     const handleInputChange = (e) => {
-        fetchData(e.target.value);
+        setQuery(e.target.value)
+        fetchData(query);
         setIsLoading(true);
     };
 
