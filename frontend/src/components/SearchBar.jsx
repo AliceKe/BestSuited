@@ -29,8 +29,8 @@ const SearchBar = ({ setPostings }) => {
 
     const handleInputChange = (e) => {
         setQuery(e.target.value);
-        setShowCards(false); // Hide cards when user is typing
-        setIsLoading(true); // Show loading spinner when user is typing
+        setShowCards(false); 
+        setIsLoading(true); 
     };
 
     const handleKeyPress = (e) => {
