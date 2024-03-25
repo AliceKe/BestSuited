@@ -26,18 +26,9 @@ const SearchBar = ({ setPostings }) => {
     }, [query, setPostings, showCards]);
 
     const handleInputChange = (e) => {
-        const inputValue = e.target.value;
-        setQuery(inputValue);
-        setShowCards(false);
-        if (inputValue.trim() !== "") {
-            setIsLoading(true);
-        } else {
-            setIsLoading(false);
-        }
-    };
-
-    const handleSearch = () => {
-        setShowCards(true);
+        setQuery(e.target.value);
+        setShowCards(false); // Hide cards when user is typing
+        setIsLoading(true); // Show loading spinner when user is typing
     };
 
     const handleKeyPress = (e) => {
@@ -49,7 +40,7 @@ const SearchBar = ({ setPostings }) => {
     return (
         <div className="w-75 flex">
             <div className="flex w-100 flex-row input-box center-content position-relative">
-                <img src="/mag.png" alt="Search Icon" className='col-2 start-0' onClick={handleSearch} style={{ cursor: 'pointer' }} />
+                <img src="/mag.png" alt="Search Icon" className='col-2' />
                 <input
                     type="text"
                     placeholder="Search for a job title, company or skills"
