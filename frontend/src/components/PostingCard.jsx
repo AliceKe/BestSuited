@@ -41,7 +41,7 @@ const PostingCard = ({ posting }) => {
               }
               onError={handleImageNotFound}
               alt=""
-            />{" "}
+            />
             {posting.role}
           </Card.Title>
           <Card.Text>{/* {data.description} */}</Card.Text>
