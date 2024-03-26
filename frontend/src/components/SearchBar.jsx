@@ -26,7 +26,6 @@ const SearchBar = ({ setPostings }) => {
             const response = await fetch(`${backendUrl.local}/regular?q=${e.target.value}`);
             const data = await response.json();
             setPostings(data.postings);
-            console.log(data)
         } catch (error) {
             console.error('Error fetching data:', error);
         }
