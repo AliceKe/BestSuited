@@ -26,7 +26,7 @@ const SearchBar = ({ setPostings }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${backendUrl.local}/regular?q=${query}`);
+      const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
       const data = await response.json();
       setPostings(data.postings);
       console.log(data);
