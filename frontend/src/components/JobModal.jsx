@@ -1,20 +1,21 @@
 import { Modal } from "react-bootstrap";
 
-const PostingsModal = ({ show, handleClose, role, data }) => {
+const JobModal = ({ show, handleClose, posting }) => {
+  if (!posting) {
+    return null; // or any other fallback UI
+  }
+
   return (
     <Modal show={show} onHide={handleClose} size="xl">
       <Modal.Header closeButton>
-        <Modal.Title>{role}</Modal.Title>
+        <Modal.Title>{posting.role}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <table className="table">
           <thead>
             <tr>
               <th className="text-primary bold" scope="col">
-                Rank
-              </th>
-              <th className="text-black bold" scope="col">
-                Role
+                Company
               </th>
               <th className="text-dark bold" scope="col">
                 Location
@@ -28,11 +29,14 @@ const PostingsModal = ({ show, handleClose, role, data }) => {
             </tr>
           </thead>
           <tbody>
-            <th className="text-primary" scope="row"></th>
-            <td className="text-dark"></td>
-            <td></td>
-            <td className="text-primary"></td>
-            <td></td>
+            <tr>
+              <td className="text-dark">{posting.company}</td>
+              <td>
+                {posting.city}, {posting.country}
+              </td>
+              <td className="text-primary">{posting["salary range"]}</td>
+              <td>{posting.skills}</td>
+            </tr>
           </tbody>
         </table>
       </Modal.Body>
@@ -40,4 +44,4 @@ const PostingsModal = ({ show, handleClose, role, data }) => {
   );
 };
 
-export default PostingsModal;
+export default JobModal;
