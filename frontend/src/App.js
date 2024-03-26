@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 
 import './App.css';
 import CompanyCard from './components/CompanyCard';
 import SearchBar from './components/SearchBar';
-import SortByDropDown from "./components/SortBy";
 import DisplayOption from "./components/DisplayOption";
-import { companiesSortBy, groupPostingsByCompany, setNestedPropertyValue } from "./static/script";
-import { Button } from "react-bootstrap";
-import ExpandedSearchForm from "./components/ExpandedSearchForm";
+import { groupPostingsByCompany } from "./static/script";
 import PostingCard from "./components/PostingCard";
-import FilterAccordion from "./components/FilterAccordion";
 import ResumeUpload from "./components/ResumeUpload";
 
 const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }
@@ -19,32 +15,18 @@ const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "
 
 function App() {
   const [postings, setPostings] = useState([])
-  const [companyPostings, setCompanyPostings] = useState([])
 
   const [groupBy, setGroupBy] = useState("Companies")
   const [sortBy, setSortBy] = useState(sortParams.Companies[0])
 
-  const [filteredPostings, setFilteredPostings] = useState([]);
-  const updateFilteredPostings = (filteredPostings) => {
-    setFilteredPostings(filteredPostings);
-  }
-
-
-  useEffect(() => {
-    setCompanyPostings(companiesSortBy(companyPostings, sortBy));
-  }, [companyPostings, sortBy]);
-  
-  useEffect(()=>{
-    setCompanyPostings(groupPostingsByCompany(postings))
-  }, [postings])
-
+  const companyPostings = groupPostingsByCompany(postings)
 
   return (
     <>
       <div className="container-fluid">
         <div className="top-text">
           <h1 className="heading">BESTSUITED</h1>
-          {/* <h2 className="heading ">JOBS TAILORED FOR YOU</h2> */}
+          <h2 className="heading ">Jobs Tailored Just For You!</h2>
 
 
           <SearchBar setPostings={setPostings} />
@@ -61,26 +43,18 @@ function App() {
 
           {
             groupBy === "Job Postings" &&
-            <div className="row mt-1 w-100">
+            <div class="row mt-1 w-100">
               {postings.map((posting) => (<PostingCard posting={posting} />))}
             </div>
           }
 
           {
             groupBy === "Companies" &&
-            <div className="row mt-1 w-100">
-              {companyPostings.map((companyData, index) => (<CompanyCard key={index} companyName={companyData.name} data={companyData} />))}
+            <div class="row mt-1 w-100">
+              {companyPostings.map((companyData, key) => (<CompanyCard key={key} companyName={companyData.name} data={companyData} />))}
             </div>
           }
-          {
-            groupBy === "Companies" && (
-              <div className="row w-100">
-                {filteredPostings.map(([company, data]) => (
-                  <CompanyCard key={company} companyName={company} data={data} />
-                ))}
-              </div>
-            )
-          }
+
 
         </div >
 
