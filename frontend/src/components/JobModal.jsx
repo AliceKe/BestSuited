@@ -2,10 +2,6 @@ import { Modal } from "react-bootstrap";
 import ExpandedJobCard from "./ExpandedJobCard";
 
 const JobModal = ({ show, handleClose, posting }) => {
-  if (!posting) {
-    return null; // or any other fallback UI
-  }
-
   //   return (
   //     <Modal show={show} onHide={handleClose} size="xl">
   //       <Modal.Header closeButton>
