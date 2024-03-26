@@ -16,7 +16,7 @@ const ResumeUpload = ({ setPostings }) => {
     formData.append('resume', file);
     setUploadStatus('Uploading...');
     try {
-      const response = await fetch(`${backendUrl.remote}/resume`, {
+      const response = await fetch(`${backendUrl.local}/resume`, {
         method: 'POST',
         body: formData,
       });
