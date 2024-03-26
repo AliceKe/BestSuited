@@ -1,18 +1,18 @@
 export const backendUrl = {
     local: "http://127.0.0.1:5000",
-    remote: "http://4300showcase.infosci.cornell.edu:5184"
+    remote: "http://4300showcase.infosci.cornell.edu:5185"
 }
 
 export const groupPostingsByCompany = (postings) => {
-    let groups = {};
+    let groupsMap = {};
 
     postings.forEach(p => {
         let company = p["company"];
 
-        if (company in groups) {
-            groups[company]["postings"].push(p);
+        if (company in groupsMap) {
+            groupsMap[company]["postings"].push(p);
         } else {
-            groups[company] = {
+            groupsMap[company] = {
                 "name": company,
                 "description": p["description"],
                 "rating": p["rating"],
@@ -22,5 +22,27 @@ export const groupPostingsByCompany = (postings) => {
         }
     });
 
+    let groups = Object.values(groupsMap);
+
     return groups;
+}
+
+export const companiesSortBy = (companies, sortParam) => {
+    let sortedCompanies = [...companies]; 
+
+    if (sortParam === "Rating") {
+        sortedCompanies.sort((a, b) => {
+            const ratingA = parseFloat(a.postings[0].rating);
+            const ratingB = parseFloat(b.postings[0].rating);
+            return ratingB - ratingA; 
+        });
+    } else if (sortParam === "Name") {
+        sortedCompanies.sort((a, b) => {
+            const nameA = a.name.toLowerCase();
+            const nameB = b.name.toLowerCase();
+            return nameA.localeCompare(nameB); 
+        });
+    }
+
+    return sortedCompanies;
 }

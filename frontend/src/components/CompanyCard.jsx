@@ -17,10 +17,7 @@ const CompanyCard = ({ companyName, data }) => {
 
 
     const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
+     const handleClose = () => setShow(false);
 
     return (
 

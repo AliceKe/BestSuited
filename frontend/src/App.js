@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 import './App.css';
@@ -6,7 +6,7 @@ import CompanyCard from './components/CompanyCard';
 import SearchBar from './components/SearchBar';
 import SortByDropDown from "./components/SortBy";
 import DisplayOption from "./components/DisplayOption";
-import { groupPostingsByCompany, setNestedPropertyValue } from "./static/script";
+import { companiesSortBy, groupPostingsByCompany, setNestedPropertyValue } from "./static/script";
 import { Button } from "react-bootstrap";
 import ExpandedSearchForm from "./components/ExpandedSearchForm";
 import PostingCard from "./components/PostingCard";
@@ -19,15 +19,25 @@ const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "
 
 function App() {
   const [postings, setPostings] = useState([])
+  const [companyPostings, setCompanyPostings] = useState([])
 
   const [groupBy, setGroupBy] = useState("Companies")
   const [sortBy, setSortBy] = useState(sortParams.Companies[0])
 
-  const companyPostings = groupPostingsByCompany(postings)
   const [filteredPostings, setFilteredPostings] = useState([]);
   const updateFilteredPostings = (filteredPostings) => {
     setFilteredPostings(filteredPostings);
   }
+
+
+  useEffect(() => {
+    setCompanyPostings(companiesSortBy(companyPostings, sortBy));
+  }, [companyPostings, sortBy]);
+  
+  useEffect(()=>{
+    setCompanyPostings(groupPostingsByCompany(postings))
+  }, [postings])
+
 
   return (
     <>
@@ -59,7 +69,7 @@ function App() {
           {
             groupBy === "Companies" &&
             <div className="row mt-1 w-100">
-              {Object.entries(companyPostings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
+              {companyPostings.map((companyData, index) => (<CompanyCard key={index} companyName={companyData.name} data={companyData} />))}
             </div>
           }
           {
