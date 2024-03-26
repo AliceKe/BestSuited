@@ -28,7 +28,7 @@ const PostingCard = ({ posting }) => {
     <div className="col-md-3 col-sm-6 px-3 my-3 zoom">
       <Card
         className="bg-light w-90 px-0 py-0 hover-shadow shadow-sm"
-        onClick={handleShowModal} // Handle click event to open modal
+        onClick={handleShowModal}
       >
         <Card.Body>
           <Card.Title className="flex">
@@ -46,11 +46,15 @@ const PostingCard = ({ posting }) => {
           </Card.Title>
           <Card.Text>{/* {data.description} */}</Card.Text>
 
-          <div className="d-flex align-items-center justify-content-between">
-            <p>{posting["salary range"]}</p>
-            <p>
-              {posting.city}, {posting.country}
-            </p>
+          <div className="d-flex flex-column">
+            <div>
+              <p>{posting["salary range"]}</p>
+            </div>
+            <div>
+              <p>
+                {posting.city}, {posting.country}
+              </p>
+            </div>
           </div>
         </Card.Body>
       </Card>
