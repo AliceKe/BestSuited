@@ -39,8 +39,14 @@ function App() {
     <>
       <div className="container-fluid">
         <div className="top-text">
-          <h1 className="heading">BESTSUITED</h1>
-          <h2 className="heading ">Jobs Tailored Just For You!</h2>
+          <div className="jumbotron bg-light w-100 mb-3 pt-3 rounded-3">
+            <h1 className="display-2 text-dark text-center py-auto pt-3 poppins-font">
+              BestSuited
+            </h1>
+            <h3 className="display-8 text-center poppins-font">
+              Jobs Tailored for You
+            </h3>
+          </div>
 
 
           <SearchBar setPostings={handlePostingsUpdate} />
