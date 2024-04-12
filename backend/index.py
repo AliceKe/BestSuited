@@ -3,12 +3,15 @@ from collections import defaultdict, Counter
 from settings import settings
 import json
 from sklearn.feature_extraction.text import TfidfVectorizer
-import re 
+import re
+import PyPDF2
+
 
 def remove_punctuation(text):
-    punctuation_pattern = r'[^\w\s]'
-    cleaned_text = re.sub(punctuation_pattern, '', text)    
+    punctuation_pattern = r"[^\w\s]"
+    cleaned_text = re.sub(punctuation_pattern, "", text)
     return cleaned_text
+
 
 def extract_tokens_from_regular_input(query):
     def decode(query) -> str:
@@ -18,7 +21,21 @@ def extract_tokens_from_regular_input(query):
     return res
 
 
-def extract_tokens_from_form_input(query): ...
+def extract_tokens_from_file_input(file):
+    def parse_pdf_resume(file):
+        pdf_read = PyPDF2.PdfReader(file)
+        resume_text = ""
+
+        for page_num in range(len(pdf_read.pages)):
+            page = pdf_read.pages[page_num]
+            page_text = page.extract_text()
+
+            resume_text += page_text
+
+        return resume_text
+
+    resume_text = parse_pdf_resume(file)
+    return extract_tokens_from_regular_input(resume_text)
 
 
 def extract_tokens_from_docs(doc):

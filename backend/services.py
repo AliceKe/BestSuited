@@ -1,4 +1,4 @@
-from index import documents, compute_cosine_scores
+from index import documents, compute_cosine_scores, extract_tokens_from_file_input
 
 
 # def sort_by(data: dict, param: SortParam = "alphabetical", isDecreasingOrder=True):
@@ -193,4 +193,10 @@ def select_similar_k_docs(doc_scores_map, k):
 
 def get_postings_regular_input(text, k=50):
     cosine_scores = compute_cosine_scores(text)
+    return select_similar_k_docs(cosine_scores, k)
+
+
+def get_postings_file_input(file, k=50):
+    file_tokens = extract_tokens_from_file_input(file)
+    cosine_scores = compute_cosine_scores(" ".join(file_tokens))
     return select_similar_k_docs(cosine_scores, k)

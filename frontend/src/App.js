@@ -4,13 +4,9 @@ import { useState } from "react"
 import './App.css';
 import CompanyCard from './components/CompanyCard';
 import SearchBar from './components/SearchBar';
-import SortByDropDown from "./components/SortBy";
 import DisplayOption from "./components/DisplayOption";
-import { groupPostingsByCompany, setNestedPropertyValue } from "./static/script";
-import { Button } from "react-bootstrap";
-import ExpandedSearchForm from "./components/ExpandedSearchForm";
+import { companiesSortBy, groupPostingsByCompany } from "./static/script";
 import PostingCard from "./components/PostingCard";
-import FilterAccordion from "./components/FilterAccordion";
 import ResumeUpload from "./components/ResumeUpload";
 
 const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }
@@ -19,37 +15,49 @@ const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "
 
 function App() {
   const [postings, setPostings] = useState([])
+  const [companiesPostings, setCompaniesPostings] = useState([])
+
 
   const [groupBy, setGroupBy] = useState("Companies")
   const [sortBy, setSortBy] = useState(sortParams.Companies[0])
 
-  const companyPostings = groupPostingsByCompany(postings)
-  const [filteredPostings, setFilteredPostings] = useState([]);
-  const updateFilteredPostings = (filteredPostings) => {
-    setFilteredPostings(filteredPostings);
+  const handlePostingsUpdate = (data) => {
+    setPostings(data);
+    setCompaniesPostings(groupPostingsByCompany(data));
   }
-  console.log(filteredPostings);
+
+  const handleSorting = (val) => {
+    if (["Rating", "Name"].indexOf(val) !== -1) {
+      let tmp = companiesSortBy(companiesPostings, val);
+      setCompaniesPostings(tmp)
+    }
+    setSortBy(val);
+  }
+
 
   return (
     <>
       <div className="container-fluid">
         <div className="top-text">
-          <h1 className="heading">BESTSUITED</h1>
-          {/* <h2 className="heading ">JOBS TAILORED FOR YOU</h2> */}
+          <div className="jumbotron bg-light w-100 mb-3 pt-3 rounded-3">
+            <h1 className="display-2 text-dark text-center py-auto pt-3 poppins-font">
+              BestSuited
+            </h1>
+            <h3 className="display-8 text-center poppins-font">
+              Jobs Tailored for You
+            </h3>
+          </div>
 
 
-          <SearchBar setPostings={setPostings} />
+          <SearchBar setPostings={handlePostingsUpdate} />
 
           <div className="row mt-3 justify-content-around">
             <DisplayOption value={groupBy} setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
 
-            <FilterAccordion updateFilteredPostings={updateFilteredPostings} />
-
-            {/* <ResumeUpload></ResumeUpload> */}
-            {groupBy === "Companies" && <DisplayOption value={sortParams.Companies[0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
-            {groupBy === "Job Postings" && <DisplayOption value={sortParams["Job Postings"][0]} setHandler={setSortBy} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
-
-
+            {/* <FilterAccordion /> */}
+            <ResumeUpload setPostings={handlePostingsUpdate}></ResumeUpload>
+            {groupBy === "Companies" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
+            {groupBy === "Job Postings" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
           </div>
 
 
@@ -63,18 +71,10 @@ function App() {
           {
             groupBy === "Companies" &&
             <div class="row mt-1 w-100">
-              {Object.entries(companyPostings).map(([company, data]) => (<CompanyCard key={company} companyName={company} data={data} />))}
+              {companiesPostings.map((companyData, key) => (<CompanyCard key={key} companyName={companyData.name} data={companyData} />))}
             </div>
           }
-          {
-            groupBy === "Companies" && (
-              <div className="row w-100">
-                {filteredPostings.map(([company, data]) => (
-                  <CompanyCard key={company} companyName={company} data={data} />
-                ))}
-              </div>
-            )
-          }
+
 
         </div >
 

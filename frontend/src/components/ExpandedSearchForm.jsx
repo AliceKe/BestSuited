@@ -72,7 +72,7 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
         skill: selectedSkill.join(',')
       });
       // console.log(searchQuery)
-      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5185/regular?q=${queryParams}`);
+      const response = await fetch(`http://4300showcase.infosci.cornell.edu:5184/regular?q=${queryParams}`);
       const data = await response.json();
       console.log(data)
       let formattedPostings = {};
@@ -91,116 +91,104 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
 
 
         if (jobTitleMatch && locationMatch && skillMatch && salaryMatch) {
-          if (!(company[1].company in formattedPostings)) {
-            formattedPostings[company[1].company] = {
-              "description": company[1].description,
-              "happiness": company[1].happiness,
-              "rating": company[1].rating,
-              "postings": [company[1]]
-            }
-          } else {
-            formattedPostings[company[1].company].postings.append(company[1])
-          }
-          filteredPostings.push(formattedPostings);
+          const postingDict = company;
+          postingDict[1].postings = [posting];
+          filteredPostings.push(postingDict);
         }
-        // });
       });
-      console.log(filteredPostings)
-      setFilteredPostings(filteredPostings)
-      updateFilteredPostings(filteredPostings);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+    });
+    setFilteredPostings(filteredPostings)
+    updateFilteredPostings(filteredPostings);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
 
 
 
 
-  const suggestedJobs = [
-    { title: "software engineer" },
-    { title: "data scientist" },
-    { title: "network security engineer" },
-    { title: "usability analyst" }
-  ];
+const suggestedJobs = [
+  { title: "software engineer" },
+  { title: "data scientist" },
+  { title: "network security engineer" },
+  { title: "usability analyst" }
+];
 
 
 
 
-  const suggestedLocation = [
-    { title: "Nicosia, Cyprus" },
-    { title: "Mexico City, Mexico" },
-    { title: "Nuuk, Greenland" }
-  ];
+const suggestedLocation = [
+  { title: "Nicosia, Cyprus" },
+  { title: "Mexico City, Mexico" },
+  { title: "Nuuk, Greenland" }
+];
 
 
 
 
-  const suggestedSkills = [
-    { title: "Python" },
-    { title: "JavaScript" },
-    { title: "React" },
-    { title: "Node.js" }
-  ];
+const suggestedSkills = [
+  { title: "Python" },
+  { title: "JavaScript" },
+  { title: "React" },
+  { title: "Node.js" }
+];
 
 
 
 
-  // const handleInputChange = (e) => {
-  //   const query = e.target.value;
-  //   setSearchQuery(query);
-  //   fetchData(query);
-  // };
+// const handleInputChange = (e) => {
+//   const query = e.target.value;
+//   setSearchQuery(query);
+//   fetchData(query);
+// };
 
 
 
 
-  const handleJobInputChange = (e) => {
-    setSelectedJobs = e.target.value
-    console.log(selectedJobs)
-    // fetchData();
-  };
+const handleJobInputChange = (e) => {
+  setSelectedJobs = e.target.value
+  // fetchData();
+};
 
 
 
 
-  const handleLocationInputChange = (e) => {
-    setSelectedLocation(e.target.value);
-    console.log(selectedLocation)
-    // fetchData();
-  };
+const handleLocationInputChange = (e) => {
+  setSelectedLocation(e.target.value);
+  // fetchData();
+};
 
 
 
 
-  const handleSkillInputChange = (e) => {
-    setSelectedSkill(e.target.value);
-    console.log(selectedSkill)
-    // fetchData();
-  };
+const handleSkillInputChange = (e) => {
+  setSelectedSkill(e.target.value);
+  // fetchData();
+};
 
 
 
 
-  const handleSalaryRangeChange = (newValue) => {
-    setSalaryRange(newValue);
-  };
+const handleSalaryRangeChange = (newValue) => {
+  setSalaryRange(newValue);
+};
 
 
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    fetchData();
-    toggleFormVisibility();
-    // setIsExpanded(false);
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  fetchData();
+  toggleFormVisibility();
+  // setIsExpanded(false);
+};
 
 
 
 
-  return (
-    <>
-      {/* <div className="form-group">
+return (
+  <>
+    {/* <div className="form-group">
        <input
          type="text"
          placeholder="Search for a job title, company or skills"
@@ -213,41 +201,41 @@ const ExpandedSearchForm = ({ updateFilteredPostings }) => {
 
 
 
-      <div className="form-filters justify-content-center px-3">
-        {/* <button class="btn dropdown-toggle" onClick={toggleFormVisibility}>
+    <div className="form-filters justify-content-center px-3">
+      {/* <button class="btn dropdown-toggle" onClick={toggleFormVisibility}>
          {isExpanded ? "Filter By" : "Filter By"}
        </button> */}
-        {/* {isExpanded && */}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <MultiSelect dropdown_items={suggestedJobs} dropdown_type={"Job Titles"} setSelectedItem={setSelectedJobs} onChange={handleJobInputChange} />
-          </div>
-          <div className="form-group">
-            <MultiSelect dropdown_items={suggestedLocation} dropdown_type={"Locations"} setSelectedItem={setSelectedLocation} onChange={handleLocationInputChange} />
-          </div>
-          <div className="form-group">
-            <MultiSelect dropdown_items={suggestedSkills} dropdown_type={"Skills"} setSelectedItem={setSelectedSkill} onChange={handleSkillInputChange} />
-          </div>
-          <div className="form-group">
-            <p id="salaryrange-p">Select Salary Range:</p>
-            <SortSlider value={salaryRange} onChange={handleSalaryRangeChange} />
-          </div>
+      {/* {isExpanded && */}
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <MultiSelect dropdown_items={suggestedJobs} dropdown_type={"Job Titles"} setSelectedItem={setSelectedJobs} onChange={handleJobInputChange} />
+        </div>
+        <div className="form-group">
+          <MultiSelect dropdown_items={suggestedLocation} dropdown_type={"Locations"} setSelectedItem={setSelectedLocation} onChange={handleLocationInputChange} />
+        </div>
+        <div className="form-group">
+          <MultiSelect dropdown_items={suggestedSkills} dropdown_type={"Skills"} setSelectedItem={setSelectedSkill} onChange={handleSkillInputChange} />
+        </div>
+        <div className="form-group">
+          <p id="salaryrange-p">Select Salary Range:</p>
+          <SortSlider value={salaryRange} onChange={handleSalaryRangeChange} />
+        </div>
 
 
 
 
-          <Button className='mx-auto' onClick={handleSubmit} variant='outline-info'>Apply Filters</Button>
+        <Button className='mx-auto' onClick={handleSubmit} variant='outline-info'>Apply Filters</Button>
 
 
 
 
 
 
-        </form>
-        {/* } */}
-      </div >
-    </>
-  )
+      </form>
+      {/* } */}
+    </div >
+  </>
+)
 };
 
 
