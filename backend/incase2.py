@@ -6,8 +6,6 @@ from collections import defaultdict, Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 import PyPDF2
-from scipy.sparse.linalg import svds
-from sklearn.preprocessing import normalize
 
 
 def remove_punctuation(text):
@@ -50,43 +48,34 @@ def construct_query_tfidf(query, idf_map):
     return {term: freq * idf_map.get(term, 0) for term, freq in tokens.items() if term in idf_map}
 
 def compute_cosine_scores(query):
-    query_tfidf = vectorizer.transform([query]).toarray()
-    query_vec = normalize(np.dot(query_tfidf, words_compressed)).squeeze()
-    sims = docs_compressed_normed.dot(query_vec)
-    asort = np.argsort(-sims)[:200]
-    return [(i, sims[i]) for i in asort[1:]]
-
-def closest_projects_to_word(word_in, k = 5):
-    if word_in not in word_to_index: return []
-    sims = docs_compressed_normed.dot(words_compressed_normed[word_to_index[word_in],:])
-    asort = np.argsort(-sims)[:k+1]
-    return [(i, documents[i][0],sims[i]) for i in asort[1:]]
-
+    print("BABYGURL ", query)
+    query_tfidf = construct_query_tfidf(query, idf_map)
+    print(query_tfidf)
+    query_norm = np.sqrt(sum(value ** 2 for value in query_tfidf.values()))
+    doc_scores = defaultdict(float)
+    for term, qtfidf in query_tfidf.items():
+        term_idx = terms_index.get(term)
+        print(terms_index)
+        print(term_idx)
+        print(term)
+        if term_idx is not None:  # Check term is in the reduced matrix
+            for i in range(len(documents)):
+                doc_scores[i] += reduced_tfidf_matrix[i, term_idx] * qtfidf
+    scores = [(doc_id, score / (np.linalg.norm(reduced_tfidf_matrix[doc_id]) * query_norm)) for doc_id, score in doc_scores.items()]
+    return sorted(scores, key=lambda x: x[1], reverse=True)
 
 # Load data and prepare TF-IDF and SVD
 with open(settings.data_file_path, 'r') as file:
     data = json.load(file)
 documents = data.get("job_postings")
 
-vectorizer = TfidfVectorizer(tokenizer=tokenize_docs, stop_words = 'english')
+vectorizer = TfidfVectorizer(tokenizer=tokenize_docs)
+tfidf_matrix = vectorizer.fit_transform([extract_tokens_from_docs(doc) for doc in documents])
+n_components = min(100, tfidf_matrix.shape[1])
+svd = TruncatedSVD(n_components=n_components)
+reduced_tfidf_matrix = svd.fit_transform(tfidf_matrix)
+print(reduced_tfidf_matrix)
 
-td_matrix = vectorizer.fit_transform([extract_tokens_from_docs(doc) for doc in documents])
-
-docs_compressed, s, words_compressed = svds(td_matrix, k=300)
-words_compressed = words_compressed.transpose()
-
-word_to_index = vectorizer.vocabulary_
-index_to_word = {i:t for t,i in word_to_index.items()}
-
-words_compressed_normed = normalize(words_compressed, axis = 1)
-
-
-td_matrix_np = td_matrix.transpose().toarray()
-td_matrix_np = normalize(td_matrix_np)
-
-
-docs_compressed_normed = normalize(docs_compressed)
-
-
-
+terms_index, inverted_index = construct_invertex_index(vectorizer, reduced_tfidf_matrix, n_components)
+idf_map = construct_term_idf_map(vectorizer)
 
