@@ -60,7 +60,7 @@ const ResumeUpload = ({ setPostings }) => {
             onChange={handleChange}
           />
           <Button
-            variant="outline-warning"
+            variant="outline-info"
             type="submit"
             id="inputGroupFileAddon"
             className="text-black"

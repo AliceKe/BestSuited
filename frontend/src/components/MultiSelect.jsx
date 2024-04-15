@@ -20,6 +20,7 @@ const MultiSelect = ({ dropdown_items, dropdown_type, setSelectedItem }) => {
             {...params}
             variant="standard"
             label={dropdown_type}
+            required={true}
           // placeholder={dropdown_type}
           />
         )}

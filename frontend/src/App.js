@@ -45,7 +45,7 @@ function App() {
     <>
       <div className="container-fluid">
         <div className="top-text">
-          <div className="jumbotron bg-light w-100 mb-3 pt-3 rounded-3">
+          <div className="jumbotron w-100 mb-3 pt-3 rounded-3">
             <h1 className="display-2 text-dark text-center py-auto pt-3 poppins-font">
               BestSuited
             </h1>
@@ -60,10 +60,12 @@ function App() {
           <div className="row mt-3 justify-content-around">
             <DisplayOption value={groupBy} setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
 
-            <FilterAccordion updateFilteredPostings={updateFilteredPostings} />
             <ResumeUpload setPostings={handlePostingsUpdate}></ResumeUpload>
             {groupBy === "Companies" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
             {groupBy === "Job Postings" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
+
+            <FilterAccordion updateFilteredPostings={updateFilteredPostings} />
+
           </div>
 
 

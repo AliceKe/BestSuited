@@ -11,7 +11,7 @@ function CustomToggle({ eventKey }) {
 
 
     return (
-        <Button className='w-100' variant="outline-info" onClick={decoratedOnClick}>Filter</Button>
+        <Button className='w-100 mr-3 text-dark' variant="outline-warning" onClick={decoratedOnClick}>Expanded Form Search</Button>
     );
 }
 
@@ -20,7 +20,7 @@ function CollapseContent({ eventKey }) {
     );
 
     return (
-        <Button className='w-100' variant="outline-info" onClick={decoratedOnClick}>Apply Filter</Button>
+        <Button className='w-50 ml-3' variant="outline-info" onClick={decoratedOnClick}>Apply Filter</Button>
     );
 }
 
@@ -29,7 +29,10 @@ function CollapseContent({ eventKey }) {
 const FilterAccordion = ({ updateFilteredPostings }) => {
     return (
         <Accordion defaultActiveKey={null} className='col-md-6 mx-auto'>
-            <CustomToggle eventKey="0"></CustomToggle>
+            <div className="flex flex-row justify-space-around">
+                <CustomToggle eventKey="0"></CustomToggle>
+            </div>
+
             <Accordion.Collapse eventKey="0">
                 <>
                     <Card.Body><ExpandedSearchForm updateFilteredPostings={updateFilteredPostings} /></Card.Body>

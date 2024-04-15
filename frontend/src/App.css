@@ -75,6 +75,7 @@
 .form-filters {
     display: flex;
     flex-direction: column;
+    background-color: aliceblue;
 }
 
 .btn-submit {
