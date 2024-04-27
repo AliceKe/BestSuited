@@ -9,6 +9,8 @@ import { companiesSortBy, groupPostingsByCompany } from "./static/script";
 import PostingCard from "./components/PostingCard";
 import ResumeUpload from "./components/ResumeUpload";
 import FilterAccordion from "./components/FilterAccordion";
+import Playground from "./pages/Playground";
+import Landing from "./pages/Landing";
 
 const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }
 
@@ -44,48 +46,13 @@ function App() {
   return (
     <>
       <div className="container-fluid">
-        <div className="top-text">
-          <div className="jumbotron w-100 mb-3 pt-3 rounded-3">
-            <h1 className="display-2 text-dark text-center py-auto pt-3 poppins-font">
-              BestSuited
-            </h1>
-            <h3 className="display-8 text-center poppins-font">
-              Jobs Tailored for You
-            </h3>
-          </div>
+        {/* <Landing /> */}
+        <Playground />
 
-
-          <SearchBar setPostings={handlePostingsUpdate} />
-
-          <div className="row mt-3 justify-content-around">
-            <DisplayOption value={groupBy} setHandler={setGroupBy} variant="outline-primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
-
-            <ResumeUpload setPostings={handlePostingsUpdate}></ResumeUpload>
-            {groupBy === "Companies" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="outline-success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
-            {groupBy === "Job Postings" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="outline-success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
-
-            <FilterAccordion updateFilteredPostings={updateFilteredPostings} />
-
-          </div>
-
-
-          {
-            groupBy === "Job Postings" &&
-            <div class="row mt-1 w-100">
-              {postings.map((posting) => (<PostingCard posting={posting} />))}
-            </div>
-          }
-
-          {
-            groupBy === "Companies" &&
-            <div class="row mt-1 w-100">
-              {companiesPostings.map((companyData, key) => (<CompanyCard key={key} companyName={companyData.name} data={companyData} />))}
-            </div>
-          }
-
-
-        </div >
-
+        <div className="bottom-0 d-flex position-fixed justify-content-between w-100">
+          <p> <a href="https://github.com/AliceKe/BestSuited">Built</a> with ❤️ by C.A.A.A.O.</p>
+          {/* <p className="">© 2024</p> */}
+        </div>
       </div >
     </>
   );
