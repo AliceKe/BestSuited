@@ -1,8 +1,7 @@
-import { Accordion, Button } from 'react-bootstrap';
-import { useAccordionButton } from 'react-bootstrap/AccordionButton';
-import Card from 'react-bootstrap/Card';
-import ExpandedSearchForm from './ExpandedSearchForm';
-
+import { Accordion, Button } from "react-bootstrap";
+import { useAccordionButton } from "react-bootstrap/AccordionButton";
+import Card from "react-bootstrap/Card";
+import ExpandedSearchForm from "./ExpandedSearchForm";
 
 function CustomToggle({ eventKey, setExpandTextSearch }) {
     const decoratedOnClick = useAccordionButton(eventKey, () =>

@@ -1,8 +1,7 @@
-import { useState } from "react"
+import { useState } from "react";
 
-
-import CompanyCard from '../components/CompanyCard';
-import SearchBar from '../components/SearchBar';
+import CompanyCard from "../components/CompanyCard";
+import SearchBar from "../components/SearchBar";
 import DisplayOption from "../components/DisplayOption";
 import { companiesSortBy, groupPostingsByCompany } from "../static/script";
 import PostingCard from "../components/PostingCard";
@@ -118,6 +117,5 @@ function Playground() {
         </>
     );
 }
-
 
 export default Playground;

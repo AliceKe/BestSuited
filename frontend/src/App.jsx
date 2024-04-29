@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-
-import './App.css';
+import "./App.css";
 import { companiesSortBy, groupPostingsByCompany } from "./static/script";
 import Playground from "./pages/Playground";
 import Welcome from "./pages/Welcome";
@@ -50,30 +49,27 @@ function App() {
             <img src={GymTrainer} alt="" className="img-fluid d-none d-lg-block  border border-5 border-light rounded-circle job-image" style={{ "marginTop": "-15%", "margin": "-25%" }} />
             <img src={Politician} alt="" className="img-fluid d-none d-lg-block  border border-5 border-light rounded-circle job-image" style={{ "marginTop": "5%", "marginRight": "10%" }} />
             {/* <img src={Politician} alt="" className="img-fluid d-none d-lg-block  border border-5 border-light rounded-circle job-image" style={{ "marginTop": "1%", "marginRight": "10%" }} /> */}
-
           </div>
         </div>
       </div>
 
-
-
       <div className="z-3 mx-auto mt-3 d-flex w-100 flex-column align-items-center">
-
         {
           // welcome ?
           //   <Welcome />
           //   :
           <Playground />
         }
-
-
-      </div >
+      </div>
       <div className="bottom-0 pt-n3 pb-n3 bg-light d-flex position-fixed w-20">
-        <p className="pt-n3"> <a href="https://github.com/AliceKe/BestSuited">Built</a> with ❤️ by C.A.A.A.O.</p>
+        <p className="pt-n3">
+          {" "}
+          <a href="https://github.com/AliceKe/BestSuited">Built</a> with ❤️ by
+          C.A.B.A.O.
+        </p>
       </div>
     </div>
   );
 }
-
 
 export default App;
