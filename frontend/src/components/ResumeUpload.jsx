@@ -60,7 +60,7 @@ const ResumeUpload = ({ setPostings }) => {
             onChange={handleChange}
           />
           <Button
-            variant="outline-info"
+            variant="info"
             type="submit"
             id="inputGroupFileAddon"
             className="text-black"
@@ -70,8 +70,12 @@ const ResumeUpload = ({ setPostings }) => {
         </InputGroup>
       </Form>
 
-      {uploadStatus && <Alert variant="info">{uploadStatus}</Alert>}
-      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+      {uploadStatus && <Alert className="alert-dismissible fade show" variant="info">{uploadStatus}
+        <button type="button" class="btn-close outline-none" data-bs-dismiss="alert" aria-label="Close"></button>
+      </Alert>}
+      {errorMessage && <Alert className="alert-dismissible fade show" variant="danger">{errorMessage}
+        <button type="button" class="btn-close outline-none" data-bs-dismiss="alert" aria-label="Close"></button>
+      </Alert>}
     </div>
   );
 };

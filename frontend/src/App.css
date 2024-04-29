@@ -9,10 +9,6 @@
     /* Add padding to all sides */
 }
 
-/* .heading {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-} */
-
 .container {
     position: relative;
     top: 0;
@@ -113,4 +109,22 @@
   /* padding: 3px;  */
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.table{
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(170, 184, 181, 0.1); 
+}
+
+.search-input {
+  /* transition: height 0.5s ease-in-out; */
+  resize: vertical;
+}
+
+.expanded {
+  height: 100px; /* adjust the height as needed */
+}
+
+.collapsed {
+  height: 0;
 }

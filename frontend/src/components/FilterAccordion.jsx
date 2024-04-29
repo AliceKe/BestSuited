@@ -4,14 +4,14 @@ import Card from 'react-bootstrap/Card';
 import ExpandedSearchForm from './ExpandedSearchForm';
 
 
-function CustomToggle({ eventKey }) {
+function CustomToggle({ eventKey, setExpandTextSearch }) {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
-        console.log('totally custom!'),
+        setExpandTextSearch(false)
     );
 
 
     return (
-        <Button className='w-100 mr-3 text-dark' variant="outline-warning" onClick={decoratedOnClick}>Expanded Form Search</Button>
+        <Button className='w-100 mr-3 text-dark' variant="warning" onClick={decoratedOnClick}>Expanded Form Search</Button>
     );
 }
 
@@ -26,11 +26,11 @@ function CollapseContent({ eventKey }) {
 
 
 
-const FilterAccordion = ({ updateFilteredPostings }) => {
+const FilterAccordion = ({ updateFilteredPostings, setExpandTextSearch }) => {
     return (
-        <Accordion defaultActiveKey={null} className='col-md-6 mx-auto'>
-            <div className="flex flex-row justify-space-around">
-                <CustomToggle eventKey="0"></CustomToggle>
+        <Accordion defaultActiveKey={null} className=''>
+            <div className="flexflex-row justify-space-around">
+                <CustomToggle setExpandTextSearch={setExpandTextSearch} eventKey="0"></CustomToggle>
             </div>
 
             <Accordion.Collapse eventKey="0">

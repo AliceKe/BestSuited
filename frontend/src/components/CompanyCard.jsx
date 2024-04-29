@@ -40,7 +40,7 @@ const CompanyCard = ({ companyName, data }) => {
 
     return (
         <>
-            <tr key={companyName}>
+            <tr key={companyName} className="">
                 <th className="text-primary" scope="row">
                     <img
                         src={
