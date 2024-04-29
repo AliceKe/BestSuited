@@ -26,7 +26,7 @@ function CollapseContent({ eventKey }) {
 
 
 
-const FilterAccordion = ({ updateFilteredPostings, setExpandTextSearch }) => {
+const FilterAccordion = ({ setFilters, applyFilters, updateFilteredPostings, setExpandTextSearch }) => {
     return (
         <Accordion defaultActiveKey={null} className=''>
             <div className="flexflex-row justify-space-around">
@@ -35,7 +35,7 @@ const FilterAccordion = ({ updateFilteredPostings, setExpandTextSearch }) => {
 
             <Accordion.Collapse eventKey="0">
                 <>
-                    <Card.Body><ExpandedSearchForm updateFilteredPostings={updateFilteredPostings} /></Card.Body>
+                    <Card.Body><ExpandedSearchForm setFilters={setFilters} applyFilters={applyFilters} updateFilteredPostings={updateFilteredPostings} /></Card.Body>
                 </>
             </Accordion.Collapse>
         </Accordion>
