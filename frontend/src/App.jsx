@@ -18,18 +18,8 @@ import Judge from "./images/judge.jpeg"
 import Preacher from "./images/preacher.jpeg"
 
 
-const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }
-
-
-
 function App() {
   const [welcome, setWelcome] = useState(true);
-  const [postings, setPostings] = useState([])
-  const [companiesPostings, setCompaniesPostings] = useState([])
-
-
-  const [groupBy, setGroupBy] = useState("Companies")
-  const [sortBy, setSortBy] = useState(sortParams.Companies[0])
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,39 +29,21 @@ function App() {
 
 
 
-  const handlePostingsUpdate = (data) => {
-    setPostings(data);
-    setCompaniesPostings(groupPostingsByCompany(data));
-  }
-
-  const handleSorting = (val) => {
-    if (["Rating", "Name"].indexOf(val) !== -1) {
-      let tmp = companiesSortBy(companiesPostings, val);
-      setCompaniesPostings(tmp)
-    }
-    setSortBy(val);
-  }
-
-  const updateFilteredPostings = (filteredData) => {
-    setPostings(filteredData);
-    setCompaniesPostings(groupPostingsByCompany(filteredData));
-  };
 
   return (
     <div className="h-100 overflow-hidden">
-      <div class="d-flex z-n1 position-absolute position-fixed h-100 w-100 row mb-3">
-        <div class="col d-flex align-items-start px-3 flex-column">
+      <div className="d-flex z-n1 position-absolute position-fixed h-100 w-100 row mb-3">
+        <div className="col d-flex align-items-start px-3 flex-column">
           <img src={Accountant} alt="" className="img-fluid d-none d-lg-block  border border-5 border-light rounded-circle job-image" />
           <img src={Doctor} alt="" className="img-fluid d-none d-lg-block  pl-3 border border-5 border-light rounded-circle job-image" style={{ "marginLeft": "8%", "marginTop": "7%" }} />
 
           <div className="d-flex">
             <img src={Professor} alt="" className="img-fluid d-none d-lg-block  border border-5 border-light rounded-circle job-image" style={{ "marginTop": "10%" }} />
-            {/* <img src={Instrumentalist} alt="" className="img-fluid d-none d-xxl-block  border border-5 border-light rounded-circle job-image" style={{ "marginTop": "10%", "marginLeft": "30%" }} /> */}
             <img src={Instrumentalist} alt="" className="img-fluid d-none d-lg-block  border border-5 border-light rounded-circle job-image" style={{ "marginTop": "25%", "marginLeft": "15%" }} />
           </div>
         </div>
 
-        <div class="col d-flex align-items-end px-3 flex-column mb-3">
+        <div className="col d-flex align-items-end px-3 flex-column mb-3">
           <img src={SoftwareEngineer} alt="" className="img-fluid d-none d-lg-block  border border-5 border-light rounded-circle job-image" />
           <img src={MechanicalEngineer} alt="" className="img-fluid d-none d-lg-block  pl-3 border border-5 border-light rounded-circle job-image" style={{ "marginTop": "10%", }} />
           <div className="d-flex" style={{ "marginTop": "7%" }}>

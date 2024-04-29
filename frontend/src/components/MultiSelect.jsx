@@ -27,12 +27,6 @@ const MultiSelect = ({ filterKey, dropdown_items, dropdown_type, setSelectedItem
         onChange={handleSelection}
       />
     </Stack>
-    //   <select onChange={handleSelection}>
-    //     <option value="">Select {dropdown_type}</option>
-    //     {dropdown_items.map((item, index) => (
-    //       <option key={index} value={item.title}>{item.title}</option>
-    //     ))}
-    //   </select>
   )
 }
 

@@ -92,7 +92,7 @@ function Playground() {
                         {
                             groupBy === "Job Postings" &&
                             <>
-                                <table class="table border border-5 mt-3 shadow-lg w-50">
+                                <table className="table border border-5 mt-3 shadow-lg w-50">
                                     <tbody>
                                         {postings.map((posting) => (<PostingCard posting={posting} />))}
                                     </tbody>
@@ -103,7 +103,7 @@ function Playground() {
                         {
                             groupBy === "Companies" &&
                             <>
-                                <table class="table border border-5 mt-3 shadow-lg w-50">
+                                <table className="table border border-5 mt-3 shadow-lg w-50">
                                     <tbody>
                                         {companiesPostings.map((companyData, key) => (<CompanyCard key={key} companyName={companyData.name} data={companyData} setShow={setShow} />))}
                                     </tbody>

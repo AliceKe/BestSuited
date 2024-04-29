@@ -71,10 +71,10 @@ const ResumeUpload = ({ setPostings }) => {
       </Form>
 
       {uploadStatus && <Alert className="alert-dismissible fade show" variant="info">{uploadStatus}
-        <button type="button" class="btn-close outline-none" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" className="btn-close outline-none" data-bs-dismiss="alert" aria-label="Close"></button>
       </Alert>}
       {errorMessage && <Alert className="alert-dismissible fade show" variant="danger">{errorMessage}
-        <button type="button" class="btn-close outline-none" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" className="btn-close outline-none" data-bs-dismiss="alert" aria-label="Close"></button>
       </Alert>}
     </div>
   );
