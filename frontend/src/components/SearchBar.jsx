@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { backendUrl } from "../static/script";
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { InputGroup, FormControl, Button } from "react-bootstrap";
 
 const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
   const [query, setQuery] = useState("");
@@ -10,6 +10,18 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
 
   const handleExpand = () => {
     setExpandTextSearch(!expandTextSearch);
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
+      const data = await response.json();
+      setPostings(query.trim().length > 0 ? data.postings : []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -27,19 +39,7 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [query, isTyping, setPostings]);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
-      const data = await response.json();
-      setPostings(query.trim().length > 0 ? data.postings : []);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [query, isTyping, setPostings, fetchData]);
 
   const handleChange = (e) => {
     setQuery(e.target.value);
@@ -48,7 +48,12 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
 
   return (
     <div className="d-flex w-50">
-      <Button variant="secondary" onClick={handleExpand} className="btn-sm" style={{ height: "40px", width: "200px" }}>
+      <Button
+        variant="secondary"
+        onClick={handleExpand}
+        className="btn-sm"
+        style={{ height: "40px", width: "200px" }}
+      >
         <img src="/mag.png" alt="Search Icon" height={"20"} />
         Type to Search
       </Button>
@@ -60,12 +65,14 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
           placeholder="Search"
           aria-label="Search"
           aria-describedby="basic-addon2"
-          className={`search-input form-control ${expandTextSearch ? 'expandTextSearch' : 'collapsed'}`}
+          className={`search-input form-control ${
+            expandTextSearch ? "expandTextSearch" : "collapsed"
+          }`}
           onChange={handleChange}
           style={{
-            height: '40px', /* set minimum width */
-            maxHeight: '100px', /* set minimum height */
-            maxWidth: "95%"
+            height: "40px" /* set minimum width */,
+            maxHeight: "100px" /* set minimum height */,
+            maxWidth: "95%",
           }}
         />
         {/* )} */}
@@ -75,9 +82,6 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
           </div>
         )} */}
       </InputGroup>
-
-
-
     </div>
   );
 };

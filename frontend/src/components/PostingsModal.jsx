@@ -7,7 +7,7 @@ const PostingsModal = ({ show, handleClose, company, role, postings }) => {
   }
 
   return (
-    <Modal show={show} onHide={handleClose} size="xl">
+    <Modal show={show} onHide={handleClose} size="xl" className="">
       <Modal.Header closeButton>
         <Modal.Title>{role}</Modal.Title>
       </Modal.Header>
