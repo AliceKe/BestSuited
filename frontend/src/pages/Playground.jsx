@@ -37,16 +37,19 @@ function Playground() {
   };
 
   const applyFilters = () => {
-    console.log(filters);
     let tmpPostings = [];
-    console.log(postings[0]);
     for (let posting of originalPostings) {
+      let flag = true;
       for (let [filterKey, filterValue] of Object.entries(filters)) {
         if (filterValue.length !== 0) {
-          if (filterValue.includes(posting[filterKey])) {
-            tmpPostings.push(posting);
+          if (!filterValue.includes(posting[filterKey])) {
+            flag = false;
           }
         }
+      }
+
+      if (flag) {
+        tmpPostings.push(posting);
       }
     }
     setPostings(tmpPostings);
