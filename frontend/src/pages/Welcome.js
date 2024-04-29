@@ -7,7 +7,7 @@ import DisplayOption from "../components/DisplayOption";
 import { companiesSortBy, groupPostingsByCompany } from "../static/script";
 import PostingCard from "../components/PostingCard";
 import ResumeUpload from "../components/ResumeUpload";
-import FilterAccordion from "../components/FilterAccordion";
+import AccordionSection from "../components/AccordionSection";
 import PostingsModal from "../components/PostingsModal";
 
 const sortParams = { "Companies": ["Rating", "Name"], "Job Postings": ["Rank", "Role"] }

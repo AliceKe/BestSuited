@@ -6,7 +6,7 @@ import DisplayOption from "./DisplayOption";
 import ResumeUpload from "./ResumeUpload";
 
 
-const sortParams = { "Companies": ["Default", "Rating", "Name"], "Job Postings": ["Rank"] }
+const companySortParams = ["Rating", "Name"]
 
 function CustomToggle({ eventKey, setExpandTextSearch }) {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -19,15 +19,15 @@ function CustomToggle({ eventKey, setExpandTextSearch }) {
 }
 
 
-const FilterAccordion = ({ groupBy, setGroupBy, handleSorting, handlePostingsUpdate, sortBy, setFilters, applyFilters, updateFilteredPostings, setExpandTextSearch }) => {
+const AccordionSection = ({ groupBy, setGroupBy, handleSorting, handlePostingsUpdate, sortBy, setFilters, applyFilters, updateFilteredPostings, setExpandTextSearch }) => {
     return (
         <Accordion defaultActiveKey={null} className='w-75 mx-auto d-flex justify-content-center align-items-center flex-column mt-3'>
 
             <div className="d-flex">
-                <DisplayOption value={groupBy} setHandler={setGroupBy} variant="primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
+                <DisplayOption value={groupBy} setHandler={setGroupBy} variant="primary" type="List" options={["Companies", "Job Postings"]} cls="rounded-start-pill me-3" />
                 <ResumeUpload setPostings={handlePostingsUpdate}></ResumeUpload>
 
-                {groupBy === "Companies" ? <DisplayOption value={sortBy} setHandler={handleSorting} variant="success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />
+                {groupBy === "Companies" ? <DisplayOption value={sortBy} setHandler={handleSorting} variant="success" type="Sort By" options={companySortParams} cls="rounded-end-pill ms-3" />
                     : <CustomToggle setExpandTextSearch={setExpandTextSearch} eventKey="0"></CustomToggle>}
             </div>
 
@@ -42,4 +42,4 @@ const FilterAccordion = ({ groupBy, setGroupBy, handleSorting, handlePostingsUpd
 }
 
 
-export default FilterAccordion;
+export default AccordionSection;

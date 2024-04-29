@@ -12,6 +12,18 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
     setExpandTextSearch(!expandTextSearch);
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${backendUrl.local}/regular?q=${query}`);
+      const data = await response.json();
+      setPostings(query.trim().length > 0 ? data.postings : []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const delay = 500;
     let timeoutId;
@@ -27,19 +39,9 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [query, isTyping, setPostings]);
+  }, [query, isTyping, setPostings, fetchData]);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
-      const data = await response.json();
-      setPostings(query.trim().length > 0 ? data.postings : []);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
 
   const handleChange = (e) => {
     setQuery(e.target.value);
