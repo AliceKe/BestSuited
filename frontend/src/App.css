@@ -1,16 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-.poppins-font {
+/* .poppins-font {
     font-family: 'Poppins', sans-serif;
-  }
+  } */
 
 .card {
     padding: 20px;
     /* Add padding to all sides */
-}
-
-.heading {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .container {
@@ -93,4 +89,42 @@
 .sort-filter {
     display: flex;
     flex-direction: row;
+}
+
+.icon-image {
+  max-height: 80px;
+  max-height: 120px;
+  margin: auto;
+  display: block;
+  background-color: #fff; 
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.job-image {
+  max-height: 200px;
+  max-height: 200px;
+  /* margin: auto; */
+  background-color: #fff; 
+  /* padding: 3px;  */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.table{
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(170, 184, 181, 0.1); 
+}
+
+.search-input {
+  /* transition: height 0.5s ease-in-out; */
+  resize: vertical;
+}
+
+.expanded {
+  height: 100px; /* adjust the height as needed */
+}
+
+.collapsed {
+  height: 0;
 }

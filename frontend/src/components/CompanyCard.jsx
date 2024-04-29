@@ -31,7 +31,7 @@ const CompanyCard = ({ companyName, data }) => {
     const handleImageNotFound = () => {
         if (!imageNotFound) {
             setImageNotFound(true);
-            setImage(defaultImage);
+            setImage(null);
         }
     };
 
@@ -39,44 +39,41 @@ const CompanyCard = ({ companyName, data }) => {
     const handleClose = () => setShow(false);
 
     return (
-        <div className="col-lg-3 col-md-4 col-sm-6 px-3 my-3 zoom border-primary">
-            <Card className={"bg-white w-90 px-0 py-0 hover-shadow shadow-sm p-3 mb-3 bg-info rounded "}>
-                <Card.Body>
-                    <Card.Title className="flex">
-                        <img
-                            src={
-                                image ||
-                                `https://logo.clearbit.com/${companyName
-                                    .replace(/\s+/g, "")
-                                    .toLowerCase()}.com?size=20`
-                            }
-                            onError={handleImageNotFound}
-                            alt=""
-                        />{" "}
-                        {companyName}
-                    </Card.Title>
-                    <Card.Text>{/* {data.description} */}</Card.Text>
-
-                    <div className="d-flex flex-col align-items-center justify-content-center ">
-                        <CompanyRating value={data.rating} />
-                        <Button
-                            variant="outline-primary"
-                            className="border-0 border-bottom border-primary mx-auto text-center"
-                            onClick={() => setShow(true)}
-                        >
-                            See {data.postings.length} postings
-                        </Button>
-                    </div>
-
-                    <PostingsModal
-                        show={show}
-                        handleClose={handleClose}
-                        company={companyName}
-                        postings={data.postings}
-                    />
-                </Card.Body>
-            </Card>
-        </div>
+        <>
+            <tr key={companyName} className="">
+                <th className="text-primary" scope="row">
+                    <img
+                        src={
+                            image ||
+                            `https://logo.clearbit.com/${companyName
+                                .replace(/\s+/g, "")
+                                .toLowerCase()}.com?size=20`
+                        }
+                        onError={handleImageNotFound}
+                        alt=""
+                    />{" "}
+                </th>
+                <td className="text-dark">
+                    {companyName}
+                </td>
+                <td className="text-primary"> <CompanyRating value={data.rating} /></td>
+                <td>
+                    <Button
+                        variant="outline-primary"
+                        className="border-0 border-bottom border-primary mx-auto text-center"
+                        onClick={() => setShow(true)}
+                    >
+                        See {data.postings.length} postings
+                    </Button>
+                </td>
+            </tr>
+            <PostingsModal
+                show={show}
+                handleClose={handleClose}
+                company={companyName}
+                postings={data.postings}
+            />
+        </>
     );
 };
 

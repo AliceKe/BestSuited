@@ -25,39 +25,42 @@ const PostingCard = ({ posting }) => {
   };
 
   return (
-    <div className="col-lg-3 col-md-4 col-sm-6 px-3 my-3 zoom">
-      <Card
-        className="bg-white w-90 px-0 py-0 hover-shadow shadow-sm"
-        onClick={handleShowModal}
-      >
-        <Card.Body>
-          <Card.Title className="flex">
-            <img
-              src={
-                image ||
-                `https://logo.clearbit.com/${posting.company
-                  .replace(/\s+/g, "")
-                  .toLowerCase()}.com?size=20`
-              }
-              onError={handleImageNotFound}
-              alt=""
-            />
-            {posting.role}
-          </Card.Title>
-          <Card.Text>{/* {data.description} */}</Card.Text>
+    <>
+      <tr key={posting.id} className="">
 
-          <div className="d-flex flex-column">
-            <div>
-              <p>{posting["salary range"]}</p>
-            </div>
-            <div>
-              <p>
-                {posting.city}, {posting.country}
-              </p>
-            </div>
-          </div>
-        </Card.Body>
-      </Card>
+        <td className="text-primary" scope="row">
+          <img
+            src={
+              image ||
+              `https://logo.clearbit.com/${posting.company
+                .replace(/\s+/g, "")
+                .toLowerCase()}.com?size=20`
+            }
+            // onError={handleImageNotFound}
+            alt=""
+          />
+        </td>
+        <td className="text-dark">
+          {posting.role}
+        </td>
+        <td className="text-dark">
+          {posting.company}
+        </td>
+        <td className="text-primary">{posting.city}, {posting.country}</td>
+        <td className="text-dark">
+          {posting["salary range"]}
+        </td>
+
+        <td>
+          <Button
+            variant="outline-primary"
+            className="border-0 border-bottom border-primary mx-auto text-center"
+            onClick={handleShowModal}
+          >
+            View
+          </Button>
+        </td>
+      </tr>
       {showModal && (
         <JobModal
           show={showModal}
@@ -65,7 +68,10 @@ const PostingCard = ({ posting }) => {
           posting={posting}
         />
       )}
-    </div>
+
+
+    </>
+
   );
 };
 

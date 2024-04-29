@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { backendUrl } from "../static/script";
+import { InputGroup, FormControl, Button } from 'react-bootstrap';
 
-const SearchBar = ({ setPostings }) => {
+const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+
+  const handleExpand = () => {
+    setExpandTextSearch(!expandTextSearch);
+  };
 
   useEffect(() => {
     const delay = 500;
@@ -42,24 +47,37 @@ const SearchBar = ({ setPostings }) => {
   };
 
   return (
-    <div className="w-75 flex">
-      <div className="flex w-100 flex-row input-box bg-light center-content">
-        <img src="/mag.png" alt="Search Icon" className="col-2" />
+    <div className="d-flex w-50">
+      <Button variant="secondary" onClick={handleExpand} className="btn-sm" style={{ height: "40px", width: "200px" }}>
+        <img src="/mag.png" alt="Search Icon" height={"20"} />
+        Type to Search
+      </Button>
 
-        <input
-          type="text"
-          placeholder="Search for a job title, company or skills"
-          id="filter-text-val"
+      <InputGroup className="search-bar">
+        {/* {expandTextSearch && ( */}
+        <textarea
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          aria-describedby="basic-addon2"
+          className={`search-input form-control ${expandTextSearch ? 'expandTextSearch' : 'collapsed'}`}
           onChange={handleChange}
-          className="col-8 text-center bg-light fs-3 text-dark"
+          style={{
+            height: '40px', /* set minimum width */
+            maxHeight: '100px', /* set minimum height */
+            maxWidth: "95%"
+          }}
         />
-
-        {isTyping && (
+        {/* )} */}
+        {/* {isTyping && (
           <div className="col-2">
             <Spinner animation="border" size="sm" variant="primary" />
           </div>
-        )}
-      </div>
+        )} */}
+      </InputGroup>
+
+
+
     </div>
   );
 };
