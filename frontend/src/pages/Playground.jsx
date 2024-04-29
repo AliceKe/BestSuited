@@ -14,6 +14,7 @@ const sortParams = { "Companies": ["Default", "Rating", "Name"], "Job Postings":
 
 
 function Playground() {
+    const [originalPostings, setOriginalPostings] = useState([])
     const [postings, setPostings] = useState([])
     const [companiesPostings, setCompaniesPostings] = useState([])
 
@@ -32,6 +33,7 @@ function Playground() {
 
     const handlePostingsUpdate = (data) => {
         setPostings(data);
+        setOriginalPostings(data)
         setCompaniesPostings(groupPostingsByCompany(data));
         // handleSorting(sortBy);
     }
@@ -44,15 +46,11 @@ function Playground() {
         setSortBy(val);
     }
 
-    const updateFilteredPostings = (filteredData) => {
-
-    };
-
     const applyFilters = () => {
         console.log(filters)
         let tmpPostings = []
         console.log(postings[0])
-        for (let posting of postings) {
+        for (let posting of originalPostings) {
             for (let [filterKey, filterValue] of Object.entries(filters)) {
                 if (filterValue.length !== 0) {
                     if (filterValue.includes(posting[filterKey])) {
@@ -61,7 +59,6 @@ function Playground() {
                 }
             }
         }
-        console.log(tmpPostings)
         setPostings(tmpPostings);
         setCompaniesPostings(groupPostingsByCompany(tmpPostings));
     }
@@ -77,7 +74,7 @@ function Playground() {
 
             <div className="w-100">
                 <div className="d-flex flex-column justify-content-center align-items-center">
-                    <div className="row h-10 z-3 w-100 flex-column align-items-center justify-content-around" style={{ "height": "15%", "marginTop": "0" }}>
+                    <div className="row z-3 w-100 flex-column align-items-center justify-content-around" style={{ "height": "15%", "marginTop": "0" }}>
                         <SearchBar setPostings={handlePostingsUpdate} expandTextSearch={expandTextSearch} setExpandTextSearch={setExpandTextSearch} />
                         <div className="w-50 d-flex mt-3">
                             <DisplayOption value={groupBy} setHandler={setGroupBy} variant="primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
@@ -86,7 +83,7 @@ function Playground() {
                             {groupBy === "Job Postings" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
                         </div>
 
-                        <div className="d-flex w-100 align-items-center justify-content-center">
+                        <div className="d-flex  align-items-center justify-content-center">
                             <FilterAccordion applyFilters={applyFilters} setFilters={setFilters} setExpandTextSearch={setExpandTextSearch} />
                         </div>
                     </div>

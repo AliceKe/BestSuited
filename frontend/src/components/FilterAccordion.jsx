@@ -9,18 +9,8 @@ function CustomToggle({ eventKey, setExpandTextSearch }) {
         setExpandTextSearch(false)
     );
 
-
     return (
-        <Button className='w-100 mr-3 text-dark' variant="warning" onClick={decoratedOnClick}>Expanded Form Search</Button>
-    );
-}
-
-function CollapseContent({ eventKey }) {
-    const decoratedOnClick = useAccordionButton(eventKey, () => { },
-    );
-
-    return (
-        <Button className='w-50 ml-3' variant="outline-info" onClick={decoratedOnClick}>Apply Filter</Button>
+        <Button className='w-100 mr-3 text-dark' variant="warning" onClick={decoratedOnClick}> Filter</Button>
     );
 }
 
@@ -34,9 +24,7 @@ const FilterAccordion = ({ setFilters, applyFilters, updateFilteredPostings, set
             </div>
 
             <Accordion.Collapse eventKey="0">
-                <>
-                    <Card.Body><ExpandedSearchForm setFilters={setFilters} applyFilters={applyFilters} updateFilteredPostings={updateFilteredPostings} /></Card.Body>
-                </>
+                <Card.Body><ExpandedSearchForm setFilters={setFilters} applyFilters={applyFilters} updateFilteredPostings={updateFilteredPostings} /></Card.Body>
             </Accordion.Collapse>
         </Accordion>
     );
