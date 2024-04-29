@@ -23,6 +23,8 @@ function Playground() {
 
     const [expandTextSearch, setExpandTextSearch] = useState(false);
 
+    const [filters, setFilters] = useState({ "country": [], "role": [], "skills": [] })
+
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -43,9 +45,26 @@ function Playground() {
     }
 
     const updateFilteredPostings = (filteredData) => {
-        setPostings(filteredData);
-        setCompaniesPostings(groupPostingsByCompany(filteredData));
+
     };
+
+    const applyFilters = () => {
+        console.log(filters)
+        let tmpPostings = []
+        console.log(postings[0])
+        for (let posting of postings) {
+            for (let [filterKey, filterValue] of Object.entries(filters)) {
+                if (filterValue.length !== 0) {
+                    if (filterValue.includes(posting[filterKey])) {
+                        tmpPostings.push(posting);
+                    }
+                }
+            }
+        }
+        console.log(tmpPostings)
+        setPostings(tmpPostings);
+        setCompaniesPostings(groupPostingsByCompany(tmpPostings));
+    }
 
     return (
         <>
@@ -68,7 +87,7 @@ function Playground() {
                         </div>
 
                         <div className="d-flex w-100 align-items-center justify-content-center">
-                            <FilterAccordion updateFilteredPostings={updateFilteredPostings} setExpandTextSearch={setExpandTextSearch} />
+                            <FilterAccordion applyFilters={applyFilters} setFilters={setFilters} setExpandTextSearch={setExpandTextSearch} />
                         </div>
                     </div>
 

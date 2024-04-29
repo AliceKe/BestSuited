@@ -3,9 +3,9 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
 
-const MultiSelect = ({ dropdown_items, dropdown_type, setSelectedItem }) => {
+const MultiSelect = ({ filterKey, dropdown_items, dropdown_type, setSelectedItem }) => {
   const handleSelection = (e, value) => {
-    setSelectedItem(value);
+    setSelectedItem(({ field: filterKey, value: value }));
   };
 
 
@@ -14,7 +14,7 @@ const MultiSelect = ({ dropdown_items, dropdown_type, setSelectedItem }) => {
       <Autocomplete
         multiple
         id="formGroupSkills"
-        options={dropdown_items.map((option) => option.title)}
+        options={dropdown_items}
         renderInput={(params) => (
           <TextField
             {...params}
