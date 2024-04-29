@@ -32,17 +32,20 @@ const ExpandedSearchForm = ({ setFilters, applyFilters }) => {
 
   return (
     <>
-      <div className="form-filters justify-content-center px-3">
-        <form >
-          <div className="form-group">
-            <MultiSelect filterKey={"role"} dropdown_items={jobRoles} dropdown_type={"Roles"} setSelectedItem={handleInputChange} />
+      <div className="form-filters block z-3 justify-content-center px-3">
+        <form className='d-flex  flex-column' >
+          <div className="d-flex flex-row">
+            <div className="form-group">
+              <MultiSelect filterKey={"role"} dropdown_items={jobRoles} dropdown_type={"Roles"} setSelectedItem={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <MultiSelect filterKey={"country"} dropdown_items={countries} dropdown_type={"Locations"} setSelectedItem={handleInputChange} />
+            </div>
+            {/* <div className="form-group">
+              <MultiSelect filterKey={"skills"} dropdown_items={skills} dropdown_type={"Skills"} setSelectedItem={handleInputChange} />
+            </div> */}
           </div>
-          <div className="form-group">
-            <MultiSelect filterKey={"country"} dropdown_items={countries} dropdown_type={"Locations"} setSelectedItem={handleInputChange} />
-          </div>
-          <div className="form-group">
-            <MultiSelect filterKey={"skills"} dropdown_items={skills} dropdown_type={"Skills"} setSelectedItem={handleInputChange} />
-          </div>
+
           {/* <div className="form-group">
             <p id="salaryrange-p">Select Salary Range:</p>
             <SortSlider value={salaryRange} onChange={handleSalaryRangeChange} />
@@ -51,7 +54,6 @@ const ExpandedSearchForm = ({ setFilters, applyFilters }) => {
           <div className="d-flex justify-content-around">
             <Button className='w-50 mt-3 mr-3 border-0 border-bottom border-success mx-auto text-center' onClick={applyFilters} variant='outline-success'>Apply Filters</Button>
             <CollapseContent eventKey="0"></CollapseContent>
-
           </div>
         </form>
       </div >

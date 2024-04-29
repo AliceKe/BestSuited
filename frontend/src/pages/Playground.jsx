@@ -9,7 +9,7 @@ import ResumeUpload from "../components/ResumeUpload";
 import FilterAccordion from "../components/FilterAccordion";
 import PostingsModal from "../components/PostingsModal";
 
-const sortParams = { "Companies": ["Default", "Rating", "Name"], "Job Postings": ["Rank", "Role"] }
+const sortParams = { "Companies": ["Default", "Rating", "Name"], "Job Postings": ["Rank"] }
 
 
 function Playground() {
@@ -74,24 +74,50 @@ function Playground() {
             <div className="w-100">
                 <div className="d-flex flex-column justify-content-center align-items-center">
                     <div className="row z-3 w-100 flex-column align-items-center justify-content-around" style={{ "height": "15%", "marginTop": "0" }}>
+
                         <SearchBar setPostings={handlePostingsUpdate} expandTextSearch={expandTextSearch} setExpandTextSearch={setExpandTextSearch} />
+                        <FilterAccordion groupBy={groupBy} setGroupBy={setGroupBy} handleSorting={handleSorting} handlePostingsUpdate={handlePostingsUpdate} applyFilters={applyFilters} setFilters={setFilters} setExpandTextSearch={setExpandTextSearch} />
+                        {/* 
                         <div className="w-50 d-flex mt-3">
                             <DisplayOption value={groupBy} setHandler={setGroupBy} variant="primary" type="List" options={Object.keys(sortParams)} cls="rounded-start-pill me-3" />
                             <ResumeUpload setPostings={handlePostingsUpdate}></ResumeUpload>
-                            {groupBy === "Companies" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
-                            {groupBy === "Job Postings" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />}
-                        </div>
 
-                        <div className="d-flex  align-items-center justify-content-center">
-                            <FilterAccordion applyFilters={applyFilters} setFilters={setFilters} setExpandTextSearch={setExpandTextSearch} />
-                        </div>
+                            {groupBy === "Companies" && <DisplayOption value={sortBy} setHandler={handleSorting} variant="success" type="Sort By" options={sortParams.Companies} cls="rounded-end-pill ms-3 " />}
+                            {groupBy === "Job Postings" &&
+                                // <DisplayOption value={sortBy} setHandler={handleSorting} variant="success" type="Sort By" options={sortParams["Job Postings"]} cls="rounded-end-pill ms-3 " />
+                            }
+                        </div> */}
+
+
                     </div>
 
-                    <div className="w-100 d-flex align-items-center justify-content-center"  >
+                    {postings.length > 0 && <div className="w-100 d-flex align-items-center justify-content-center"  >
                         {
                             groupBy === "Job Postings" &&
                             <>
-                                <table className="table border border-5 mt-3 shadow-lg w-50">
+                                <table className="table table-hover table-striped border border-5 mt-3 shadow-lg w-50">
+                                    <thead>
+                                        <tr>
+                                            <th className="text-primary bold" scope="col">
+
+                                            </th>
+                                            <th className="text-black bold" scope="col">
+                                                Role
+                                            </th>
+                                            <th className="text-dark bold" scope="col">
+                                                Company
+                                            </th>
+                                            <th className="text-primary bold" scope="col">
+                                                Location
+                                            </th>
+                                            <th className="text-black bold" scope="col">
+                                                Salary
+                                            </th>
+                                            <th className="text-secondary bold" scope="col">
+                                                Score
+                                            </th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         {postings.map((posting) => (<PostingCard posting={posting} />))}
                                     </tbody>
@@ -102,7 +128,22 @@ function Playground() {
                         {
                             groupBy === "Companies" &&
                             <>
-                                <table className="table border border-5 mt-3 shadow-lg w-50">
+                                <table className="table table-hover table-striped border border-5 mt-3 shadow-lg w-50">
+                                    <thead>
+                                        <tr>
+                                            <th className="text-primary bold" scope="col">
+                                            </th>
+                                            <th className="text-black bold" scope="col">
+                                                Company
+                                            </th>
+                                            <th className="text-dark bold" scope="col">
+                                                Rating
+                                            </th>
+                                            <th className="text-primary bold" scope="col">
+                                                Postings Link
+                                            </th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         {companiesPostings.map((companyData, key) => (<CompanyCard key={key} companyName={companyData.name} data={companyData} setShow={setShow} />))}
                                     </tbody>
@@ -110,7 +151,7 @@ function Playground() {
                             </>
                         }
 
-                    </div>
+                    </div>}
                 </div >
 
             </div >

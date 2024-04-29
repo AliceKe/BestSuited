@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import "./App.css";
-import { companiesSortBy, groupPostingsByCompany } from "./static/script";
 import Playground from "./pages/Playground";
 import Welcome from "./pages/Welcome";
 

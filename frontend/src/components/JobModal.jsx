@@ -41,7 +41,7 @@ const JobModal = ({ show, handleClose, posting }) => {
   //   );
   // };
   return (
-    <Modal show={show} onHide={handleClose} size="xl" centered>
+    <Modal show={show} onHide={handleClose} size="lg" centered>
       <Modal.Header closeButton>
         <Modal.Title>{posting.role}</Modal.Title>
       </Modal.Header>

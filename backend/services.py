@@ -179,11 +179,13 @@ def group_postings_by_company(postings):
     return groups
 
 
-def select_similar_k_docs(doc_scores_map, k):
+def select_similar_k_docs(doc_scores_map, k=25):
     res = []
 
-    for doc, _ in doc_scores_map:
-        res.append(documents[doc])
+    for doc, score in doc_scores_map:
+        document = documents[doc]
+        document["score"] = score
+        res.append(document)
 
         if k == 0:
             break
@@ -191,12 +193,12 @@ def select_similar_k_docs(doc_scores_map, k):
     return res
 
 
-def get_postings_regular_input(text, k=50):
+def get_postings_regular_input(text, k=25):
     cosine_scores = compute_cosine_scores(text)
     return select_similar_k_docs(cosine_scores, k)
 
 
-def get_postings_file_input(file, k=50):
+def get_postings_file_input(file, k=25):
     file_tokens = extract_tokens_from_file_input(file)
     cosine_scores = compute_cosine_scores(" ".join(file_tokens))
     return select_similar_k_docs(cosine_scores, k)
