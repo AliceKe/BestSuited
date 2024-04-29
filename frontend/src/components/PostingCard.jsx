@@ -27,7 +27,6 @@ const PostingCard = ({ posting }) => {
   return (
     <>
       <tr key={posting.id} className="">
-
         <td className="text-primary" scope="row">
           <img
             src={
