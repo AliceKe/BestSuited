@@ -31,9 +31,9 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
+      const response = await fetch(`${backendUrl.local}/regular?q=${query}`);
       const data = await response.json();
-      setPostings(data.postings);
+      setPostings(query.trim().length > 0 ? data.postings : []);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -55,7 +55,7 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
 
       <InputGroup className="search-bar">
         {/* {expandTextSearch && ( */}
-        <textarea
+        <input
           type="search"
           placeholder="Search"
           aria-label="Search"

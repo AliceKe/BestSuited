@@ -26,7 +26,8 @@ const PostingCard = ({ posting }) => {
 
   return (
     <>
-      <tr key={posting.id} className="">
+      <tr key={posting.id} className="" onClick={handleShowModal}>
+
         <td className="text-primary" scope="row">
           <img
             src={
@@ -49,8 +50,7 @@ const PostingCard = ({ posting }) => {
         <td className="text-dark">
           {posting["salary range"]}
         </td>
-
-        <td>
+        {/* <td>
           <Button
             variant="outline-primary"
             className="border-0 border-bottom border-primary mx-auto text-center"
@@ -58,6 +58,10 @@ const PostingCard = ({ posting }) => {
           >
             View
           </Button>
+        </td> */}
+        <td className="text-secondary bold ">
+          <span className="border bg-secondary rounded py-1 px-1 text-light">{(posting.score).toFixed(2)}</span>
+
         </td>
       </tr>
       {showModal && (
