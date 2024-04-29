@@ -6,8 +6,7 @@ import { companiesSortBy, groupPostingsByCompany } from "../static/script";
 import PostingCard from "../components/PostingCard";
 import AccordionSection from "../components/AccordionSection";
 
-const companySortParams = ["Rating", "Name"]
-
+const companySortParams = ["Rating", "Name"];
 
 function Playground() {
     const [originalPostings, setOriginalPostings] = useState([])
