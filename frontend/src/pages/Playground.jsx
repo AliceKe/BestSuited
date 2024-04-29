@@ -44,13 +44,11 @@ function Playground() {
     setSortBy(val);
   };
 
-  const updateFilteredPostings = (filteredData) => {};
-
   const applyFilters = () => {
     console.log(filters);
     let tmpPostings = [];
     console.log(postings[0]);
-    for (let posting of postings) {
+    for (let posting of originalPostings) {
       for (let [filterKey, filterValue] of Object.entries(filters)) {
         if (filterValue.length !== 0) {
           if (filterValue.includes(posting[filterKey])) {
@@ -59,7 +57,6 @@ function Playground() {
         }
       }
     }
-    console.log(tmpPostings);
     setPostings(tmpPostings);
     setCompaniesPostings(groupPostingsByCompany(tmpPostings));
   };
@@ -116,7 +113,7 @@ function Playground() {
               )}
             </div>
 
-            <div className="d-flex w-100 align-items-center justify-content-center">
+            <div className="d-flex  align-items-center justify-content-center">
               <FilterAccordion
                 applyFilters={applyFilters}
                 setFilters={setFilters}
