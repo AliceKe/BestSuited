@@ -14,14 +14,14 @@ function Playground() {
     const [postings, setPostings] = useState([])
     const [companiesPostings, setCompaniesPostings] = useState([])
 
+    const [salaryRange, setSalaryRange] = useState([]);
 
     const [groupBy, setGroupBy] = useState("Companies")
     const [sortBy, setSortBy] = useState(companySortParams[0])
 
     const [expandTextSearch, setExpandTextSearch] = useState(false);
 
-    const [filters, setFilters] = useState({ "country": [], "role": [], "skills": [] })
-
+    const [filters, setFilters] = useState({ "country": [], "role": [], "skills": [], "salary range": [0, 300] })
 
     const [show, setShow] = useState(false);
 
@@ -29,6 +29,20 @@ function Playground() {
         setPostings(data);
         setOriginalPostings(data)
         setCompaniesPostings(groupPostingsByCompany(data));
+
+        let minVal = 99999;
+        let maxVal = 0;
+        for (let posting of originalPostings) {
+            const [minSalary, maxSalary] = posting["salary range"]
+                .split("-")
+                .map((part) => parseInt(part.replace(/\D/g, ""), 10));
+
+            minVal = Math.min(minVal, minSalary);
+            maxVal = Math.max(maxVal, maxSalary);
+        }
+        console.log(minVal, maxVal)
+
+        setSalaryRange([minVal * 1000, maxVal * 1000])
     }
 
     const handleSorting = (val) => {
@@ -40,16 +54,34 @@ function Playground() {
     }
 
     const applyFilters = () => {
-        console.log(filters)
+        console.log(filters["salary range"])
+
         let tmpPostings = []
-        console.log(postings[0])
+
         for (let posting of originalPostings) {
+            let flag = true;
+
             for (let [filterKey, filterValue] of Object.entries(filters)) {
                 if (filterValue.length !== 0) {
-                    if (filterValue.includes(posting[filterKey])) {
-                        tmpPostings.push(posting);
+                    if (filterKey === "salary range") {
+                        const [minSalary, maxSalary] = posting["salary range"]
+                            .split("-")
+                            .map((part) => parseInt(part.replace(/\D/g, ""), 10));
+
+                        if (minSalary * 1000 < filterValue[0] || maxSalary * 1000 > filterValue[1]) {
+                            flag = false;
+                        }
+                    }
+
+                    else if (!filterValue.includes(posting[filterKey])) {
+                        console.log(filterKey)
+                        flag = false;
                     }
                 }
+            }
+
+            if (flag) {
+                tmpPostings.push(posting);
             }
         }
         setPostings(tmpPostings);
@@ -65,9 +97,8 @@ function Playground() {
             <div className="w-100">
                 <div className="d-flex flex-column justify-content-center align-items-center">
                     <div className="row z-3 w-100 flex-column align-items-center justify-content-around" style={{ "height": "15%", "marginTop": "0" }}>
-
                         <SearchBar setPostings={handlePostingsUpdate} expandTextSearch={expandTextSearch} setExpandTextSearch={setExpandTextSearch} />
-                        <AccordionSection groupBy={groupBy} setGroupBy={setGroupBy} sortBy={sortBy} handleSorting={handleSorting} handlePostingsUpdate={handlePostingsUpdate} applyFilters={applyFilters} setFilters={setFilters} setExpandTextSearch={setExpandTextSearch} />
+                        <AccordionSection salaryRange={salaryRange} groupBy={groupBy} setGroupBy={setGroupBy} sortBy={sortBy} handleSorting={handleSorting} handlePostingsUpdate={handlePostingsUpdate} applyFilters={applyFilters} setFilters={setFilters} setExpandTextSearch={setExpandTextSearch} />
                     </div>
 
                     {postings.length > 0 && <div className="w-100 d-flex align-items-center justify-content-center"  >

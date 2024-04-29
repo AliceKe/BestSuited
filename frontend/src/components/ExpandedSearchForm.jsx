@@ -5,6 +5,7 @@ import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 
 import MultiSelect from './MultiSelect';
 import { jobRoles, countries, skills } from '../static/data'
+import FilterSlider from './FilterSlider';
 
 function CollapseContent({ eventKey }) {
   const decoratedOnClick = useAccordionButton(eventKey, () => { },
@@ -18,10 +19,7 @@ function CollapseContent({ eventKey }) {
   );
 }
 
-const ExpandedSearchForm = ({ setFilters, applyFilters }) => {
-
-  const defaultSalaryRange = localStorage.getItem('salaryRange') || [0, 300000];
-  const [salaryRange, setSalaryRange] = useState(defaultSalaryRange);
+const ExpandedSearchForm = ({ salaryRange, setFilters, applyFilters }) => {
 
   const handleInputChange = ({ field, value }) => {
     setFilters((prevFilters) =>
@@ -46,10 +44,10 @@ const ExpandedSearchForm = ({ setFilters, applyFilters }) => {
             </div> */}
           </div>
 
-          {/* <div className="form-group">
+          <div className="form-group">
             <p id="salaryrange-p">Select Salary Range:</p>
-            <SortSlider value={salaryRange} onChange={handleSalaryRangeChange} />
-          </div> */}
+            <FilterSlider salaryRange={salaryRange} setHandler={handleInputChange} />
+          </div>
 
           <div className="d-flex justify-content-around">
             <Button className='w-50 mt-3 mr-3 border-0 border-bottom border-success mx-auto text-center' onClick={applyFilters} variant='outline-success'>Apply Filters</Button>

@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Slider } from '@mui/material';
+import { useState } from 'react';
 
 
 const minDistance = 20000;
@@ -10,24 +10,21 @@ function valuetext(value) {
 }
 
 
-const SortSlider = ({ value: propValue, onChange }) => {
-  const [value, setValue] = React.useState(propValue || [0, 300000]);
-
+const FilterSlider = ({ salaryRange, setHandler }) => {
+  const [value, setValue] = useState(salaryRange);
 
   const handleChange = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
       return;
     }
 
-
     if (activeThumb === 0) {
       setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
     } else {
       setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
     }
-    if (onChange) {
-      onChange(value);
-    }
+
+    setHandler({ field: "salary range", value: value })
   };
 
 
@@ -39,12 +36,12 @@ const SortSlider = ({ value: propValue, onChange }) => {
       valueLabelDisplay="auto"
       getAriaValueText={(e) => (valuetext(e))}
       disableSwap
-      min={0}
-      max={300000}
-      step={10000}
+      min={salaryRange[0]}
+      max={salaryRange[1]}
+      step={5000}
     />
   )
 }
 
 
-export default SortSlider;
+export default FilterSlider;
