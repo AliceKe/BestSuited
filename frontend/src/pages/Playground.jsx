@@ -24,7 +24,12 @@ function Playground() {
 
   const [expandTextSearch, setExpandTextSearch] = useState(false);
 
-  const [filters, setFilters] = useState({ country: [], role: [], skills: [] });
+  const [filters, setFilters] = useState({
+    country: [],
+    role: [],
+    skills: [],
+    salaryRange: [0, 300000],
+  });
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -44,19 +49,78 @@ function Playground() {
     setSortBy(val);
   };
 
+  //   const applyFilters = () => {
+  //     console.log(filters);
+  //     let tmpPostings = [];
+  //     console.log(postings[0]);
+
+  //     for (let posting of originalPostings) {
+  //       let total = 0;
+  //       let count = 0;
+  //       for (let [filterKey, filterValue] of Object.entries(filters)) {
+  //         if (filterValue.length !== 0) {
+  //           total += 1;
+
+  //           if (filterKey === "salary range") {
+  //             // console.log(posting[filterKey]);
+  //             const jobRange = posting[filterKey].split("-").map((part) => {
+  //               return parseInt(part.replace(/\D/g, ""), 10);
+  //             });
+  //             if (
+  //               jobRange[0] >= filterValue[0] &&
+  //               jobRange[1] <= filterValue[1]
+  //             ) {
+  //             }
+  //           }
+
+  //           if (filterValue.includes(posting[filterKey])) {
+  //             count += 1;
+  //           }
+  //         }
+  //       }
+
+  //       if (count === total) {
+  //         tmpPostings.push(posting);
+  //       }
+  //     }
+  //     setPostings(tmpPostings);
+  //     setCompaniesPostings(groupPostingsByCompany(tmpPostings));
+  //   };
+
   const applyFilters = () => {
-    console.log(filters);
     let tmpPostings = [];
-    console.log(postings[0]);
+
     for (let posting of originalPostings) {
+      let passAllFilters = true;
+
       for (let [filterKey, filterValue] of Object.entries(filters)) {
         if (filterValue.length !== 0) {
-          if (filterValue.includes(posting[filterKey])) {
-            tmpPostings.push(posting);
+          if (filterKey === "salaryRange") {
+            const jobRange = posting["salary range"]
+              .split("-")
+              .map((part) => parseInt(part.replace(/\D/g, ""), 10));
+            const [minSalary, maxSalary] = jobRange;
+            if (minSalary < filterValue[0] || maxSalary > filterValue[1]) {
+              passAllFilters = false;
+              break;
+            }
+            console.log(jobRange);
+            console.log(filterValue);
+          } else if (
+            filterValue.length > 0 &&
+            !filterValue.includes(posting[filterKey])
+          ) {
+            passAllFilters = false;
+            break;
           }
         }
       }
+
+      if (passAllFilters) {
+        tmpPostings.push(posting);
+      }
     }
+
     setPostings(tmpPostings);
     setCompaniesPostings(groupPostingsByCompany(tmpPostings));
   };
