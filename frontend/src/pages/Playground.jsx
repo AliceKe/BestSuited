@@ -15,6 +15,7 @@ function Playground() {
 
   const [groupBy, setGroupBy] = useState("Companies");
   const [sortBy, setSortBy] = useState(companySortParams[0]);
+  const [salaryRange, setSalaryRange] = useState([]);
 
   const [expandTextSearch, setExpandTextSearch] = useState(false);
 
@@ -26,6 +27,20 @@ function Playground() {
     setPostings(data);
     setOriginalPostings(data);
     setCompaniesPostings(groupPostingsByCompany(data));
+
+    let minVal = 99999;
+    let maxVal = 0;
+    for (let posting of originalPostings) {
+      const [minSalary, maxSalary] = posting["salary range"]
+        .split("-")
+        .map((part) => parseInt(part.replace(/\D/g, ""), 10));
+
+      console.log(minSalary, maxSalary)
+      minVal = Math.min(minVal, minSalary);
+      maxVal = Math.max(maxVal, maxSalary);
+    }
+
+    setSalaryRange([minVal * 1000, maxVal * 1000])
   };
 
   const handleSorting = (val) => {
@@ -42,7 +57,18 @@ function Playground() {
       let flag = true;
       for (let [filterKey, filterValue] of Object.entries(filters)) {
         if (filterValue.length !== 0) {
-          if (!filterValue.includes(posting[filterKey])) {
+          if (filterKey === "salary range") {
+            const [minSalary, maxSalary] = posting["salary range"]
+              .split("-")
+              .map((part) => parseInt(part.replace(/\D/g, ""), 10));
+
+            if (minSalary * 1000 < filterValue[0] && maxSalary * 1000 > filterValue[1]) {
+              flag = false;
+            }
+          }
+
+          else if (!filterValue.includes(posting[filterKey])) {
+            console.log(filterKey)
             flag = false;
           }
         }
@@ -74,6 +100,7 @@ function Playground() {
               setExpandTextSearch={setExpandTextSearch}
             />
             <AccordionSection
+              salaryRange={salaryRange}
               groupBy={groupBy}
               setGroupBy={setGroupBy}
               sortBy={sortBy}

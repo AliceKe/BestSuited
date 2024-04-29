@@ -25,6 +25,7 @@ function CustomToggle({ eventKey, setExpandTextSearch }) {
 }
 
 const AccordionSection = ({
+  salaryRange,
   groupBy,
   setGroupBy,
   handleSorting,
@@ -72,6 +73,7 @@ const AccordionSection = ({
         <Accordion.Collapse eventKey="0">
           <Card.Body>
             <ExpandedSearchForm
+              salaryRange={salaryRange}
               setFilters={setFilters}
               applyFilters={applyFilters}
               updateFilteredPostings={updateFilteredPostings}
