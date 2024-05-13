@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "axios": "^1.6.8",
     "plotly.js": "^2.32.0",
     "react-plotly": "^1.0.0",
     "react-plotly.js": "^2.6.0"

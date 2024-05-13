@@ -67,7 +67,15 @@ def compute_cosine_scores(query):
     query_vec = normalize(np.dot(query_tfidf, words_compressed)).squeeze()
     sims = docs_compressed_normed.dot(query_vec)
     asort = np.argsort(-sims)[:200]
-    return [(i, sims[i]) for i in asort[1:]]
+
+    n_components = 5
+    asort = np.argsort(-sims)[:n_components]
+    words = vectorizer.get_feature_names_out()
+
+    result = [words[i] for i in asort]
+    result_scores = [sims[i] for i in asort]
+
+    return [(i, sims[i]) for i in asort[1:]], (result, result_scores)
 
 
 def closest_projects_to_word(word_in, k=5):

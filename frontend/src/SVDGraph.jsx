@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 import Plot from "react-plotly.js";
 
 const layout = {
@@ -28,7 +28,7 @@ const layout = {
   },
   paper_bgcolor: "#202020",
   title: {
-    text: "Tag Similarity",
+    text: "Top Contributing Words",
     font: {
       size: 24,
     },
@@ -57,7 +57,7 @@ const SVDGraph = () => {
     },
   ];
 
-  return <Plot data={d} layout={{}} />;
+  return <Plot data={d} layout={layout} />;
 };
 
 export default SVDGraph;

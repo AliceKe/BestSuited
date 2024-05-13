@@ -65,8 +65,9 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
           placeholder="Search"
           aria-label="Search"
           aria-describedby="basic-addon2"
-          className={`search-input form-control ${expandTextSearch ? "expandTextSearch" : "collapsed"
-            }`}
+          className={`search-input form-control ${
+            expandTextSearch ? "expandTextSearch" : "collapsed"
+          }`}
           onChange={handleChange}
           style={{
             height: "40px" /* set minimum width */,

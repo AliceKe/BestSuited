@@ -2,6 +2,7 @@ import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from services import get_postings_file_input, get_postings_regular_input
+from svdGraph import create_spider_plot
 
 app = Flask(__name__)
 CORS(app)
@@ -23,7 +24,7 @@ def regular_text_search():
 def resume_search():
     uploaded_file = request.files["resume"]
     res = get_postings_file_input(uploaded_file)
-    return jsonify({"postings": res})
+    return jsonify({"postings": res, "graph_data": []})
 
 
 if "DB_NAME" not in os.environ:
