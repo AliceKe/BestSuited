@@ -179,7 +179,7 @@ def group_postings_by_company(postings):
     return groups
 
 
-def select_similar_k_docs(doc_scores_map, graph_data, k=25):
+def select_similar_k_docs(doc_scores_map, k=25):
     res = []
     graph_res = []
 
@@ -188,8 +188,6 @@ def select_similar_k_docs(doc_scores_map, graph_data, k=25):
         document["score"] = score
         res.append(document)
 
-        graph_res.append(graph_data[doc])
-
         if k == 0:
             break
 
@@ -197,19 +195,13 @@ def select_similar_k_docs(doc_scores_map, graph_data, k=25):
 
 
 def get_postings_regular_input(text, k=25):
-    cosine_scores, graph_data = compute_cosine_scores(text)
-    # return select_similar_k_docs(cosine_scores, graph_data, k)
-    selected_docs, selected_graph_data = select_similar_k_docs(
-        cosine_scores, graph_data, k
-    )
-    return selected_docs, selected_graph_data
+    cosine_scores, plot_data = compute_cosine_scores(text, k)
+    selected_docs = select_similar_k_docs(cosine_scores, k)
+    return selected_docs, plot_data
 
 
 def get_postings_file_input(file, k=25):
     file_tokens = extract_tokens_from_file_input(file)
-    cosine_scores, graph_data = compute_cosine_scores(" ".join(file_tokens))
-    # return select_similar_k_docs(cosine_scores, graph_data, k)
-    selected_docs, selected_graph_data = select_similar_k_docs(
-        cosine_scores, graph_data, k
-    )
-    return selected_docs, selected_graph_data
+    cosine_scores, plot_data = compute_cosine_scores(" ".join(file_tokens), k)
+    selected_docs = select_similar_k_docs(cosine_scores, k)
+    return selected_docs, plot_data

@@ -26,6 +26,7 @@ const chooseRandomColor = () => {
 
 
 const CompanyCard = ({ companyName, data }) => {
+    console.log(companyName)
     const [image, setImage] = useState("");
     const [imageNotFound, setImageNotFound] = useState(false);
     const handleImageNotFound = () => {
@@ -44,7 +45,6 @@ const CompanyCard = ({ companyName, data }) => {
                 <th className="text-primary" scope="row">
                     <img
                         src={
-                            image ||
                             `https://logo.clearbit.com/${companyName
                                 .replace(/\s+/g, "")
                                 .toLowerCase()}.com?size=20`

@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import Spinner from "react-bootstrap/Spinner";
 import { backendUrl } from "../static/script";
-import { InputGroup, FormControl, Button } from "react-bootstrap";
-import SVDGraph from "./SVDGraph";
+import { InputGroup, Button } from "react-bootstrap";
 
 const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setExpandTextSearch }) => {
   const [query, setQuery] = useState("");
@@ -15,10 +13,11 @@ const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setEx
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
+      const response = await fetch(`${backendUrl.local}/regular?q=${query}`);
       const data = await response.json();
       setPostings(query.trim().length > 0 ? data.postings : []);
       setPlotData(query.trim().length > 0 ? data.plot : {})
+      console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -50,6 +49,25 @@ const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setEx
 
   return (
     <div className="d-flex w-50">
+
+      <InputGroup className="search-bar">
+        {/* {expandTextSearch && ( */}
+        <input
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          aria-describedby="basic-addon2"
+          className={`search-input form-control ${expandTextSearch ? "expandTextSearch" : "collapsed"
+            }`}
+          onChange={handleChange}
+          style={{
+            height: "40px" /* set minimum width */,
+            maxHeight: "100px" /* set minimum height */,
+            maxWidth: "95%",
+          }}
+        />
+      </InputGroup>
+
       <Button
         variant="secondary"
         onClick={handleExpand}
@@ -61,26 +79,7 @@ const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setEx
         Show SVD Graph
       </Button>
 
-      <InputGroup className="search-bar">
-        {/* {expandTextSearch && ( */}
-        <input
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          aria-describedby="basic-addon2"
-          className={`search-input form-control ${
-            expandTextSearch ? "expandTextSearch" : "collapsed"
-          }`}
-          onChange={handleChange}
-          style={{
-            height: "40px" /* set minimum width */,
-            maxHeight: "100px" /* set minimum height */,
-            maxWidth: "95%",
-          }}
-        />
-      </InputGroup>
-
-      <SVDGraph />
+      {/* <SVDGraph /> */}
     </div>
   );
 };

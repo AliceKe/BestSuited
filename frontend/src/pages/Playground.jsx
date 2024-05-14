@@ -15,6 +15,8 @@ const Playground = () => {
   const [postings, setPostings] = useState([]);
   const [companiesPostings, setCompaniesPostings] = useState([]);
 
+  const [plotData, setPlotData] = useState({});
+
   const [groupBy, setGroupBy] = useState("Companies");
   const [sortBy, setSortBy] = useState(companySortParams[0]);
   const [salaryRange, setSalaryRange] = useState([]);
@@ -30,16 +32,14 @@ const Playground = () => {
 
   const [show, setShow] = useState(false);
 
-  const [graphData, setGraphData] = useState([]);
-
-  const fetchGraphData = async () => {
+  const fetchPlotplotData = async () => {
     try {
       const response = await fetch(`${backendUrl.remote}/resume`, {
         method: "GET",
       });
       if (response.ok) {
         const data = await response.json();
-        setGraphData(data.graph_data);
+        setPlotData(data.graph_data);
       } else {
         throw new Error("Failed to load SVD graph data");
       }
@@ -50,7 +50,7 @@ const Playground = () => {
 
   useEffect(() => {
     if (postings.length > 0) {
-      fetchGraphData();
+      fetchPlotplotData();
     }
   }, [postings]);
 
@@ -129,6 +129,8 @@ const Playground = () => {
               setPostings={handlePostingsUpdate}
               expandTextSearch={expandTextSearch}
               setExpandTextSearch={setExpandTextSearch}
+              plotData={plotData}
+              setPlotData={setPlotData}
             />
             <AccordionSection
               salaryRange={salaryRange}
@@ -143,8 +145,8 @@ const Playground = () => {
             />
           </div>
 
-          {graphData.length > 0 && (
-            <SVDGraph categories={graphData[0]} values={graphData[1]} />
+          {plotData.length > 0 && (
+            <SVDGraph categories={plotData[0]} values={plotData[1]} />
           )}
 
           {postings.length > 0 && (

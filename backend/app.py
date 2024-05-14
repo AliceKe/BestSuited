@@ -18,25 +18,25 @@ def home():
 @app.get("/regular")
 def regular_text_search():
     text = request.args.get("q")
-    res, graph_info = get_postings_regular_input(text)
-    return jsonify({"postings": res, "graph_data": graph_info})
+    res, plot_data = get_postings_regular_input(text)
+    return jsonify({"postings": res, "plot": plot_data})
 
 
 @app.post("/resume")
 def resume_search():
     uploaded_file = request.files["resume"]
-    res, graph_info = get_postings_file_input(uploaded_file)
+    res, plot_data = get_postings_file_input(uploaded_file)
     file_id = str(uuid.uuid4())
-    uploaded_data[file_id] = graph_info
-    return jsonify({"postings": res, "graph_data": graph_info})
+    uploaded_data[file_id] = plot_data
+    return jsonify({"postings": res, "plot": plot_data})
 
 
 @app.get("/resume")
 def get_graph_data():
     file_id = request.args.get("file_id")
     if file_id and file_id in uploaded_data:
-        graph_info = uploaded_data[file_id]
-        return jsonify({"graph_data": graph_info})
+        plot_data = uploaded_data[file_id]
+        return jsonify({"graph_data": plot_data})
     else:
         return jsonify({"error": "Graph data not found for given file_id"}), 404
 
