@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import Spinner from "react-bootstrap/Spinner";
 import { backendUrl } from "../static/script";
-import { InputGroup, FormControl, Button } from "react-bootstrap";
+import { InputGroup, Button } from "react-bootstrap";
 import SVDGraph from "./SVDGraph";
 
-const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setExpandTextSearch }) => {
+const SearchBar = ({ showPlot, setShowPlot, setPostings, setPlotData, plotData, expandTextSearch, setExpandTextSearch }) => {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+
 
   const handleExpand = () => {
     setExpandTextSearch(!expandTextSearch);
@@ -15,7 +15,7 @@ const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setEx
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
+      const response = await fetch(`${backendUrl.local}/regular?q=${query}`);
       const data = await response.json();
       setPostings(query.trim().length > 0 ? data.postings : []);
       setPlotData(query.trim().length > 0 ? data.plot : {})
@@ -50,16 +50,6 @@ const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setEx
 
   return (
     <div className="d-flex w-50">
-      <Button
-        variant="secondary"
-        onClick={handleExpand}
-        className="btn-sm"
-        style={{ height: "40px", width: "200px" }}
-        disabled={plotData} //TODO: Fix condition
-      >
-        <img src="/mag.png" alt="Search Icon" height={"20"} />
-        Show SVD Graph
-      </Button>
 
       <InputGroup className="search-bar">
         {/* {expandTextSearch && ( */}
@@ -79,7 +69,17 @@ const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setEx
         />
       </InputGroup>
 
-      <SVDGraph />
+      <Button
+        variant="secondary"
+        onClick={() => setShowPlot(!showPlot)}
+        className="btn-sm"
+        style={{ height: "40px", width: "200px" }}
+        disabled={plotData == null}
+      >
+        <img src="/mag.png" alt="Search Icon" height={"20"} />
+        Show SVD Graph
+      </Button>
+
     </div>
   );
 };

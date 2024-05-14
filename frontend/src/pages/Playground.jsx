@@ -1,17 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CompanyCard from "../components/CompanyCard";
 import SearchBar from "../components/SearchBar";
 import { companiesSortBy, groupPostingsByCompany } from "../static/script";
 import PostingCard from "../components/PostingCard";
 import AccordionSection from "../components/AccordionSection";
+import SVDGraph from "../components/SVDGraph";
+import { backendUrl } from "../static/script";
 
 const companySortParams = ["Rating", "Name"];
 
-function Playground() {
+const Playground = () => {
   const [originalPostings, setOriginalPostings] = useState([]);
   const [postings, setPostings] = useState([]);
   const [companiesPostings, setCompaniesPostings] = useState([]);
+
+  const [plotData, setPlotData] = useState(null);
+  const [showPlot, setShowPlot] = useState(false);
 
   const [groupBy, setGroupBy] = useState("Companies");
   const [sortBy, setSortBy] = useState(companySortParams[0]);
@@ -19,7 +24,12 @@ function Playground() {
 
   const [expandTextSearch, setExpandTextSearch] = useState(false);
 
-  const [filters, setFilters] = useState({ country: [], role: [], skills: [] });
+  const [filters, setFilters] = useState({
+    country: [],
+    role: [],
+    skills: [],
+    "salary range": [0, 300],
+  });
 
   const [show, setShow] = useState(false);
 
@@ -35,12 +45,11 @@ function Playground() {
         .split("-")
         .map((part) => parseInt(part.replace(/\D/g, ""), 10));
 
-      console.log(minSalary, maxSalary)
       minVal = Math.min(minVal, minSalary);
       maxVal = Math.max(maxVal, maxSalary);
     }
 
-    setSalaryRange([minVal * 1000, maxVal * 1000])
+    setSalaryRange([minVal * 1000, maxVal * 1000]);
   };
 
   const handleSorting = (val) => {
@@ -62,13 +71,13 @@ function Playground() {
               .split("-")
               .map((part) => parseInt(part.replace(/\D/g, ""), 10));
 
-            if (minSalary * 1000 < filterValue[0] && maxSalary * 1000 > filterValue[1]) {
+            if (
+              minSalary * 1000 < filterValue[0] &&
+              maxSalary * 1000 > filterValue[1]
+            ) {
               flag = false;
             }
-          }
-
-          else if (!filterValue.includes(posting[filterKey])) {
-            console.log(filterKey)
+          } else if (!filterValue.includes(posting[filterKey])) {
             flag = false;
           }
         }
@@ -87,7 +96,6 @@ function Playground() {
       <h2 className="display-2 text-light text-center py-auto pt-3 poppins-font">
         BestSuited
       </h2>
-
       <div className="w-100">
         <div className="d-flex flex-column justify-content-center align-items-center">
           <div
@@ -98,6 +106,10 @@ function Playground() {
               setPostings={handlePostingsUpdate}
               expandTextSearch={expandTextSearch}
               setExpandTextSearch={setExpandTextSearch}
+              plotData={plotData}
+              setPlotData={setPlotData}
+              showPlot={showPlot}
+              setShowPlot={setShowPlot}
             />
             <AccordionSection
               salaryRange={salaryRange}
@@ -179,9 +191,12 @@ function Playground() {
             </div>
           )}
         </div>
+
+        {plotData && <SVDGraph show={showPlot} handleClose={setShowPlot} data={plotData} />}
+
       </div>
     </>
   );
-}
+};
 
 export default Playground;

@@ -13,10 +13,7 @@ function valuetext(value) {
 const SalaryRangeSlider = ({ salaryRange, setHandler }) => {
   const [value, setValue] = React.useState(salaryRange[0] < salaryRange[1] ? salaryRange : [1000, 200000]);
 
-  console.log(salaryRange)
-
   const handleChange = (event, newValue, activeThumb) => {
-    console.log(salaryRange, newValue)
     if (!Array.isArray(newValue)) {
       return;
     }

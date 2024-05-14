@@ -194,11 +194,11 @@ def select_similar_k_docs(doc_scores_map, k=25):
 
 
 def get_postings_regular_input(text, k=25):
-    cosine_scores = compute_cosine_scores(text)
-    return select_similar_k_docs(cosine_scores, k)
+    cosine_scores, plot = compute_cosine_scores(text, k)
+    return select_similar_k_docs(cosine_scores, k), plot
 
 
 def get_postings_file_input(file, k=25):
     file_tokens = extract_tokens_from_file_input(file)
-    cosine_scores = compute_cosine_scores(" ".join(file_tokens))
-    return select_similar_k_docs(cosine_scores, k)
+    cosine_scores, plot = compute_cosine_scores(" ".join(file_tokens), k)
+    return select_similar_k_docs(cosine_scores, k), plot
