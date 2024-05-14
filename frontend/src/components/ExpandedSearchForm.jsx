@@ -3,25 +3,24 @@ import { Button } from "react-bootstrap/";
 
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
 
-import MultiSelect from "./MultiSelect";
-import { jobRoles, countries, skills } from "../static/data";
-import SalaryRangeSlider from "./SalaryRangeSlider";
+import MultiSelect from './MultiSelect';
+import { jobRoles, countries, skills } from '../static/data'
+import SalaryRangeSlider from './SalaryRangeSlider';
 
 function CollapseContent({ eventKey }) {
-  const decoratedOnClick = useAccordionButton(eventKey, () => {});
+  const decoratedOnClick = useAccordionButton(eventKey, () => { },
+  );
 
   return (
     <Button
       className="col-2 rounded-end-pill my-auto mb-3 pt-1 ms-3 mb-1  h-50"
-      variant="outline-danger"
-      onClick={decoratedOnClick}
-    >
-      Cancel{" "}
-    </Button>
+      variant="outline-danger" onClick={decoratedOnClick}>Cancel </Button>
   );
 }
 
 const ExpandedSearchForm = ({ salaryRange, setFilters, applyFilters }) => {
+
+
   const handleInputChange = ({ field, value }) => {
     setFilters((prevFilters) => ({ ...prevFilters, [field]: value }));
   };
@@ -29,7 +28,7 @@ const ExpandedSearchForm = ({ salaryRange, setFilters, applyFilters }) => {
   return (
     <>
       <div className="form-filters block z-3 justify-content-center px-3">
-        <form className="d-flex flex-column">
+        <form className='d-flex flex-column' >
           <div className="d-flex justify-content-between flex-row">
             <div className="form-group">
               <MultiSelect
@@ -50,22 +49,15 @@ const ExpandedSearchForm = ({ salaryRange, setFilters, applyFilters }) => {
           </div>
 
           <div className="row justify-content-between mt-1">
-            <Button
-              className="col-2 rounded-start-pill my-auto mb-3 pt-1 ms-3 mb-1  h-50"
-              onClick={applyFilters}
-              variant="outline-success"
-            >
-              Apply
-            </Button>
+            <Button className='col-2 rounded-start-pill my-auto mb-3 pt-1 ms-3 mb-1  h-50' onClick={applyFilters} variant='outline-success'>Apply</Button>
             <div className="col-6">
               <p id="salaryrange-p">Salary Range:</p>
-              <SalaryRangeSlider
-                salaryRange={salaryRange}
-                setHandler={handleInputChange}
-              />
+              <SalaryRangeSlider salaryRange={salaryRange} setHandler={handleInputChange} />
             </div>
             <CollapseContent eventKey="0"></CollapseContent>
           </div>
+
+
         </form>
       </div>
     </>

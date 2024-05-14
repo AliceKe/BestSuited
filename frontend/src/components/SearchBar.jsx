@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { backendUrl } from "../static/script";
 import { InputGroup, FormControl, Button } from "react-bootstrap";
+import SVDGraph from "./SVDGraph";
 
-const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
+const SearchBar = ({ setPostings, setPlotData, plotData, expandTextSearch, setExpandTextSearch }) => {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
@@ -17,6 +18,7 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
       const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
       const data = await response.json();
       setPostings(query.trim().length > 0 ? data.postings : []);
+      setPlotData(query.trim().length > 0 ? data.plot : {})
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -53,9 +55,10 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
         onClick={handleExpand}
         className="btn-sm"
         style={{ height: "40px", width: "200px" }}
+        disabled={plotData} //TODO: Fix condition
       >
         <img src="/mag.png" alt="Search Icon" height={"20"} />
-        Type to Search
+        Show SVD Graph
       </Button>
 
       <InputGroup className="search-bar">
@@ -74,13 +77,9 @@ const SearchBar = ({ setPostings, expandTextSearch, setExpandTextSearch }) => {
             maxWidth: "95%",
           }}
         />
-        {/* )} */}
-        {/* {isTyping && (
-          <div className="col-2">
-            <Spinner animation="border" size="sm" variant="primary" />
-          </div>
-        )} */}
       </InputGroup>
+
+      <SVDGraph />
     </div>
   );
 };

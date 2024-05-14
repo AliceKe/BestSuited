@@ -17,6 +17,7 @@ function Playground() {
 
   const [groupBy, setGroupBy] = useState("Companies");
   const [sortBy, setSortBy] = useState(companySortParams[0]);
+  const [salaryRange, setSalaryRange] = useState([]);
 
   const [expandTextSearch, setExpandTextSearch] = useState(false);
 
@@ -41,12 +42,12 @@ function Playground() {
         .split("-")
         .map((part) => parseInt(part.replace(/\D/g, ""), 10));
 
-      console.log(minSalary, maxSalary);
+      console.log(minSalary, maxSalary)
       minVal = Math.min(minVal, minSalary);
       maxVal = Math.max(maxVal, maxSalary);
     }
 
-    setSalaryRange([minVal * 1000, maxVal * 1000]);
+    setSalaryRange([minVal * 1000, maxVal * 1000])
   };
 
   const handleSorting = (val) => {
@@ -68,14 +69,13 @@ function Playground() {
               .split("-")
               .map((part) => parseInt(part.replace(/\D/g, ""), 10));
 
-            if (
-              minSalary * 1000 < filterValue[0] &&
-              maxSalary * 1000 > filterValue[1]
-            ) {
+            if (minSalary * 1000 < filterValue[0] && maxSalary * 1000 > filterValue[1]) {
               flag = false;
             }
-          } else if (!filterValue.includes(posting[filterKey])) {
-            console.log(filterKey);
+          }
+
+          else if (!filterValue.includes(posting[filterKey])) {
+            console.log(filterKey)
             flag = false;
           }
         }
