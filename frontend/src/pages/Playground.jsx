@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CompanyCard from "../components/CompanyCard";
 import SearchBar from "../components/SearchBar";
 import { companiesSortBy, groupPostingsByCompany } from "../static/script";
 import PostingCard from "../components/PostingCard";
 import AccordionSection from "../components/AccordionSection";
+import SVDGraph from "../components/SVDGraph";
+import { backendUrl } from "../static/script";
 
 const companySortParams = ["Rating", "Name"];
 
-function Playground() {
+const Playground = () => {
   const [originalPostings, setOriginalPostings] = useState([]);
   const [postings, setPostings] = useState([]);
   const [companiesPostings, setCompaniesPostings] = useState([]);
@@ -28,6 +30,30 @@ function Playground() {
 
   const [show, setShow] = useState(false);
 
+  const [graphData, setGraphData] = useState([]);
+
+  const fetchGraphData = async () => {
+    try {
+      const response = await fetch(`${backendUrl.remote}/resume`, {
+        method: "GET",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setGraphData(data.graph_data);
+      } else {
+        throw new Error("Failed to load SVD graph data");
+      }
+    } catch (error) {
+      console.error("Error fetching graph data:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (postings.length > 0) {
+      fetchGraphData();
+    }
+  }, [postings]);
+
   const handlePostingsUpdate = (data) => {
     setPostings(data);
     setOriginalPostings(data);
@@ -40,12 +66,12 @@ function Playground() {
         .split("-")
         .map((part) => parseInt(part.replace(/\D/g, ""), 10));
 
-      console.log(minSalary, maxSalary)
+      console.log(minSalary, maxSalary);
       minVal = Math.min(minVal, minSalary);
       maxVal = Math.max(maxVal, maxSalary);
     }
 
-    setSalaryRange([minVal * 1000, maxVal * 1000])
+    setSalaryRange([minVal * 1000, maxVal * 1000]);
   };
 
   const handleSorting = (val) => {
@@ -67,13 +93,14 @@ function Playground() {
               .split("-")
               .map((part) => parseInt(part.replace(/\D/g, ""), 10));
 
-            if (minSalary * 1000 < filterValue[0] && maxSalary * 1000 > filterValue[1]) {
+            if (
+              minSalary * 1000 < filterValue[0] &&
+              maxSalary * 1000 > filterValue[1]
+            ) {
               flag = false;
             }
-          }
-
-          else if (!filterValue.includes(posting[filterKey])) {
-            console.log(filterKey)
+          } else if (!filterValue.includes(posting[filterKey])) {
+            console.log(filterKey);
             flag = false;
           }
         }
@@ -92,7 +119,6 @@ function Playground() {
       <h2 className="display-2 text-light text-center py-auto pt-3 poppins-font">
         BestSuited
       </h2>
-
       <div className="w-100">
         <div className="d-flex flex-column justify-content-center align-items-center">
           <div
@@ -116,6 +142,10 @@ function Playground() {
               setExpandTextSearch={setExpandTextSearch}
             />
           </div>
+
+          {graphData.length > 0 && (
+            <SVDGraph categories={graphData[0]} values={graphData[1]} />
+          )}
 
           {postings.length > 0 && (
             <div className="w-100 d-flex align-items-center justify-content-center">
@@ -187,6 +217,6 @@ function Playground() {
       </div>
     </>
   );
-}
+};
 
 export default Playground;
