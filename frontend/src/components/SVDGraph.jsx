@@ -14,7 +14,7 @@ const layout = {
     radialaxis: {
       visible: false,
     },
-    bgcolor: "#202020",
+    bgcolor: "white",
   },
   showlegend: true,
   legend: {
@@ -29,7 +29,7 @@ const layout = {
     color: "#aaaaaa",
     family: "Figtree, sans-serif",
   },
-  paper_bgcolor: "#202020",
+  paper_bgcolor: "white",
   title: {
     text: "Top Contributing Words",
     font: {
