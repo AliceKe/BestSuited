@@ -86,6 +86,24 @@ def most_prominent_features(sims, query_vec, query_tfidf, k=5):
         repeated_array = np.tile(vector, (length, 1))
         return repeated_array
 
+
+    def preprocess_results(array1, array2):
+    #removes 1s that results from no contribution of words
+    new_array1 = []
+    new_array2 = []
+
+    # Iterateboth input arrays
+    for sub_array1, sub_array2 in zip(array1, array2):
+        # Filter out the '1's and their corresponding elements
+        filtered_sub_array1 = [elem for elem in sub_array1 if elem != '1']
+        filtered_sub_array2 = [elem for elem, orig_elem in zip(sub_array2, sub_array1) if orig_elem != '1']
+
+        # Append each filtered sub array to the new array
+        new_array1.append(filtered_sub_array1)
+        new_array2.append(filtered_sub_array2)
+
+    return new_array1, new_array2
+
     def compute_word_contribution():
         # sims = docs_compressed_normed.dot(query_vec)
         p = 10
@@ -93,10 +111,10 @@ def most_prominent_features(sims, query_vec, query_tfidf, k=5):
         asort = np.argsort(-sims)[:p]
         result = [most_sim_words[i] for i in asort][1:]
         result_scores = [sim_scores[i] for i in asort][1:]
+        result, result_scores = preprocess_results(result, result_scores)
 
         sums = np.sum(np.abs(result_scores), axis=1)
         percentages = (result_scores / sums[:, np.newaxis]) * 100
-
         percentages = percentages[:, :k].tolist()
         return {"words": result[0], "values": percentages[0][:5]}
 
