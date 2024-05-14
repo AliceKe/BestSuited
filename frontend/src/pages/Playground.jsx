@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CompanyCard from "../components/CompanyCard";
 import SearchBar from "../components/SearchBar";
 import { companiesSortBy, groupPostingsByCompany } from "../static/script";
 import PostingCard from "../components/PostingCard";
 import AccordionSection from "../components/AccordionSection";
-import SVDGraph from "../SVDGraph";
+import SVDGraph from "../components/SVDGraph";
+import { backendUrl } from "../static/script";
 
 const companySortParams = ["Rating", "Name"];
 
-function Playground() {
+const Playground = () => {
   const [originalPostings, setOriginalPostings] = useState([]);
   const [postings, setPostings] = useState([]);
   const [companiesPostings, setCompaniesPostings] = useState([]);
@@ -23,6 +24,30 @@ function Playground() {
   const [filters, setFilters] = useState({ country: [], role: [], skills: [] });
 
   const [show, setShow] = useState(false);
+
+  const [graphData, setGraphData] = useState([]);
+
+  const fetchGraphData = async () => {
+    try {
+      const response = await fetch(`${backendUrl.remote}/resume`, {
+        method: "GET",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setGraphData(data.graph_data);
+      } else {
+        throw new Error("Failed to load SVD graph data");
+      }
+    } catch (error) {
+      console.error("Error fetching graph data:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (postings.length > 0) {
+      fetchGraphData();
+    }
+  }, [postings]);
 
   const handlePostingsUpdate = (data) => {
     setPostings(data);
@@ -113,7 +138,9 @@ function Playground() {
             />
           </div>
 
-          {postings.length > 0 && <SVDGraph />}
+          {graphData.length > 0 && (
+            <SVDGraph categories={graphData[0]} values={graphData[1]} />
+          )}
 
           {postings.length > 0 && (
             <div className="w-100 d-flex align-items-center justify-content-center">
@@ -185,6 +212,6 @@ function Playground() {
       </div>
     </>
   );
-}
+};
 
 export default Playground;

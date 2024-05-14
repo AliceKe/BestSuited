@@ -43,6 +43,8 @@ const layout = {
 };
 
 const SVDGraph = ({ categories, values }) => {
+  console.log(categories);
+  console.log(values);
   // const categories = ["A", "B", "C", "D", "E"];
   // const values = [4, 3, 2, 5, 4];
 

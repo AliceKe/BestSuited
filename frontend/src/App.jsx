@@ -14,7 +14,7 @@ import Accountant from "./images/accountant.jpeg";
 import Doctor from "./images/doctor.jpeg";
 import Judge from "./images/judge.jpeg";
 import Preacher from "./images/preacher.jpeg";
-import SVDGraph from "./SVDGraph";
+import SVDGraph from "./components/SVDGraph";
 
 function App() {
   const [welcome, setWelcome] = useState(true);
