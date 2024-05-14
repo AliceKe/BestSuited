@@ -27,8 +27,8 @@ function App() {
 
   return (
     <>
-      {/* <Playground /> */}
-      <SVDGraph />
+      <Playground />
+      {/* <SVDGraph /> */}
     </>
     // <div className="h-100 overflow-hidden">
     //   <div className="d-flex z-n1 position-absolute position-fixed h-100 w-100 row mb-3">

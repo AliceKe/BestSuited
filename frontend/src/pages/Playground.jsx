@@ -113,6 +113,8 @@ function Playground() {
             />
           </div>
 
+          {postings.length > 0 && <SVDGraph />}
+
           {postings.length > 0 && (
             <div className="w-100 d-flex align-items-center justify-content-center">
               {groupBy === "Job Postings" && (
