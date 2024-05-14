@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { InputGroup, Button } from "react-bootstrap";
 
 import CompanyCard from "../components/CompanyCard";
 import SearchBar from "../components/SearchBar";
@@ -102,15 +103,29 @@ const Playground = () => {
             className="row z-3 w-100 flex-column align-items-center justify-content-around"
             style={{ height: "15%", marginTop: "0" }}
           >
-            <SearchBar
-              setPostings={handlePostingsUpdate}
-              expandTextSearch={expandTextSearch}
-              setExpandTextSearch={setExpandTextSearch}
-              plotData={plotData}
-              setPlotData={setPlotData}
-              showPlot={showPlot}
-              setShowPlot={setShowPlot}
-            />
+            <div className="d-flex w-75 align-items-center justify-content-center">
+              <SearchBar
+                setPostings={handlePostingsUpdate}
+                expandTextSearch={expandTextSearch}
+                setExpandTextSearch={setExpandTextSearch}
+                plotData={plotData}
+                setPlotData={setPlotData}
+                showPlot={showPlot}
+                setShowPlot={setShowPlot}
+              />
+              <Button
+                variant="secondary"
+                onClick={() => setShowPlot(!showPlot)}
+                className="btn-sm"
+                style={{ height: "40px", width: "120px" }}
+                disabled={plotData == null}
+              >
+                SVD Graph
+              </Button>
+            </div>
+
+
+
             <AccordionSection
               salaryRange={salaryRange}
               groupBy={groupBy}
@@ -121,6 +136,7 @@ const Playground = () => {
               applyFilters={applyFilters}
               setFilters={setFilters}
               setExpandTextSearch={setExpandTextSearch}
+              setPlotData={setPlotData}
             />
           </div>
 

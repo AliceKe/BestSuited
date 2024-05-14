@@ -35,6 +35,7 @@ const AccordionSection = ({
   applyFilters,
   updateFilteredPostings,
   setExpandTextSearch,
+  setPlotData
 }) => {
   return (
     <Accordion
@@ -50,7 +51,7 @@ const AccordionSection = ({
           options={["Companies", "Job Postings"]}
           cls="rounded-start-pill me-3"
         />
-        <ResumeUpload setPostings={handlePostingsUpdate}></ResumeUpload>
+        <ResumeUpload setPostings={handlePostingsUpdate} setPlotData={setPlotData}></ResumeUpload>
 
         {groupBy === "Companies" ? (
           <DisplayOption

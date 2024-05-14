@@ -18,7 +18,7 @@ const SearchBar = ({ showPlot, setShowPlot, setPostings, setPlotData, plotData, 
       const response = await fetch(`${backendUrl.local}/regular?q=${query}`);
       const data = await response.json();
       setPostings(query.trim().length > 0 ? data.postings : []);
-      setPlotData(query.trim().length > 0 ? data.plot : {})
+      setPlotData(query.trim().length > 0 ? data.plot : null)
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -69,16 +69,6 @@ const SearchBar = ({ showPlot, setShowPlot, setPostings, setPlotData, plotData, 
         />
       </InputGroup>
 
-      <Button
-        variant="secondary"
-        onClick={() => setShowPlot(!showPlot)}
-        className="btn-sm"
-        style={{ height: "40px", width: "200px" }}
-        disabled={plotData == null}
-      >
-        <img src="/mag.png" alt="Search Icon" height={"20"} />
-        Show SVD Graph
-      </Button>
 
     </div>
   );

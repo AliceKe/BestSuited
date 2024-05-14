@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { backendUrl } from "../static/script";
 
-const ResumeUpload = ({ setPostings }) => {
+const ResumeUpload = ({ setPlotData, setPostings }) => {
   const [uploadStatus, setUploadStatus] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -22,6 +22,7 @@ const ResumeUpload = ({ setPostings }) => {
       if (response.ok) {
         const data = await response.json();
         setPostings(data.postings);
+        setPlotData(data.plot)
         setUploadStatus("Upload successful!");
         setErrorMessage("");
       } else {
