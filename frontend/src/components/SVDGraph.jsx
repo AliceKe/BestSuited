@@ -1,6 +1,7 @@
 import { Modal } from "react-bootstrap";
 import Plot from "react-plotly.js";
 
+//Layout from Spotify sound suggest
 const layout = {
     height: 500,
     margin: {
