@@ -92,13 +92,13 @@ def most_prominent_features(sims, query_vec, query_tfidf, k=5):
     new_array1 = []
     new_array2 = []
 
-    # Iterate over pairs of sub-arrays from both input arrays
+    # Iterateboth input arrays
     for sub_array1, sub_array2 in zip(array1, array2):
-        # Use list comprehension to filter out the '1's and their corresponding elements
+        # Filter out the '1's and their corresponding elements
         filtered_sub_array1 = [elem for elem in sub_array1 if elem != '1']
         filtered_sub_array2 = [elem for elem, orig_elem in zip(sub_array2, sub_array1) if orig_elem != '1']
 
-        # Append the filtered sub-arrays to the new arrays
+        # Append each filtered sub array to the new array
         new_array1.append(filtered_sub_array1)
         new_array2.append(filtered_sub_array2)
 
