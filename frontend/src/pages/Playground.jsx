@@ -13,8 +13,6 @@ function Playground() {
   const [postings, setPostings] = useState([]);
   const [companiesPostings, setCompaniesPostings] = useState([]);
 
-  const [salaryRange, setSalaryRange] = useState([]);
-
   const [groupBy, setGroupBy] = useState("Companies");
   const [sortBy, setSortBy] = useState(companySortParams[0]);
   const [salaryRange, setSalaryRange] = useState([]);
