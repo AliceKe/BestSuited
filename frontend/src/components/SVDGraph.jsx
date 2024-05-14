@@ -7,6 +7,8 @@ const layout = {
   margin: {
     b: 20,
     t: 20,
+    r: 0,
+    l: 20,
   },
   polar: {
     radialaxis: {
@@ -46,6 +48,9 @@ const layout = {
 const SVDGraph = ({ show, handleClose, data }) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
+      <Modal.Header closeButton>
+        <Modal.Title>SVD Dimension Contributions</Modal.Title>
+      </Modal.Header>
       <Modal.Body>
         <Plot
           data={[
