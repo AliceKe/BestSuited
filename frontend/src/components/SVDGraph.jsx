@@ -51,11 +51,12 @@ const SVDGraph = ({ show, handleClose, data }) => {
                     data={[
                         {
                             type: "scatterpolar",
-                            r: data.words,
-                            theta: data.values,
+                            r: data.valuesm,
+                            theta: data.words,
                             fill: "toself",
                             fillcolor: "lightgreen",
                             name: "Contribution Percentages",
+                            mode: "lines+markers"
                         },
                     ]}
                 />

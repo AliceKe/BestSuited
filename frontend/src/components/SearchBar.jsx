@@ -8,11 +8,6 @@ const SearchBar = ({ showPlot, setShowPlot, setPostings, setPlotData, plotData, 
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
-
-  const handleExpand = () => {
-    setExpandTextSearch(!expandTextSearch);
-  };
-
   const fetchData = async () => {
     try {
       const response = await fetch(`${backendUrl.remote}/regular?q=${query}`);
